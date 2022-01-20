@@ -39,7 +39,10 @@ module Course::LessonPlan::PersonalizationConcern
 
   def algorithm_otot(course_user)
     learning_rate_ema = retrieve_or_compute_course_user_data(course_user).last
-    return if learning_rate_ema.nil?
+    if learning_rate_ema.nil?
+      Rails.cache.delete("course/lesson_plan/personalization_concern/#{course_user.id}")
+      return
+    end
 
     # Apply the appropriate algo depending on student's leaning rate
     learning_rate_ema < 1 ? algorithm_fomo(course_user) : algorithm_stragglers(course_user)
@@ -179,7 +182,7 @@ module Course::LessonPlan::PersonalizationConcern
   # - Learning rate computed for the user
   # in the above order.
   def retrieve_or_compute_course_user_data(course_user)
-    Rails.cache.fetch("course/lesson_plan/personalization_concern/#{course_user.id}", expires_in: 1.hours) do
+    Rails.cache.fetch("course/lesson_plan/personalization_concern/#{course_user.id}", expires_in: 1.minutes) do
       submitted_lesson_plan_item_ids = lesson_plan_items_submission_time_hash(course_user)
       items = course_user.course.lesson_plan_items.published.
               with_reference_times_for(course_user).
