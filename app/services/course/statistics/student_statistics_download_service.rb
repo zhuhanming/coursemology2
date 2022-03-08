@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 require 'csv'
 
-class Course::StatisticsDownloadService
+class Course::Statistics::StudentStatisticsDownloadService
   class << self
     # Downloads the student data to its own folder in the base directory.
     #
@@ -77,11 +77,11 @@ class Course::StatisticsDownloadService
         CourseUser.human_attribute_name(:name),
         I18n.t('course.statistics.csv_download_service.email'),
         I18n.t('course.statistics.csv_download_service.user_type'),
-        (I18n.t('course.statistics.table.tutor') unless no_group_managers),
+        (I18n.t('course.statistics.csv_download_service.tutor') unless no_group_managers),
         (Course::Level.model_name.human if is_course_gamified),
-        (I18n.t('course.statistics.table.experience_points') if is_course_gamified),
-        (I18n.t('course.statistics.table.video_watched', total: video_count) if has_video_data),
-        (I18n.t('course.statistics.table.percent_watched') if has_video_data)
+        (I18n.t('course.statistics.csv_download_service.experience_points') if is_course_gamified),
+        (I18n.t('course.statistics.csv_download_service.video_watched', total: video_count) if has_video_data),
+        (I18n.t('course.statistics.csv_download_service.percent_watched') if has_video_data)
       ].compact
     end
 
@@ -103,7 +103,10 @@ class Course::StatisticsDownloadService
         (student.level_number if is_course_gamified),
         (student.experience_points if is_course_gamified),
         (student.video_submission_count if has_video_data),
-        (I18n.t('course.statistics.table.progress', progress: student.video_percent_watched || 0) if has_video_data)
+        (if has_video_data
+           I18n.t('course.statistics.csv_download_service.progress',
+                  progress: student.video_percent_watched || 0)
+         end)
       ].compact
     end
 

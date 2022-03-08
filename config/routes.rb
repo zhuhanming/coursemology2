@@ -385,10 +385,12 @@ Rails.application.routes.draw do
         end
       end
 
-      get 'statistics/my_students'
-      get 'statistics/all_students'
-      get 'statistics/download'
-      get 'statistics/staff'
+      namespace :statistics do
+        get 'staff' => 'staff#index'
+        get 'my_students' => 'students#my_students'
+        get 'all_students' => 'students#all_students'
+        get 'download' => 'students#download'
+      end
 
       scope module: :video do
         resources :videos do

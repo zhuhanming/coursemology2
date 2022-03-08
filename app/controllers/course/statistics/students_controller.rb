@@ -1,25 +1,11 @@
 # frozen_string_literal: true
-class Course::StatisticsController < Course::ComponentController
-  before_action :authorize_read_statistics!
+class Course::Statistics::StudentsController < Course::Statistics::Controller
   before_action :preload_levels, except: [:staff]
 
   def all_students
     all_students = course_users.students.ordered_by_experience_points.with_video_statistics
     @phantom_students, @students = all_students.partition(&:phantom?)
     @service = group_manager_preload_service
-  end
-
-  def download
-    # We won't guard against the case where a user has no students but asks for
-    # only_my_students. The job will handle it accordingly, i.e. give a blank CSV.
-    job = Course::StatisticsDownloadJob.perform_later(current_course, current_course_user,
-                                                      can?(:analyze_videos, current_course),
-                                                      ActiveRecord::Type::Boolean.new.cast(params[:only_my_students])).
-          job
-    respond_to do |format|
-      format.html { redirect_to(job_path(job)) }
-      format.json { render json: { redirect_url: job_path(job) } }
-    end
   end
 
   def my_students
@@ -34,16 +20,22 @@ class Course::StatisticsController < Course::ComponentController
     @service = group_manager_preload_service
   end
 
-  def staff
-    @staff = current_course.course_users.teaching_assistant_and_manager.includes(:group_users)
-    @staff = CourseUser.order_by_average_marking_time(@staff)
+  def download
+    # We won't guard against the case where a user has no students but asks for
+    # only_my_students. The job will handle it accordingly, i.e. give a blank CSV.
+    job = Course::Statistics::StudentStatisticsDownloadJob.perform_later(current_course, current_course_user,
+                                                                         can?(:analyze_videos, current_course),
+                                                                         ActiveRecord::Type::Boolean.new.cast(
+                                                                           params[:only_my_students]
+                                                                         )).
+          job
+    respond_to do |format|
+      format.html { redirect_to(job_path(job)) }
+      format.json { render json: { redirect_url: job_path(job) } }
+    end
   end
 
   private
-
-  def authorize_read_statistics!
-    authorize!(:read_statistics, current_course)
-  end
 
   def course_users
     @course_users ||= current_course.course_users.includes(:groups)
@@ -57,11 +49,5 @@ class Course::StatisticsController < Course::ComponentController
   # Pre-loads course levels to avoid N+1 queries when course_user.level_numbers are displayed.
   def preload_levels
     current_course.levels.to_a
-  end
-
-  # @return [Course::StatisticsComponent]
-  # @return [nil] If component is disabled.
-  def component
-    current_component_host[:course_statistics_component]
   end
 end

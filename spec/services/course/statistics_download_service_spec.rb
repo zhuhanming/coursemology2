@@ -2,7 +2,7 @@
 require 'rails_helper'
 require 'csv'
 
-RSpec.describe Course::StatisticsDownloadService do
+RSpec.describe Course::Statistics::StudentStatisticsDownloadService do
   let(:instance) { Instance.default }
   with_tenant(:instance) do
     let(:course) { create(:course, :with_video_component_enabled) }
@@ -20,7 +20,8 @@ RSpec.describe Course::StatisticsDownloadService do
 
     describe '#generate_csv' do
       subject do
-        CSV.parse(Course::StatisticsDownloadService.send(:generate_csv, course, teaching_assistant, true, true))
+        CSV.parse(Course::Statistics::StudentStatisticsDownloadService.send(:generate_csv, course, teaching_assistant,
+                                                                            true, true))
       end
 
       context 'headers' do
@@ -103,8 +104,8 @@ RSpec.describe Course::StatisticsDownloadService do
 
       subject do
         service = Course::GroupManagerPreloadService.new([teaching_assistant, another_teaching_assistant])
-        Course::StatisticsDownloadService.send(:generate_row, student, service, no_group_managers,
-                                               course.gamified?, has_video_data)
+        Course::Statistics::StudentStatisticsDownloadService.send(:generate_row, student, service, no_group_managers,
+                                                                  course.gamified?, has_video_data)
       end
 
       context 'basic student data' do

@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class Course::StatisticsDownloadJob < ApplicationJob
+class Course::Statistics::StudentStatisticsDownloadJob < ApplicationJob
   include TrackableJob
   queue_as :lowest
 
@@ -14,7 +14,8 @@ class Course::StatisticsDownloadJob < ApplicationJob
   #   statistics for all students in the course will be downloaded. If true and the user is not in any groups, then an
   #   empty CSV will be returned.
   def perform_tracked(course, course_user, can_analyze_videos, only_my_students = false) # rubocop:disable Style/OptionalBooleanParameter
-    csv_file = Course::StatisticsDownloadService.download(course, course_user, can_analyze_videos, only_my_students)
+    csv_file = Course::Statistics::StudentStatisticsDownloadService.download(course, course_user, can_analyze_videos,
+                                                                             only_my_students)
     redirect_to SendFile.send_file(csv_file, 'students_statistics.csv')
   end
 end

@@ -31,16 +31,16 @@ RSpec.feature 'Course: Student Statistics' do
         students
         visit course_statistics_all_students_path(course)
 
-        expect(page).to have_link(I18n.t('course.statistics.student.header'),
+        expect(page).to have_link(I18n.t('course.statistics.students.header'),
                                   href: course_statistics_all_students_path(course))
 
         students.each do |student|
           expect(page).to have_content_tag_for(student)
         end
 
-        expect(page).not_to have_text(I18n.t('course.statistics.tabs.my_students_tab'))
+        expect(page).not_to have_text(I18n.t('course.statistics.students.tabs.my_students_tab'))
         expect(page).
-          not_to have_text(I18n.t('course.statistics.course_student_statistics.phantom_students'))
+          not_to have_text(I18n.t('course.statistics.students.course_student_statistics.phantom_students'))
 
         # Test that phantom students are rendered only if they exist
         phantom_student = students.first
@@ -51,7 +51,7 @@ RSpec.feature 'Course: Student Statistics' do
           expect(page).to have_content_tag_for(student)
         end
         expect(page).
-          to have_text(I18n.t('course.statistics.course_student_statistics.phantom_students'))
+          to have_text(I18n.t('course.statistics.students.course_student_statistics.phantom_students'))
       end
 
       scenario 'I get redirected to all_students when I am not a group manager and I visit my_students', js: true do
@@ -67,11 +67,11 @@ RSpec.feature 'Course: Student Statistics' do
         group_users
 
         visit course_statistics_all_students_path(course)
-        expect(page).to have_text(I18n.t('course.statistics.tabs.my_students_tab'))
-        expect(page).to have_text(I18n.t('course.statistics.tabs.all_students_tab'))
+        expect(page).to have_text(I18n.t('course.statistics.students.tabs.my_students_tab'))
+        expect(page).to have_text(I18n.t('course.statistics.students.tabs.all_students_tab'))
         visit course_statistics_my_students_path(course)
-        expect(page).to have_text(I18n.t('course.statistics.tabs.my_students_tab'))
-        expect(page).to have_text(I18n.t('course.statistics.tabs.all_students_tab'))
+        expect(page).to have_text(I18n.t('course.statistics.students.tabs.my_students_tab'))
+        expect(page).to have_text(I18n.t('course.statistics.students.tabs.all_students_tab'))
       end
 
       scenario 'I can view my student statistics when I am a group manager', js: true do
@@ -80,13 +80,13 @@ RSpec.feature 'Course: Student Statistics' do
         group_users
         visit course_statistics_my_students_path(course)
 
-        expect(page).to have_link(I18n.t('course.statistics.student.header'),
+        expect(page).to have_link(I18n.t('course.statistics.students.header'),
                                   href: course_statistics_my_students_path(course))
         expect(page).to have_text(group_manager.course_user.name)
         expect(page).to have_content_tag_for(students.first)
 
         expect(page).
-          not_to have_text(I18n.t('course.statistics.course_student_statistics.phantom_students'))
+          not_to have_text(I18n.t('course.statistics.students.course_student_statistics.phantom_students'))
 
         # Test that phantom students are rendered only if they exist
         phantom_student = students.first
@@ -95,7 +95,7 @@ RSpec.feature 'Course: Student Statistics' do
         visit course_statistics_my_students_path(course)
         expect(page).to have_content_tag_for(students.first)
         expect(page).
-          to have_text(I18n.t('course.statistics.course_student_statistics.phantom_students'))
+          to have_text(I18n.t('course.statistics.students.course_student_statistics.phantom_students'))
       end
     end
 
@@ -105,7 +105,7 @@ RSpec.feature 'Course: Student Statistics' do
       scenario 'I cannot see the sidebar item' do
         visit course_path(course)
 
-        expect(page).not_to have_selector('li', text: I18n.t('course.statistics.student.header'))
+        expect(page).not_to have_selector('li', text: I18n.t('course.statistics.students.header'))
       end
     end
   end
