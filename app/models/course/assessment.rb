@@ -68,6 +68,8 @@ class Course::Assessment < ApplicationRecord
                                        through: :question_bundles
   has_many :question_bundle_assignments, class_name: Course::Assessment::QuestionBundleAssignment.name,
                                          inverse_of: :assessment, dependent: :destroy
+  has_one :duplication_traceable, class_name: DuplicationTraceable::Assessment.name,
+                                  inverse_of: :assessment, dependent: :destroy
 
   validate :tab_in_same_course
   validate :selected_test_type_for_grading
@@ -204,6 +206,10 @@ class Course::Assessment < ApplicationRecord
     folder.parent = target_tab.category.folder
     self.question_assessments = duplicator.duplicate(other.question_assessments)
     initialize_duplicate_conditions(duplicator, other)
+    duplication_traceable = DuplicationTraceable::Assessment.new(assessment: self, source_id: other.id,
+                                                                 creator: duplicator.options[:current_user],
+                                                                 updater: duplicator.options[:current_user])
+    duplication_traceable.save
     set_duplication_flag
   end
 

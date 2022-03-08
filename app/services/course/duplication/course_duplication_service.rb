@@ -41,6 +41,11 @@ class Course::Duplication::CourseDuplicationService < Course::Duplication::BaseS
       new_course = duplicator.duplicate(source_course)
       raise ActiveRecord::Rollback unless new_course.save
 
+      duplication_traceable = DuplicationTraceable::Course.new(course: new_course, source_id: source_course.id,
+                                                               creator: duplicator.options[:current_user],
+                                                               updater: duplicator.options[:current_user])
+      raise ActiveRecord::Rollback unless duplication_traceable.save
+
       duplicator.set_option(:destination_course, new_course)
 
       # Delete the auto-generated default reference timeline in favor of duplicating existing one
