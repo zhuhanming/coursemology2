@@ -9,6 +9,9 @@ const initialState = {
   submissions: [],
   allStudents: [],
   ancestors: [],
+  ancestorAssessment: null,
+  ancestorSubmissions: [],
+  ancestorAllStudents: [],
 };
 
 export default function (state = initialState, action) {
@@ -56,6 +59,20 @@ export default function (state = initialState, action) {
         ...state,
         isFetchingAncestors: false,
         isErrorAncestors: true,
+        notification: { message: action.message },
+      };
+    }
+    case actionTypes.FETCH_ANCESTOR_STATISTICS_SUCCESS: {
+      return {
+        ...state,
+        ancestorAssessment: action.assessment,
+        ancestorSubmissions: action.submissions,
+        ancestorAllStudents: action.allStudents,
+      };
+    }
+    case actionTypes.FETCH_ANCESTOR_STATISTICS_FAILURE: {
+      return {
+        ...state,
         notification: { message: action.message },
       };
     }

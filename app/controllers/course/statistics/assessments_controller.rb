@@ -2,11 +2,12 @@
 class Course::Statistics::AssessmentsController < Course::Statistics::Controller
   def assessment
     @assessment = Course::Assessment.preload(lesson_plan_item: [:reference_times, personal_times: :course_user],
+                                             course: :course_users,
                                              submissions: { creator: :course_users }).find(assessment_params[:id])
-    authorize!(:view_all_submissions, @assessment)
+    # authorize!(:view_all_submissions, @assessment)
     @submission_records = compute_submission_records
     @assessment = @assessment.calculated(:maximum_grade)
-    @all_students = current_course.course_users.students
+    @all_students = @assessment.course.course_users.students
   end
 
   def ancestors
@@ -14,7 +15,7 @@ class Course::Statistics::AssessmentsController < Course::Statistics::Controller
     @assessments = [@assessment]
     while @assessment.duplication_traceable.present? && @assessment.duplication_traceable.source_id.present?
       @assessment = @assessment.duplication_traceable.source
-      break unless can?(:view_all_submissions, @assessment)
+      # break unless can?(:view_all_submissions, @assessment)
 
       @assessments << @assessment
     end
@@ -34,7 +35,7 @@ class Course::Statistics::AssessmentsController < Course::Statistics::Controller
 
   def compute_submission_records
     @assessment.submissions.calculated(:grade).map do |submission|
-      submitter_course_user = submission.creator.course_users.find_by(course: current_course)
+      submitter_course_user = submission.creator.course_users.find_by(course: @assessment.course)
       next unless submitter_course_user.student?
 
       end_at = user_id_to_personal_time_hash[submitter_course_user.id]&.end_at || @assessment.end_at

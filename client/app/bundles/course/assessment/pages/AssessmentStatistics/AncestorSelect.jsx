@@ -1,5 +1,7 @@
 import { Card, CardContent } from '@material-ui/core';
+import { green } from '@material-ui/core/colors';
 import PropTypes from 'prop-types';
+import { Fragment } from 'react';
 import { ancestorShape } from '../../propTypes';
 
 const styles = {
@@ -8,20 +10,24 @@ const styles = {
     width: '100%',
     overflowX: 'scroll',
     height: '200px',
-    padding: '1rem',
+    padding: '1rem 0',
     backgroundColor: '#F5F5F5',
-    marginTop: '1rem',
+    margin: '1rem 0 2rem 0',
     display: 'flex',
+    alignItems: 'center',
   },
   ancestor: {
     height: '100%',
     width: '300px',
-    marginRight: '1rem',
+    margin: '0 1rem',
+    cursor: 'pointer',
   },
   selectedAncestor: {
     height: '100%',
     width: '300px',
-    marginRight: '1rem',
+    margin: '0 1rem',
+    backgroundColor: green[50],
+    cursor: 'pointer',
   },
   title: {
     fontWeight: 'bold',
@@ -46,21 +52,25 @@ const AncestorSelect = ({
       Duplication History
     </div>
     <div style={styles.root}>
-      {ancestors.map((ancestor) => (
-        <Card
-          style={
-            ancestor.id === selectedAncestorId
-              ? styles.selectedAncestor
-              : styles.ancestor
-          }
-          key={ancestor.id}
-          onClick={() => setSelectedAncestorId(ancestor.id)}
-        >
-          <CardContent>
-            <div style={styles.title}>{ancestor.title}</div>
-            <div style={styles.subtitle}>From {ancestor.courseTitle}</div>
-          </CardContent>
-        </Card>
+      {ancestors.map((ancestor, index) => (
+        <Fragment key={ancestor.id}>
+          <Card
+            style={
+              ancestor.id === selectedAncestorId
+                ? styles.selectedAncestor
+                : styles.ancestor
+            }
+            onClick={() => setSelectedAncestorId(ancestor.id)}
+          >
+            <CardContent>
+              <div style={styles.title}>{ancestor.title}</div>
+              <div style={styles.subtitle}>From {ancestor.courseTitle}</div>
+            </CardContent>
+          </Card>
+          {index !== ancestors.length - 1 ? (
+            <i className="fa fa-arrow-right" aria-hidden="true" />
+          ) : null}
+        </Fragment>
       ))}
     </div>
   </div>

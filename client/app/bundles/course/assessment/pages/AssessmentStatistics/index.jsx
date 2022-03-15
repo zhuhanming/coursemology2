@@ -8,10 +8,17 @@ import {
 } from 'react-intl';
 import { connect } from 'react-redux';
 
+import NotificationBar, {
+  notificationShape,
+} from 'lib/components/NotificationBar';
 import ErrorCard from 'lib/components/ErrorCard';
 import LoadingIndicator from 'lib/components/LoadingIndicator';
 
-import { fetchAncestors, fetchStatistics } from '../../actions';
+import {
+  fetchAncestors,
+  fetchAncestorStatistics,
+  fetchStatistics,
+} from '../../actions';
 import {
   ancestorShape,
   assessmentShape,
@@ -30,6 +37,10 @@ const translations = defineMessages({
     id: 'course.assessment.statistics.ancestorFail',
     defaultMessage: 'Failed to fetch past iterations of this assessment.',
   },
+  fetchAncestorStatisticsFailure: {
+    id: 'course.assessment.statistics.ancestorStatisticsFail',
+    defaultMessage: "Failed to fetch ancestor's statistics.",
+  },
 });
 
 const AssessmentStatisticsPage = ({
@@ -42,6 +53,10 @@ const AssessmentStatisticsPage = ({
   submissions,
   allStudents,
   ancestors,
+  notification,
+  ancestorAssessment,
+  ancestorSubmissions,
+  ancestorAllStudents,
 }) => {
   const [selectedAncestorId, setSelectedAncestorId] = useState(null);
 
@@ -79,6 +94,20 @@ const AssessmentStatisticsPage = ({
     );
   }
 
+  const fetchAncestorSubmissions = (id) => {
+    console.log(id);
+    if (id === assessmentId) {
+      return;
+    }
+    dispatch(
+      fetchAncestorStatistics(
+        id,
+        intl.formatMessage(translations.fetchAncestorStatisticsFailure),
+      ),
+    );
+    setSelectedAncestorId(id);
+  };
+
   return (
     <>
       <StatisticsPanel
@@ -89,8 +118,16 @@ const AssessmentStatisticsPage = ({
       <AncestorSelect
         ancestors={ancestors}
         selectedAncestorId={selectedAncestorId}
-        setSelectedAncestorId={setSelectedAncestorId}
+        setSelectedAncestorId={fetchAncestorSubmissions}
       />
+      {ancestorAssessment != null && (
+        <StatisticsPanel
+          assessment={ancestorAssessment}
+          submissions={ancestorSubmissions}
+          allStudents={ancestorAllStudents}
+        />
+      )}
+      <NotificationBar notification={notification} />
     </>
   );
 };
@@ -98,6 +135,7 @@ const AssessmentStatisticsPage = ({
 AssessmentStatisticsPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
+  notification: notificationShape,
   assessmentId: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
     .isRequired,
   isFetching: PropTypes.bool.isRequired,
@@ -107,6 +145,10 @@ AssessmentStatisticsPage.propTypes = {
   submissions: PropTypes.arrayOf(submissionRecordsShape).isRequired,
   allStudents: PropTypes.arrayOf(courseUserShape).isRequired,
   ancestors: PropTypes.arrayOf(ancestorShape).isRequired,
+
+  ancestorAssessment: assessmentShape,
+  ancestorSubmissions: PropTypes.arrayOf(submissionRecordsShape),
+  ancestorAllStudents: PropTypes.arrayOf(courseUserShape),
 };
 
 export default connect((state) => state.statisticsPage)(

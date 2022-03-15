@@ -120,3 +120,25 @@ export function fetchAncestors(assessmentId, failureMessage) {
       });
   };
 }
+
+export function fetchAncestorStatistics(ancestorId, failureMessage) {
+  return (dispatch) => {
+    dispatch({ type: actionTypes.FETCH_ANCESTOR_STATISTICS_REQUEST });
+    return CourseAPI.assessment.assessments
+      .fetchStatistics(ancestorId)
+      .then((response) => {
+        dispatch({
+          type: actionTypes.FETCH_ANCESTOR_STATISTICS_SUCCESS,
+          assessment: processAssessment(response.data.assessment),
+          submissions: response.data.submissions.map(processSubmission),
+          allStudents: response.data.allStudents,
+        });
+      })
+      .catch(() => {
+        dispatch({
+          type: actionTypes.FETCH_ANCESTOR_STATISTICS_FAILURE,
+          message: failureMessage,
+        });
+      });
+  };
+}
