@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class AddDuplicationTraceable < ActiveRecord::Migration[6.0]
   def change
     create_table :duplication_traceables do |t|

@@ -35,6 +35,8 @@ class CourseUser < ApplicationRecord
   belongs_to :course, inverse_of: :course_users
   has_many :experience_points_records, class_name: Course::ExperiencePointsRecord.name,
                                        inverse_of: :course_user, dependent: :destroy
+  has_many :learning_rate_records, class_name: Course::LearningRateRecord.name,
+                                   inverse_of: :course_user, dependent: :destroy
   has_many :course_user_achievements, class_name: Course::UserAchievement.name,
                                       inverse_of: :course_user, dependent: :destroy
   has_many :achievements, through: :course_user_achievements,
