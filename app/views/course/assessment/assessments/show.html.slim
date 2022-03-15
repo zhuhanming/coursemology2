@@ -4,7 +4,7 @@
     - if @assessment.randomization.present?
       = render 'assessment_question_bundle_buttons', assessment: @assessment
     - can_attempt_assessment = can?(:attempt, @assessment)
-    = render 'assessment_management_buttons', assessment: @assessment, can_attempt_assessment: can_attempt_assessment
+    = render 'assessment_management_buttons', assessment: @assessment, can_attempt_assessment: can_attempt_assessment, show_statistics: true
     - if can?(:manage, @assessment)
       div.btn-group
         = edit_button([current_course, @assessment])

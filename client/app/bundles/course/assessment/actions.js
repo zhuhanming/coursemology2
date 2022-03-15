@@ -77,3 +77,45 @@ export function updateAssessment(
       });
   };
 }
+
+export function fetchStatistics(assessmentId, failureMessage) {
+  return (dispatch) => {
+    dispatch({ type: actionTypes.FETCH_STATISTICS_REQUEST });
+    return CourseAPI.assessment.assessments
+      .fetchStatistics(assessmentId)
+      .then((response) => {
+        dispatch({
+          type: actionTypes.FETCH_STATISTICS_SUCCESS,
+          assessment: response.data.assessment,
+          submissions: response.data.submissions,
+          allStudents: response.data.allStudents,
+        });
+      })
+      .catch(() => {
+        dispatch({
+          type: actionTypes.FETCH_STATISTICS_FAILURE,
+          message: failureMessage,
+        });
+      });
+  };
+}
+
+export function fetchAncestors(assessmentId, failureMessage) {
+  return (dispatch) => {
+    dispatch({ type: actionTypes.FETCH_ANCESTORS_REQUEST });
+    return CourseAPI.assessment.assessments
+      .fetchAncestors(assessmentId)
+      .then((response) => {
+        dispatch({
+          type: actionTypes.FETCH_ANCESTORS_SUCCESS,
+          ancestors: response.data.assessments,
+        });
+      })
+      .catch(() => {
+        dispatch({
+          type: actionTypes.FETCH_ANCESTORS_FAILURE,
+          message: failureMessage,
+        });
+      });
+  };
+}
