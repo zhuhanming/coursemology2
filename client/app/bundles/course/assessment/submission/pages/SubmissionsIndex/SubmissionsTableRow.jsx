@@ -2,11 +2,11 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import moment from 'lib/moment';
-import { Icon, IconButton, TableCell, TableRow } from '@material-ui/core';
-import { blue, pink, red } from '@material-ui/core/colors';
-import Delete from '@material-ui/icons/Delete';
-import History from '@material-ui/icons/History';
-import RemoveCircle from '@material-ui/icons/RemoveCircle';
+import { Icon, IconButton, TableCell, TableRow } from '@mui/material';
+import { blue, pink, red } from '@mui/material/colors';
+import Delete from '@mui/icons-material/Delete';
+import History from '@mui/icons-material/History';
+import RemoveCircle from '@mui/icons-material/RemoveCircle';
 import ConfirmationDialog from 'lib/components/ConfirmationDialog';
 import {
   getCourseUserURL,
@@ -50,8 +50,7 @@ const styles = {
     textAlign: 'center',
   },
   button: {
-    paddingTop: '0.25em',
-    paddingBottom: '0.25em',
+    padding: '0.25em 0.4em',
   },
 };
 
@@ -162,6 +161,7 @@ export default class SubmissionsTableRow extends Component {
           id={`delete-button-${submission.courseUser.id}`}
           disabled={disabled}
           onClick={() => this.setState({ deleteConfirmation: true })}
+          size="large"
           style={styles.button}
         >
           <Delete htmlColor={disabled ? undefined : red[900]} />
@@ -211,7 +211,7 @@ export default class SubmissionsTableRow extends Component {
     return (
       <span className="submission-access-logs" data-for="access-logs" data-tip>
         <a href={getSubmissionLogsURL(courseId, assessmentId, submission.id)}>
-          <IconButton style={styles.button}>
+          <IconButton size="large" style={styles.button}>
             <History
               htmlColor={submission.logCount > 1 ? red[600] : blue[600]}
             />
@@ -258,6 +258,7 @@ export default class SubmissionsTableRow extends Component {
           id={`unsubmit-button-${submission.courseUser.id}`}
           disabled={disabled}
           onClick={() => this.setState({ unsubmitConfirmation: true })}
+          size="large"
           style={styles.button}
         >
           <RemoveCircle htmlColor={disabled ? undefined : pink[600]} />

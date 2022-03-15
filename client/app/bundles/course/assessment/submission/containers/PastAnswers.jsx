@@ -9,8 +9,8 @@ import {
   InputLabel,
   MenuItem,
   Select,
-} from '@material-ui/core';
-import { yellow } from '@material-ui/core/colors';
+} from '@mui/material';
+import { yellow } from '@mui/material/colors';
 
 import selectPastAnswers from '../actions/history';
 import translations from '../translations';
@@ -76,12 +76,13 @@ class PastAnswers extends Component {
     };
 
     return (
-      <FormControl style={{ float: 'right', width: 300 }}>
+      <FormControl style={{ float: 'right', width: 300 }} variant="standard">
         <InputLabel>{intl.formatMessage(translations.pastAnswers)}</InputLabel>
         <Select
           multiple
           value={selectedAnswers || 'test'}
           onChange={handleSelectPastAnswers}
+          variant="standard"
         >
           {answerIds.map(renderOption)}
         </Select>

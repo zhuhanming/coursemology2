@@ -4,8 +4,8 @@ import {
   TableCell,
   TableHead,
   TableRow,
-} from '@material-ui/core';
-import { grey } from '@material-ui/core/colors';
+} from '@mui/material';
+import { grey } from '@mui/material/colors';
 
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { groupShape } from '../../propTypes';

@@ -1,11 +1,6 @@
 import { forwardRef } from 'react';
 import PropTypes from 'prop-types';
-import {
-  FormControl,
-  FormControlLabel,
-  FormHelperText,
-  Switch,
-} from '@material-ui/core';
+import { FormControlLabel, FormHelperText, Switch } from '@mui/material';
 import createComponent from './createComponent';
 import mapError from './mapError';
 
@@ -18,6 +13,9 @@ const propTypes = {
 };
 
 const styles = {
+  toggleField: {
+    width: '100%',
+  },
   toggleFieldStyle: {
     height: '30px',
     margin: '8px 0px 0px -8px',
@@ -29,11 +27,12 @@ const renderToggleField = forwardRef((props, ref) => {
   const { checked, disabled, errorText, label, onToggle, ...custom } = props;
   const isError = !!errorText;
   return (
-    <FormControl disabled={disabled} error={isError} fullWidth>
+    <div style={styles.toggleField}>
       <FormControlLabel
         control={
           <Switch checked={checked} color="primary" onChange={onToggle} />
         }
+        disabled={disabled}
         label={<b>{label}</b>}
         {...custom}
         ref={ref}
@@ -44,7 +43,7 @@ const renderToggleField = forwardRef((props, ref) => {
           {errorText}
         </FormHelperText>
       )}
-    </FormControl>
+    </div>
   );
 });
 

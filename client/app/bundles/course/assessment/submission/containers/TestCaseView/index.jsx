@@ -13,11 +13,11 @@ import {
   TableCell,
   TableHead,
   TableRow,
-} from '@material-ui/core';
-import { green, yellow, red } from '@material-ui/core/colors';
-import Check from '@material-ui/icons/Check';
-import Clear from '@material-ui/icons/Clear';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+} from '@mui/material';
+import { green, yellow, red } from '@mui/material/colors';
+import Check from '@mui/icons-material/Check';
+import Clear from '@mui/icons-material/Clear';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandableText from 'lib/components/ExpandableText';
 import { testCaseShape } from '../../propTypes';
 import { workflowStates } from '../../constants';

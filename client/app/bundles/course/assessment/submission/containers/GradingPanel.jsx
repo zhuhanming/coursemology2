@@ -10,7 +10,7 @@ import {
   TableCell,
   TableHead,
   TableRow,
-} from '@material-ui/core';
+} from '@mui/material';
 import ReactTooltip from 'react-tooltip';
 import { getCourseId } from 'lib/helpers/url-helpers';
 import { getCourseUserURL } from 'lib/helpers/url-builders';

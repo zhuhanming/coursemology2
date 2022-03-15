@@ -8,8 +8,8 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
-} from '@material-ui/core';
-import { cyan } from '@material-ui/core/colors';
+} from '@mui/material';
+import { cyan } from '@mui/material/colors';
 import {
   duplicableItemTypes,
   itemSelectorPanels as panels,

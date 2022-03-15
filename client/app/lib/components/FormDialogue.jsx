@@ -7,7 +7,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-} from '@material-ui/core';
+} from '@mui/material';
 import formTranslations from 'lib/translations/form';
 import ConfirmationDialog from 'lib/components/ConfirmationDialog';
 
@@ -57,7 +57,7 @@ class FormDialogue extends Component {
     const { intl, title, disabled, open, submitForm, children } = this.props;
     const formActions = [
       <Button
-        color="primary"
+        color="secondary"
         key="form-dialogue-cancel-button"
         onClick={this.handleFormClose}
         {...{ disabled }}

@@ -12,12 +12,12 @@ import {
   TableCell,
   TableHead,
   TableRow,
-} from '@material-ui/core';
-import { pink, red } from '@material-ui/core/colors';
-import Delete from '@material-ui/icons/Delete';
-import GetApp from '@material-ui/icons/GetApp'; // TODO MUI - Change to download once icons lib is updated
-import MoreVert from '@material-ui/icons/MoreVert';
-import RemoveCircle from '@material-ui/icons/RemoveCircle';
+} from '@mui/material';
+import { pink, red } from '@mui/material/colors';
+import Delete from '@mui/icons-material/Delete';
+import GetApp from '@mui/icons-material/GetApp'; // TODO MUI - Change to download once icons lib is updated
+import MoreVert from '@mui/icons-material/MoreVert';
+import RemoveCircle from '@mui/icons-material/RemoveCircle';
 import ConfirmationDialog from 'lib/components/ConfirmationDialog';
 import { assessmentShape } from '../../propTypes';
 import { workflowStates } from '../../constants';

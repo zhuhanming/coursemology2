@@ -5,15 +5,13 @@ import { FormattedMessage } from 'react-intl';
 import { Link } from 'react-router-dom';
 import {
   Button,
-  FormControlLabel,
+  Switch,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-  Switch,
-} from '@material-ui/core';
-
+} from '@mui/material';
 import history from 'lib/history';
 import { formatShortDateTime } from 'lib/moment';
 import translations from 'course/survey/translations';
@@ -42,28 +40,24 @@ class SurveysTable extends Component {
     }
 
     return (
-      <FormControlLabel
-        control={
-          <Switch
-            checked={survey.published}
-            color="primary"
-            onChange={(event, value) =>
-              dispatch(
-                updateSurvey(
-                  survey.id,
-                  { survey: { published: value } },
-                  <FormattedMessage
-                    {...translations.updateSuccess}
-                    values={survey}
-                  />,
-                  <FormattedMessage
-                    {...translations.updateFailure}
-                    values={survey}
-                  />,
-                ),
-              )
-            }
-          />
+      <Switch
+        checked={survey.published}
+        color="primary"
+        onChange={(event, value) =>
+          dispatch(
+            updateSurvey(
+              survey.id,
+              { survey: { published: value } },
+              <FormattedMessage
+                {...translations.updateSuccess}
+                values={survey}
+              />,
+              <FormattedMessage
+                {...translations.updateFailure}
+                values={survey}
+              />,
+            ),
+          )
         }
         labelPlacement="end"
       />
@@ -130,7 +124,7 @@ class SurveysTable extends Component {
                 <div style={styles.buttonsColumn}>
                   {survey.canViewResults ? (
                     <Button
-                      variant="contained"
+                      variant="outlined"
                       onClick={() =>
                         history.push(
                           `/courses/${courseId}/surveys/${survey.id}/results`,
@@ -143,7 +137,7 @@ class SurveysTable extends Component {
                   ) : null}
                   {survey.canViewResults ? (
                     <Button
-                      variant="contained"
+                      variant="outlined"
                       onClick={() =>
                         history.push(
                           `/courses/${courseId}/surveys/${survey.id}/responses`,

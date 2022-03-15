@@ -9,8 +9,8 @@ import {
   CardHeader,
   FormControlLabel,
   Switch,
-} from '@material-ui/core';
-import InsertDriveFile from '@material-ui/icons/InsertDriveFile';
+} from '@mui/material';
+import InsertDriveFile from '@mui/icons-material/InsertDriveFile';
 import { touch } from 'redux-form';
 import LoadingIndicator from 'lib/components/LoadingIndicator';
 import NotificationBar, {

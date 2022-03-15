@@ -88,27 +88,19 @@ describe('<ResponseIndex />', () => {
 
     expect(spyIndex).toHaveBeenCalled();
     responseIndex.update();
-    const tableBodies = responseIndex.find('WithStyles(ForwardRef(TableBody))');
-    const phantomStudentRows = tableBodies
-      .at(2)
-      .find('WithStyles(ForwardRef(TableRow))');
-    const realStudentRows = tableBodies
-      .at(1)
-      .find('WithStyles(ForwardRef(TableRow))');
+    const tableBodies = responseIndex.find('ForwardRef(TableBody)');
+    const phantomStudentRows = tableBodies.at(2).find('ForwardRef(TableRow)');
+    const realStudentRows = tableBodies.at(1).find('ForwardRef(TableRow)');
     const getStatus = (row) => row.find('td').at(1).text();
     expect(getStatus(phantomStudentRows.first())).toBe('Submitted');
     expect(getStatus(realStudentRows.first())).toBe('Not Started');
     expect(getStatus(realStudentRows.last())).toBe('Responding');
 
     // Include phantom students in statistics
-    const statsCard = responseIndex.find('WithStyles(ForwardRef(Card))').last();
-    const submittedChip = statsCard.find('WithStyles(ForwardRef(Chip))').last();
+    const statsCard = responseIndex.find('ForwardRef(Card)').last();
+    const submittedChip = statsCard.find('ForwardRef(Chip)').last();
     expect(submittedChip.text()).toBe('0 Submitted');
-    statsCard
-      .find('WithStyles(ForwardRef(Switch))')
-      .first()
-      .props()
-      .onChange(null, true);
+    statsCard.find('ForwardRef(Switch)').first().props().onChange(null, true);
     expect(submittedChip.text()).toBe('2 Submitted');
   });
 });

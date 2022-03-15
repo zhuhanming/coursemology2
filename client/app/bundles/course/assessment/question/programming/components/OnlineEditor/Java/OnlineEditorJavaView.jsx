@@ -5,22 +5,22 @@ import PropTypes from 'prop-types';
 import AceEditor from 'react-ace';
 import { injectIntl, FormattedMessage, intlShape } from 'react-intl';
 import {
-  Button,
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Button,
   Fade,
   FormControlLabel,
+  Switch,
   Table,
   TableBody,
   TableCell,
   TableFooter,
   TableHead,
   TableRow,
-  Switch,
-} from '@material-ui/core';
-import { red } from '@material-ui/core/colors';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+} from '@mui/material';
+import { red } from '@mui/material/colors';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import 'ace-builds/src-noconflict/mode-java';
 import 'ace-builds/src-noconflict/theme-monokai';

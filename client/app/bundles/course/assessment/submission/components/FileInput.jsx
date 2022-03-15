@@ -2,8 +2,8 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import Dropzone from 'react-dropzone';
 import { Field } from 'redux-form';
-import { Card, CardContent, Chip } from '@material-ui/core';
-import Publish from '@material-ui/icons/Publish'; // TODO MUI - Change to upload once icons lib is updated
+import { Card, CardContent, Chip } from '@mui/material';
+import FileUpload from '@mui/icons-material/FileUpload';
 
 import { defineMessages, FormattedMessage } from 'react-intl';
 
@@ -71,7 +71,7 @@ class FileInput extends Component {
     const { disabled } = this.props;
     const { dropzoneActive } = this.state;
     if (dropzoneActive) {
-      return <Publish style={{ width: 60, height: 60 }} />;
+      return <FileUpload style={{ width: 60, height: 60 }} />;
     }
 
     if (!files || !files.length) {

@@ -4,8 +4,8 @@ import { defineMessages, injectIntl, intlShape } from 'react-intl';
 import { reduxForm, Field, FieldArray, Form } from 'redux-form';
 import renderTextField from 'lib/components/redux-form/TextField';
 import renderSelectField from 'lib/components/redux-form/SelectField';
-import Toggle from 'lib/components/redux-form/Toggle';
-import { ListSubheader, MenuItem, TextField } from '@material-ui/core';
+import renderToggleField from 'lib/components/redux-form/Toggle';
+import { ListSubheader, MenuItem, TextField } from '@mui/material';
 import formTranslations from 'lib/translations/form';
 import translations from 'course/survey/translations';
 import { questionTypes, formNames } from 'course/survey/constants';
@@ -242,7 +242,7 @@ class QuestionForm extends Component {
         <Field
           name="grid_view"
           label={intl.formatMessage(questionFormTranslations.gridView)}
-          component={Toggle}
+          component={renderToggleField}
           parse={Boolean}
           style={styles.toggle}
           {...{ disabled }}
@@ -269,6 +269,7 @@ class QuestionForm extends Component {
         label={intl.formatMessage(questionFormTranslations.optionCount)}
         fullWidth
         style={{ marginBottom: 12, marginTop: 14, marginRight: 16 }}
+        variant="standard"
       />
     );
   }
@@ -303,13 +304,13 @@ class QuestionForm extends Component {
           label={intl.formatMessage(translations.questionText)}
           component={renderTextField}
           multiline
-          rows={4}
+          minRows={4}
           {...{ disabled }}
         />
         <Field
           name="required"
           label={intl.formatMessage(questionFormTranslations.required)}
-          component={Toggle}
+          component={renderToggleField}
           parse={Boolean}
           style={styles.toggle}
           {...{ disabled }}

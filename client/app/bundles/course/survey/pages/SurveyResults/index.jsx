@@ -5,10 +5,10 @@ import { defineMessages, FormattedMessage } from 'react-intl';
 import {
   Card,
   CardContent,
-  FormControlLabel,
   ListSubheader,
+  FormControlLabel,
   Switch,
-} from '@material-ui/core';
+} from '@mui/material';
 import surveyTranslations from 'course/survey/translations';
 import { fetchResults } from 'course/survey/actions/surveys';
 import LoadingIndicator from 'lib/components/LoadingIndicator';

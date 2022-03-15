@@ -6,9 +6,9 @@ import {
   AccordionSummary,
   Divider,
   Icon,
-} from '@material-ui/core';
-import { indigo } from '@material-ui/core/colors';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+} from '@mui/material';
+import { indigo } from '@mui/material/colors';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import PropTypes from 'prop-types';
 import { defineMessages, FormattedMessage } from 'react-intl';

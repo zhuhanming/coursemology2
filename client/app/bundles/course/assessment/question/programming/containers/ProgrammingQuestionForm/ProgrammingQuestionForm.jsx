@@ -5,6 +5,7 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, intlShape } from 'react-intl';
 import {
+  Autocomplete,
   Button,
   FormControl,
   FormControlLabel,
@@ -17,9 +18,8 @@ import {
   Tab,
   Tabs,
   TextField,
-} from '@material-ui/core';
-import { Autocomplete } from '@material-ui/lab';
-import { red } from '@material-ui/core/colors';
+} from '@mui/material';
+import { blue, grey, red } from '@mui/material/colors';
 
 import MaterialSummernote from 'lib/components/MaterialSummernote';
 import ConfirmationDialog from 'lib/components/ConfirmationDialog';
@@ -326,13 +326,15 @@ class ProgrammingQuestionForm extends Component {
           disabled={this.props.data.get('is_loading')}
           error={!!error}
           style={{ marginTop: 14, width: '100%' }}
+          variant="standard"
         >
-          <InputLabel>{(required ? '* ' : '') + label}</InputLabel>
+          <InputLabel shrink>{(required ? '* ' : '') + label}</InputLabel>
           <Select
             value={value || ''}
             onChange={(event) => {
               onChange(event.target.value);
             }}
+            variant="standard"
           >
             {selectFieldOptions}
           </Select>
@@ -398,6 +400,7 @@ class ProgrammingQuestionForm extends Component {
           style={{ marginTop: 14, width: '100%' }}
           type={type}
           value={value}
+          variant="standard"
         />
       </div>
     );
@@ -412,7 +415,7 @@ class ProgrammingQuestionForm extends Component {
           filterSelectedOptions
           fullWidth
           getOptionLabel={(option) => option.title}
-          getOptionSelected={(option, val) => option.id === val.id}
+          isOptionEqualToValue={(option, val) => option.id === val.id}
           ListboxProps={{ style: { maxHeight: '80vh', overflowY: 'scroll' } }}
           multiple
           onChange={(event, val) => {
@@ -560,9 +563,14 @@ class ProgrammingQuestionForm extends Component {
 
     return (
       <Tabs
+        style={{
+          backgroundColor: grey[100],
+          color: blue[500],
+          margin: '1em 0',
+        }}
+        TabIndicatorProps={{ color: 'primary', style: { height: 5 } }}
         value={showEditOnline ? 'editor' : 'upload-package'}
         onChange={onTestTypeChange}
-        style={{ margin: '1em 0' }}
         variant="fullWidth"
       >
         <Tab
@@ -831,6 +839,7 @@ class ProgrammingQuestionForm extends Component {
           {this.renderBuildLogView()}
 
           <Snackbar
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
             open={this.props.data.get('has_errors')}
             message={this.props.intl.formatMessage(
               translations.resolveErrorsMessage,
@@ -841,6 +850,7 @@ class ProgrammingQuestionForm extends Component {
             }}
           />
           <Snackbar
+            anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
             open={this.props.data.get('show_submission_message')}
             message={this.props.data.get('submission_message')}
             autoHideDuration={2000}

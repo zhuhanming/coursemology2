@@ -8,12 +8,12 @@ import {
   intlShape,
 } from 'react-intl';
 import {
-  ListSubheader,
   FormControlLabel,
+  ListSubheader,
   Paper,
   Radio,
   RadioGroup,
-} from '@material-ui/core';
+} from '@mui/material';
 import TitleBar from 'lib/components/TitleBar';
 import LoadingIndicator from 'lib/components/LoadingIndicator';
 import DateTimePicker from 'lib/components/form/DateTimePicker';
@@ -229,9 +229,7 @@ class Duplication extends Component {
       >
         <FormControlLabel
           key={duplicationModes.COURSE}
-          control={
-            <Radio color="primary" style={{ padding: 0, paddingLeft: 12 }} />
-          }
+          control={<Radio style={{ padding: 0, paddingLeft: 12 }} />}
           value={duplicationModes.COURSE}
           label={
             <b>
@@ -241,9 +239,7 @@ class Duplication extends Component {
         />
         <FormControlLabel
           key={duplicationModes.OBJECT}
-          control={
-            <Radio color="primary" style={{ padding: 0, paddingLeft: 12 }} />
-          }
+          control={<Radio style={{ padding: 0, paddingLeft: 12 }} />}
           value={duplicationModes.OBJECT}
           label={
             <b>

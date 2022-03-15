@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter, Route, Switch } from 'react-router-dom';
 import { defineMessages, FormattedMessage } from 'react-intl';
-import { Card, CardContent, ListSubheader } from '@material-ui/core';
+import { Card, CardContent, ListSubheader } from '@mui/material';
 import LoadingIndicator from 'lib/components/LoadingIndicator';
 import NotificationPopup from 'lib/containers/NotificationPopup';
 import DeleteConfirmation from 'lib/containers/DeleteConfirmation';

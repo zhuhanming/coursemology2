@@ -17,8 +17,8 @@ import {
   Paper,
   Tab,
   Tabs,
-} from '@material-ui/core';
-import { blue, grey, yellow, red } from '@material-ui/core/colors';
+} from '@mui/material';
+import { blue, grey, yellow, red } from '@mui/material/colors';
 
 /* eslint-disable import/extensions, import/no-extraneous-dependencies, import/no-unresolved */
 import ConfirmationDialog from 'lib/components/ConfirmationDialog';

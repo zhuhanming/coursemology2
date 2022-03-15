@@ -12,8 +12,8 @@ import {
   TableCell,
   TableHead,
   TableRow,
-} from '@material-ui/core';
-import { cyan, grey } from '@material-ui/core/colors';
+} from '@mui/material';
+import { cyan, grey } from '@mui/material/colors';
 
 import Thumbnail from 'lib/components/Thumbnail';
 import { sorts } from 'course/survey/utils';
@@ -261,7 +261,7 @@ class OptionsQuestionResults extends Component {
     return (
       <CardContent style={styles.expandToggleStyle}>
         <Button
-          variant="contained"
+          variant="outlined"
           onClick={() =>
             this.setState((state) => ({ expanded: !state.expanded }))
           }

@@ -8,8 +8,8 @@ import {
   ListSubheader,
   MenuItem,
   Select,
-} from '@material-ui/core';
-import { grey } from '@material-ui/core/colors';
+} from '@mui/material';
+import { grey } from '@mui/material/colors';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { memberShape } from '../../../propTypes';
 
@@ -89,7 +89,6 @@ const GroupUserManagerListItem = ({
   >
     <Checkbox
       checked={isChecked}
-      color="primary"
       onChange={() => onCheck(user)}
       style={styles.checkbox}
     />
@@ -105,6 +104,7 @@ const GroupUserManagerListItem = ({
             onChange={(event) => onChangeDropdown(event.target.value, user)}
             value={user.groupRole}
             style={styles.listItemTextSize}
+            variant="standard"
           >
             <MenuItem value="normal" style={styles.listItemTextSize}>
               <FormattedMessage {...translations.normal} />

@@ -72,9 +72,9 @@ GIT
 
 GIT
   remote: https://github.com/zhuhanming/summernote-rails
-  revision: f9b60b93fa12151f390283b9f237ec6181db7a06
+  revision: 6dcff6c2a0e56492dbbcaf0a91ccc5898e6be922
   specs:
-    summernote-rails (0.8.20.3)
+    summernote-rails (0.8.20.1)
       railties (>= 3.1)
 
 GEM
@@ -310,7 +310,7 @@ GEM
       image_optim (~> 0.24)
       railties
       sprockets
-    image_processing (1.12.1)
+    image_processing (1.12.2)
       mini_magick (>= 4.9.5, < 5)
       ruby-vips (>= 2.0.17, < 3)
     image_size (3.0.1)
@@ -397,7 +397,7 @@ GEM
     raabro (1.4.0)
     racc (1.6.0)
     rack (2.2.3)
-    rack-mini-profiler (2.3.4)
+    rack-mini-profiler (3.0.0)
       rack (>= 1.2.0)
     rack-protection (2.2.0)
       rack
@@ -493,7 +493,7 @@ GEM
     rspec-mocks (3.10.3)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.10.0)
-    rspec-rails (5.1.0)
+    rspec-rails (5.1.1)
       actionpack (>= 5.2)
       activesupport (>= 5.2)
       railties (>= 5.2)
@@ -751,4 +751,4 @@ DEPENDENCIES
   yard
 
 BUNDLED WITH
-   2.2.22
+   2.2.32

@@ -1,11 +1,6 @@
 import { forwardRef } from 'react';
 import PropTypes from 'prop-types';
-import {
-  FormControl,
-  InputLabel,
-  FormHelperText,
-  Select,
-} from '@material-ui/core';
+import { FormControl, InputLabel, FormHelperText, Select } from '@mui/material';
 import createComponent from './createComponent';
 import mapError from './mapError';
 
@@ -40,9 +35,16 @@ const renderSelectField = forwardRef((props, ref) => {
       error={isError}
       fullWidth
       style={styles.selectFieldStyle}
+      variant="standard"
     >
       <InputLabel>{label}</InputLabel>
-      <Select ref={ref} onChange={onChange} value={value} {...custom}>
+      <Select
+        ref={ref}
+        onChange={onChange}
+        value={value}
+        {...custom}
+        variant="standard"
+      >
         {children}
       </Select>
       {isError && (

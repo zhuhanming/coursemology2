@@ -1,9 +1,9 @@
 import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { defineMessages, FormattedMessage } from 'react-intl';
-import { IconButton, MenuItem, Select, Tooltip } from '@material-ui/core';
-import { blue } from '@material-ui/core/colors';
-import MyLocation from '@material-ui/icons/MyLocation';
+import { IconButton, MenuItem, Select, Tooltip } from '@mui/material';
+import { blue } from '@mui/material/colors';
+import MyLocation from '@mui/icons-material/MyLocation';
 import { courseListingShape } from 'course/duplication/propTypes';
 import TypeBadge from 'course/duplication/components/TypeBadge';
 
@@ -70,6 +70,7 @@ class CourseDropdownMenu extends PureComponent {
             value={selectedCourseId || ''}
             style={styles.dropDown}
             {...dropDownMenuProps}
+            variant="standard"
           >
             {courses.map(this.renderCourseMenuItem)}
           </Select>

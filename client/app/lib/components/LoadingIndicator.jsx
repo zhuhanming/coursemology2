@@ -1,9 +1,10 @@
-import { CircularProgress } from '@material-ui/core';
+import { CircularProgress } from '@mui/material';
 
 const styles = {
   loading: {
     display: 'flex',
     justifyContent: 'center',
+    marginTop: 24,
     width: '100%',
   },
   loadingInnerDiv: {

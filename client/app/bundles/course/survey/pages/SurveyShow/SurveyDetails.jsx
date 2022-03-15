@@ -13,8 +13,7 @@ import {
   TableBody,
   TableCell,
   TableRow,
-} from '@material-ui/core';
-
+} from '@mui/material';
 import libTranslations from 'lib/translations';
 import history from 'lib/history';
 import surveyTranslations from 'course/survey/translations';
@@ -186,7 +185,7 @@ class SurveyDetails extends Component {
           ) : null}
           {survey.canViewResults ? (
             <Button
-              variant="contained"
+              variant="outlined"
               onClick={() =>
                 history.push(
                   `/courses/${courseId}/surveys/${survey.id}/results`,
@@ -199,7 +198,7 @@ class SurveyDetails extends Component {
           ) : null}
           {survey.canViewResults ? (
             <Button
-              variant="contained"
+              variant="outlined"
               onClick={() =>
                 history.push(
                   `/courses/${courseId}/surveys/${survey.id}/responses`,

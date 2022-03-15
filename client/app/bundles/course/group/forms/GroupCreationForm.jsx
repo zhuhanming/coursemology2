@@ -2,14 +2,12 @@ import { useEffect, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { change, Field, Form, formValueSelector, reduxForm } from 'redux-form';
 import { connect } from 'react-redux';
-import { Tab, Tabs } from '@material-ui/core';
-import { red } from '@material-ui/core/colors';
+import { Tab, Tabs } from '@mui/material';
+import { red } from '@mui/material/colors';
 import { defineMessages, FormattedMessage } from 'react-intl';
-
 import ErrorText, { errorProps } from 'lib/components/ErrorText';
 import formTranslations from 'lib/translations/form';
-import TextField from 'lib/components/redux-form/TextField';
-
+import renderTextField from 'lib/components/redux-form/TextField';
 import actionTypes, { formNames } from '../constants';
 import { groupShape } from '../propTypes';
 
@@ -160,6 +158,8 @@ const GroupCreationForm = ({
     <Form onSubmit={handleSubmit(onSubmit)}>
       <ErrorText errors={error} />
       <Tabs
+        indicatorColor="primary"
+        textColor="inherit"
         value={isSingle ? 'is_single' : 'is_multiple'}
         onChange={handleChange}
         variant="fullWidth"
@@ -171,19 +171,19 @@ const GroupCreationForm = ({
         <div style={styles.flexCol}>
           <Field
             name="name"
-            component={TextField}
+            component={renderTextField}
             label={<FormattedMessage {...translations.name} />}
             disabled={submitting}
             style={styles.flexChild}
           />
           <Field
             name="description"
-            component={TextField}
+            component={renderTextField}
             label={<FormattedMessage {...translations.description} />}
             multiline
             disabled={submitting}
-            rows={2}
-            rowsMax={4}
+            minRows={2}
+            maxRows={4}
             style={styles.flexChild}
           />
         </div>
@@ -192,14 +192,14 @@ const GroupCreationForm = ({
         <div style={styles.flexCol}>
           <Field
             name="name"
-            component={TextField}
+            component={renderTextField}
             label={<FormattedMessage {...translations.prefix} />}
             disabled={submitting}
             style={styles.flexChild}
           />
           <Field
             name="num_to_create"
-            component={TextField}
+            component={renderTextField}
             label={<FormattedMessage {...translations.numToCreate} />}
             type="number"
             onWheel={(event) => event.currentTarget.blur()}

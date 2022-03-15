@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import {
   ListSubheader,
+  Switch,
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableRow,
-  Switch,
-} from '@material-ui/core';
+} from '@mui/material';
 import NotificationPopup from 'lib/containers/NotificationPopup';
 import {
   fetchUserEmailSubscriptions,

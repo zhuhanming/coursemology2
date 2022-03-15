@@ -2,10 +2,10 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { defineMessages, injectIntl, intlShape } from 'react-intl';
 import { Field } from 'redux-form';
-import { Checkbox, IconButton, Radio } from '@material-ui/core';
-import { grey } from '@material-ui/core/colors';
-import Close from '@material-ui/icons/Close';
-import Photo from '@material-ui/icons/Photo';
+import { Checkbox, IconButton, Radio } from '@mui/material';
+import { grey } from '@mui/material/colors';
+import Close from '@mui/icons-material/Close';
+import Photo from '@mui/icons-material/Photo';
 import renderTextField from 'lib/components/redux-form/TextField';
 import Thumbnail from 'lib/components/Thumbnail';
 

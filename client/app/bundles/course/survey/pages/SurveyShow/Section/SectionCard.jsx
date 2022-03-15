@@ -7,8 +7,8 @@ import {
   CardContent,
   CardHeader,
   ListSubheader,
-} from '@material-ui/core';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+} from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { surveyShape, sectionShape } from 'course/survey/propTypes';
 import Question from './Question';
 import NewQuestionButton from './NewQuestionButton';

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
-import { Button, TableCell, TableRow } from '@material-ui/core';
-import { grey } from '@material-ui/core/colors';
+import { Button, TableCell, TableRow } from '@mui/material';
+import { grey } from '@mui/material/colors';
 
 import styles from './OnlineEditorView.scss';
 
@@ -44,6 +44,7 @@ function ExistingPackageFile(props) {
           }}
           style={{
             backgroundColor: buttonColor,
+            color: 'black',
             height: '40px',
             minWidth: '40px',
             width: '40px',
@@ -55,7 +56,7 @@ function ExistingPackageFile(props) {
           type="checkbox"
           hidden
           name={`question_programming[${`${fileType}_to_delete`}][${filename}]`}
-          checked={toDelete}
+          defaultChecked={toDelete}
         />
       </TableCell>
       <TableCell>{filename}</TableCell>

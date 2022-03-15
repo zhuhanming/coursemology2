@@ -6,7 +6,7 @@ import {
   CardHeader,
   IconButton,
   Tooltip,
-} from '@material-ui/core';
+} from '@mui/material';
 import PropTypes from 'prop-types';
 
 export const groupCardTitleButtonShape = PropTypes.shape({

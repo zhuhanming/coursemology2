@@ -2,9 +2,8 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FieldArray } from 'redux-form';
 import { defineMessages, FormattedMessage } from 'react-intl';
-import { Card, CardContent, CardHeader } from '@material-ui/core';
-
-import { red } from '@material-ui/core/colors';
+import { Card, CardContent, CardHeader } from '@mui/material';
+import { red } from '@mui/material/colors';
 import ResponseAnswer from './ResponseAnswer';
 
 const styles = {

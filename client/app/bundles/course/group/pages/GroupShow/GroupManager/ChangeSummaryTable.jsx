@@ -4,8 +4,8 @@ import {
   TableCell,
   TableHead,
   TableRow,
-} from '@material-ui/core';
-import { blue, green, red } from '@material-ui/core/colors';
+} from '@mui/material';
+import { blue, green, red } from '@mui/material/colors';
 import PropTypes from 'prop-types';
 import { defineMessages, FormattedMessage } from 'react-intl';
 import { connect } from 'react-redux';

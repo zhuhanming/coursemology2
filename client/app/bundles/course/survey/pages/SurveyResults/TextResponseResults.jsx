@@ -10,7 +10,7 @@ import {
   TableCell,
   TableHead,
   TableRow,
-} from '@material-ui/core';
+} from '@mui/material';
 
 const styles = {
   expandableThreshold: 10,
@@ -126,7 +126,7 @@ class TextResponseResults extends Component {
     return (
       <CardContent style={styles.expandToggleStyle}>
         <Button
-          variant="contained"
+          variant="outlined"
           onClick={() =>
             this.setState((state) => ({ expanded: !state.expanded }))
           }

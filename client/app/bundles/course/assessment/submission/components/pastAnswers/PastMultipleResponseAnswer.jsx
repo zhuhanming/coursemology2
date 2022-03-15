@@ -1,5 +1,5 @@
-import { Radio, FormControlLabel } from '@material-ui/core';
-import { green } from '@material-ui/core/colors';
+import { FormControlLabel, Radio } from '@mui/material';
+import { green } from '@mui/material/colors';
 import { answerShape, questionShape } from '../../propTypes';
 
 function MultipleResponse({ question, answer }) {
@@ -9,7 +9,7 @@ function MultipleResponse({ question, answer }) {
       {question.options.map((option) => (
         <FormControlLabel
           checked={selectedOptions.indexOf(option.id) !== -1}
-          control={<Radio color="primary" style={{ padding: '0 12px' }} />}
+          control={<Radio style={{ padding: '0 12px' }} />}
           disabled
           key={option.id}
           label={

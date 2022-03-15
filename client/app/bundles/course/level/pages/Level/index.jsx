@@ -23,8 +23,7 @@ import {
   TableFooter,
   TableHead,
   TableRow,
-} from '@material-ui/core';
-
+} from '@mui/material';
 import LevelRow from 'course/level/components/LevelRow';
 
 const translations = defineMessages({

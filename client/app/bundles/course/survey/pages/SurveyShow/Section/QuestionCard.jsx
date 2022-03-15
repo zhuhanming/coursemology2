@@ -11,8 +11,8 @@ import {
   MenuItem,
   Radio,
   TextField,
-} from '@material-ui/core';
-import MoreVert from '@material-ui/icons/MoreVert';
+} from '@mui/material';
+import MoreVert from '@mui/icons-material/MoreVert';
 import formTranslations from 'lib/translations/form';
 import { questionTypes } from 'course/survey/constants';
 import { questionShape } from 'course/survey/propTypes';
@@ -117,6 +117,7 @@ class QuestionCard extends Component {
         disabled
         fullWidth
         label={<FormattedMessage {...translations.textResponse} />}
+        variant="standard"
       />
     );
   }
@@ -180,7 +181,6 @@ class QuestionCard extends Component {
         style={{ ...styles.card, ...cursorStyle }}
       >
         <AccordionSummary>
-          {this.renderAdminMenu()}
           <div style={styles.panelSummaryText}>
             <p dangerouslySetInnerHTML={{ __html: question.description }} />
             {question.required ? (
@@ -189,6 +189,7 @@ class QuestionCard extends Component {
               </p>
             ) : null}
           </div>
+          {this.renderAdminMenu()}
         </AccordionSummary>
         <CardContent style={styles.fields}>
           {QuestionCard.renderSpecificFields(question)}

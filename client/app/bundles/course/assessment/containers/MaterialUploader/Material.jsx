@@ -10,9 +10,9 @@ import {
   ListItemAvatar,
   ListItemText,
   ListItemSecondaryAction,
-} from '@material-ui/core';
-import Assignment from '@material-ui/icons/Assignment';
-import Delete from '@material-ui/icons/Delete';
+} from '@mui/material';
+import Assignment from '@mui/icons-material/Assignment';
+import Delete from '@mui/icons-material/Delete';
 import ReactTooltip from 'react-tooltip';
 
 const styles = {

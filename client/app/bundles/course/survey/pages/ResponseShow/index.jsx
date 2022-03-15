@@ -11,7 +11,7 @@ import {
   TableBody,
   TableCell,
   TableRow,
-} from '@material-ui/core';
+} from '@mui/material';
 import surveyTranslations from 'course/survey/translations';
 import { surveyShape, responseShape } from 'course/survey/propTypes';
 import { fetchResponse } from 'course/survey/actions/responses';
@@ -132,7 +132,11 @@ class ResponseShow extends Component {
     if (!canUnsubmit || isLoading || !response.submitted_at) {
       return null;
     }
-    return <UnsubmitButton responseId={response.id} />;
+    return (
+      <span style={{ marginLeft: 12 }}>
+        <UnsubmitButton responseId={response.id} />
+      </span>
+    );
   }
 
   render() {

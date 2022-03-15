@@ -2,9 +2,9 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { defineMessages, FormattedMessage } from 'react-intl';
-import { Button, MenuItem, MenuList, Popover } from '@material-ui/core';
-import Done from '@material-ui/icons/Done';
-import KeyboardArrowUp from '@material-ui/icons/KeyboardArrowUp';
+import { Button, MenuItem, MenuList, Popover } from '@mui/material';
+import Done from '@mui/icons-material/Done';
+import KeyboardArrowUp from '@mui/icons-material/KeyboardArrowUp';
 import { setItemTypeVisibility } from 'course/lesson-plan/actions';
 
 const translations = defineMessages({

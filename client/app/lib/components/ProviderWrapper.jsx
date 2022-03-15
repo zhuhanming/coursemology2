@@ -3,11 +3,11 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 import { IntlProvider, addLocaleData } from 'react-intl';
 import { i18nLocale } from 'lib/helpers/server-context';
-import { MuiThemeProvider, createTheme } from '@material-ui/core/styles';
+import { createTheme, adaptV4Theme, ThemeProvider } from '@mui/material/styles';
 import LoadingIndicator from 'lib/components/LoadingIndicator';
 import zh from 'react-intl/locale-data/zh';
 import palette from '../../theme/palette';
-import { black, grey, white } from '../../theme/colors';
+import { grey } from '../../theme/colors';
 
 import ErrorBoundary from './ErrorBoundary';
 import translations from '../../../build/locales/locales.json';
@@ -22,7 +22,7 @@ const propTypes = {
   children: PropTypes.element.isRequired,
 };
 
-const theme = createTheme({
+const themeSettings = {
   palette,
   // https://material-ui.com/customization/themes/#typography---html-font-size
   // https://material-ui.com/style/typography/#migration-to-typography-v2
@@ -30,10 +30,12 @@ const theme = createTheme({
     htmlFontSize: 10,
   },
   overrides: {
-    MuiButton: {
-      contained: {
-        color: black,
-        backgroundColor: white,
+    MuiAppBar: {
+      // When there is a MUI Dialog component, somehow
+      // the color of appbar is changed... smh
+      root: {
+        background: `${palette.primary.main} !important`,
+        color: 'white !important',
       },
     },
     MuiDialogContent: {
@@ -44,8 +46,12 @@ const theme = createTheme({
       },
     },
     MuiAccordionSummary: {
+      root: {
+        width: '100%',
+      },
       content: {
         margin: 0,
+        paddingLeft: '16px',
         '&$expanded': { margin: 0 },
       },
     },
@@ -56,7 +62,7 @@ const theme = createTheme({
     },
     MuiModal: {
       root: {
-        zIndex: 1800,
+        zIndex: 1,
       },
     },
     MuiStepLabel: {
@@ -75,14 +81,10 @@ const theme = createTheme({
         padding: '16px 16px',
       },
     },
-    MuiTabs: {
-      root: {
-        backgroundColor: palette.primary.main,
-        color: 'white',
-      },
-    },
   },
-});
+};
+
+const themeV5 = createTheme(adaptV4Theme(themeSettings));
 
 const ProviderWrapper = ({ store, persistor, children }) => {
   const availableForeignLocales = { zh };
@@ -110,7 +112,7 @@ const ProviderWrapper = ({ store, persistor, children }) => {
 
   providers = (
     <IntlProvider locale={i18nLocale} messages={messages}>
-      <MuiThemeProvider theme={theme}>{providers}</MuiThemeProvider>
+      <ThemeProvider theme={themeV5}>{providers}</ThemeProvider>
     </IntlProvider>
   );
 

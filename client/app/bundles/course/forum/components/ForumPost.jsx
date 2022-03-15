@@ -6,7 +6,7 @@ import {
   CardContent,
   CardHeader,
   Divider,
-} from '@material-ui/core';
+} from '@mui/material';
 import PropTypes from 'prop-types';
 import moment from 'lib/moment';
 import { defineMessages, FormattedMessage } from 'react-intl';

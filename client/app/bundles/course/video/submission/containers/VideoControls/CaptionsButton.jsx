@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
-import { IconButton } from '@material-ui/core';
+import { IconButton } from '@mui/material';
 import { captionsStates } from 'lib/constants/videoConstants';
 import { connect } from 'react-redux';
-import { grey } from '@material-ui/core/colors';
-import ClosedCaption from '@material-ui/icons/ClosedCaption';
+import { grey } from '@mui/material/colors';
+import ClosedCaption from '@mui/icons-material/ClosedCaption';
 
 import styles from '../VideoPlayer.scss';
 import { changeCaptionsState } from '../../actions/video';

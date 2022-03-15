@@ -7,9 +7,9 @@ import {
   AccordionSummary,
   Divider,
   Icon,
-} from '@material-ui/core';
-import { cyan } from '@material-ui/core/colors';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+} from '@mui/material';
+import { cyan } from '@mui/material/colors';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PropTypes from 'prop-types';
 
 import {

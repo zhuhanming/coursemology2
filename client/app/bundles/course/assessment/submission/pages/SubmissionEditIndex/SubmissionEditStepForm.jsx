@@ -17,8 +17,8 @@ import {
   StepLabel,
   SvgIcon,
   Tooltip,
-} from '@material-ui/core';
-import { blue, green, lightBlue, red } from '@material-ui/core/colors';
+} from '@mui/material';
+import { blue, green, lightBlue, red } from '@mui/material/colors';
 
 /* eslint-disable import/extensions, import/no-extraneous-dependencies, import/no-unresolved */
 import ConfirmationDialog from 'lib/components/ConfirmationDialog';
@@ -62,6 +62,10 @@ const styles = {
     color: 'white',
     marginBottom: 10,
     marginRight: 10,
+  },
+  stepButton: {
+    margin: '-24px -16px',
+    padding: '24px 16px',
   },
 };
 
@@ -300,7 +304,8 @@ class SubmissionEditStepForm extends Component {
     if (question.type === questionTypes.Programming) {
       return (
         <Button
-          variant="contained"
+          variant="outlined"
+          color="info"
           disabled={isAutograding || isResetting || isSaving}
           onClick={() =>
             this.setState({
@@ -445,7 +450,7 @@ class SubmissionEditStepForm extends Component {
         activeStep={stepIndex}
         connector={<div />}
         nonLinear
-        style={{ justifyContent: 'center', flexWrap: 'wrap' }}
+        style={{ justifyContent: 'center', flexWrap: 'wrap', padding: 24 }}
       >
         {questionIds.map((questionId, index) => {
           let stepButtonColor = '';

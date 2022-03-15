@@ -2,16 +2,16 @@
 
 exports[`<ResponseShow /> shows form and admin buttons if user has permissions and page is loaded 1`] = `
 <Fragment>
-  <WithStyles(ForwardRef(Card))>
-    <WithStyles(ForwardRef(CardContent))
+  <ForwardRef(Card)>
+    <ForwardRef(CardContent)
       dangerouslySetInnerHTML={
         Object {
           "__html": "Description",
         }
       }
     />
-  </WithStyles(ForwardRef(Card))>
-  <WithStyles(ForwardRef(Table))
+  </ForwardRef(Card)>
+  <ForwardRef(Table)
     style={
       Object {
         "marginTop": 10,
@@ -19,34 +19,34 @@ exports[`<ResponseShow /> shows form and admin buttons if user has permissions a
       }
     }
   >
-    <WithStyles(ForwardRef(TableBody))>
-      <WithStyles(ForwardRef(TableRow))>
-        <WithStyles(ForwardRef(TableCell))>
+    <ForwardRef(TableBody)>
+      <ForwardRef(TableRow)>
+        <ForwardRef(TableCell)>
           Student
-        </WithStyles(ForwardRef(TableCell))>
-        <WithStyles(ForwardRef(TableCell))>
+        </ForwardRef(TableCell)>
+        <ForwardRef(TableCell)>
           Staff
-        </WithStyles(ForwardRef(TableCell))>
-      </WithStyles(ForwardRef(TableRow))>
-      <WithStyles(ForwardRef(TableRow))>
-        <WithStyles(ForwardRef(TableCell))>
+        </ForwardRef(TableCell)>
+      </ForwardRef(TableRow)>
+      <ForwardRef(TableRow)>
+        <ForwardRef(TableCell)>
           Submitted At
-        </WithStyles(ForwardRef(TableCell))>
-        <WithStyles(ForwardRef(TableCell))>
+        </ForwardRef(TableCell)>
+        <ForwardRef(TableCell)>
           01 Jan 2100, 12:00am
-        </WithStyles(ForwardRef(TableCell))>
-      </WithStyles(ForwardRef(TableRow))>
-      <WithStyles(ForwardRef(TableRow))>
-        <WithStyles(ForwardRef(TableCell))>
+        </ForwardRef(TableCell)>
+      </ForwardRef(TableRow)>
+      <ForwardRef(TableRow)>
+        <ForwardRef(TableCell)>
           Last Updated At
-        </WithStyles(ForwardRef(TableCell))>
-        <WithStyles(ForwardRef(TableCell))>
+        </ForwardRef(TableCell)>
+        <ForwardRef(TableCell)>
           13 Jan 2100, 12:00am
-        </WithStyles(ForwardRef(TableCell))>
-      </WithStyles(ForwardRef(TableRow))>
-    </WithStyles(ForwardRef(TableBody))>
-  </WithStyles(ForwardRef(Table))>
-  <WithStyles(ForwardRef(ListSubheader))
+        </ForwardRef(TableCell)>
+      </ForwardRef(TableRow)>
+    </ForwardRef(TableBody)>
+  </ForwardRef(Table)>
+  <ForwardRef(ListSubheader)
     disableSticky={true}
   >
     <FormattedMessage
@@ -54,7 +54,7 @@ exports[`<ResponseShow /> shows form and admin buttons if user has permissions a
       id="course.surveys.questions"
       values={Object {}}
     />
-  </WithStyles(ForwardRef(ListSubheader))>
+  </ForwardRef(ListSubheader)>
   <ReduxForm
     flags={
       Object {
@@ -84,9 +84,17 @@ exports[`<ResponseShow /> shows form and admin buttons if user has permissions a
     submittedAt="2099-12-31T16:00:00.000Z"
     surveyId={2}
   />
-  <Connect(UnsubmitButton)
-    responseId={2}
-  />
+  <span
+    style={
+      Object {
+        "marginLeft": 12,
+      }
+    }
+  >
+    <Connect(UnsubmitButton)
+      responseId={2}
+    />
+  </span>
 </Fragment>
 `;
 

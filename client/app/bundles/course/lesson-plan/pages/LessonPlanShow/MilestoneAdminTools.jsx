@@ -3,9 +3,9 @@ import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { injectIntl, defineMessages, intlShape } from 'react-intl';
-import { Button } from '@material-ui/core';
-import Edit from '@material-ui/icons/Edit';
-import Delete from '@material-ui/icons/Delete';
+import { Button } from '@mui/material';
+import Edit from '@mui/icons-material/Edit';
+import Delete from '@mui/icons-material/Delete';
 import {
   showMilestoneForm,
   updateMilestone,
@@ -98,14 +98,15 @@ class MilestoneAdminTools extends PureComponent {
     return (
       <span>
         <Button
-          variant="contained"
+          variant="outlined"
           onClick={this.showEditMilestoneDialog}
           style={styles.edit}
         >
           <Edit />
         </Button>
         <Button
-          variant="contained"
+          variant="outlined"
+          color="secondary"
           onClick={this.deleteMilestoneHandler}
           style={styles.delete}
         >

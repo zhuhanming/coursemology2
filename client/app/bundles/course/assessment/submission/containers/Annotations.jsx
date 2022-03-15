@@ -2,8 +2,7 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { Button, Card, CardContent } from '@material-ui/core';
-
+import { Button, Card, CardContent } from '@mui/material';
 import { defineMessages, FormattedMessage } from 'react-intl';
 
 import { postShape, annotationShape } from '../propTypes';

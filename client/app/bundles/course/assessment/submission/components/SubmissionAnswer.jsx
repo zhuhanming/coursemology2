@@ -12,8 +12,8 @@ import {
   CircularProgress,
   FormControlLabel,
   Switch,
-} from '@material-ui/core';
-import { yellow } from '@material-ui/core/colors';
+} from '@mui/material';
+import { yellow } from '@mui/material/colors';
 
 import {
   questionShape,

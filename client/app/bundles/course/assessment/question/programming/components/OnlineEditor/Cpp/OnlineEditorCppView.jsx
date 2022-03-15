@@ -4,10 +4,10 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, FormattedMessage, intlShape } from 'react-intl';
 import {
-  Button,
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Button,
   Fade,
   Table,
   TableBody,
@@ -15,9 +15,9 @@ import {
   TableFooter,
   TableHead,
   TableRow,
-} from '@material-ui/core';
-import { red } from '@material-ui/core/colors';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+} from '@mui/material';
+import { red } from '@mui/material/colors';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 import 'ace-builds/src-noconflict/mode-c_cpp';
 import 'ace-builds/src-noconflict/theme-monokai';

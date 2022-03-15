@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { MenuItem, Select } from '@material-ui/core';
+import { MenuItem, Select } from '@mui/material';
 import { videoDefaults } from 'lib/constants/videoConstants';
 import styles from '../VideoPlayer.scss';
 import { changePlaybackRate } from '../../actions/video';
@@ -28,6 +28,7 @@ function PlayBackRateSelector(props) {
         onChange={(event) => props.rateChanged(event.target.value)}
         style={{ fontSize: '0.9em' }}
         value={props.rate}
+        variant="standard"
       >
         {rateElements}
       </Select>

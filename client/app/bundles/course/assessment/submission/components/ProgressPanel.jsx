@@ -9,9 +9,9 @@ import {
   TableBody,
   TableCell,
   TableRow,
-} from '@material-ui/core';
-import { blue, green, grey, red, yellow } from '@material-ui/core/colors';
-import Warning from '@material-ui/icons/Warning';
+} from '@mui/material';
+import { blue, green, grey, red, yellow } from '@mui/material/colors';
+import Warning from '@mui/icons-material/Warning';
 
 import { formatDateTime } from '../utils';
 import { submissionShape } from '../propTypes';

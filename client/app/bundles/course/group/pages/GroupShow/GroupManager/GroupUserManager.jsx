@@ -1,10 +1,10 @@
 import { useCallback, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Checkbox, FormControlLabel, TextField } from '@material-ui/core';
-import { blue, green, red } from '@material-ui/core/colors';
-import CompareArrows from '@material-ui/icons/CompareArrows';
-import Delete from '@material-ui/icons/Delete';
+import { Checkbox, FormControlLabel, TextField } from '@mui/material';
+import { blue, green, red } from '@mui/material/colors';
+import CompareArrows from '@mui/icons-material/CompareArrows';
+import Delete from '@mui/icons-material/Delete';
 import {
   defineMessages,
   FormattedMessage,
@@ -359,6 +359,7 @@ const GroupUserManager = ({
               onChange={(event) => setAvailableSearch(event.target.value)}
               style={styles.textField}
               value={availableSearch}
+              variant="standard"
             />
             <GroupUserManagerList
               students={availableStudents}
@@ -377,6 +378,7 @@ const GroupUserManager = ({
               onChange={(event) => setSelectedSearch(event.target.value)}
               style={styles.textField}
               value={selectedSearch}
+              variant="standard"
             />
             <GroupUserManagerList
               students={selectedStudents}
@@ -392,7 +394,6 @@ const GroupUserManager = ({
         <FormControlLabel
           control={
             <Checkbox
-              color="primary"
               checked={hideInGroup}
               onChange={(_, checked) => setHideInGroup(checked)}
             />

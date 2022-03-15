@@ -10,9 +10,9 @@ import {
   Collapse,
   Divider,
   IconButton,
-} from '@material-ui/core';
-import { grey } from '@material-ui/core/colors';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+} from '@mui/material';
+import { grey } from '@mui/material/colors';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import moment, { longDate } from 'lib/moment';
 import LessonPlanItem from './LessonPlanItem';
 import MilestoneAdminTools from './MilestoneAdminTools';

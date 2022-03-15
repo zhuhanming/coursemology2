@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import Add from '@material-ui/icons/Add';
-import { Fab } from '@material-ui/core';
+import { Fab } from '@mui/material';
+import Add from '@mui/icons-material/Add';
 
 const styles = {
   floatingButton: {

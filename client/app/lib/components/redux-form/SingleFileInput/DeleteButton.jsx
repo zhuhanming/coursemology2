@@ -1,8 +1,7 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Badge, IconButton, Tooltip } from '@material-ui/core';
-import { grey } from '@material-ui/core/colors';
-import Close from '@material-ui/icons/Close';
+import { Badge, IconButton, Tooltip } from '@mui/material';
+import Close from '@mui/icons-material/Close';
 import { FormattedMessage } from 'react-intl';
 import translations from './translations';
 
@@ -11,9 +10,6 @@ const styles = {
     position: 'absolute',
     top: 0,
     right: 0,
-  },
-  badgeStyle: {
-    backgroundColor: grey[400],
   },
 };
 
@@ -33,15 +29,7 @@ export default class DeleteButton extends Component {
   }
 
   render() {
-    return (
-      <Badge
-        //  badgeContent={this.renderIcon()}
-        // badgeStyle={styles.badgeStyle}
-        style={styles.badge}
-      >
-        {this.renderIcon()}
-      </Badge>
-    );
+    return <Badge style={styles.badge}>{this.renderIcon()}</Badge>;
   }
 }
 

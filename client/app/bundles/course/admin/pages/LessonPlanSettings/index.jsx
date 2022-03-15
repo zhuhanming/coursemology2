@@ -11,7 +11,7 @@ import {
   TableCell,
   TableHead,
   TableRow,
-} from '@material-ui/core';
+} from '@mui/material';
 import NotificationPopup from 'lib/containers/NotificationPopup';
 import { updateLessonPlanSettings } from 'course/admin/actions/lesson-plan-items';
 import translations from './translations.intl';
