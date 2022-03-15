@@ -1,5 +1,5 @@
-import { Card, CardContent } from '@material-ui/core';
-import { green } from '@material-ui/core/colors';
+import { Card, CardContent } from '@mui/material';
+import { green } from '@mui/material/colors';
 import PropTypes from 'prop-types';
 import { Fragment } from 'react';
 import { ancestorShape } from '../../propTypes';

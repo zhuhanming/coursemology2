@@ -95,7 +95,6 @@ const AssessmentStatisticsPage = ({
   }
 
   const fetchAncestorSubmissions = (id) => {
-    console.log(id);
     if (id === assessmentId) {
       return;
     }
