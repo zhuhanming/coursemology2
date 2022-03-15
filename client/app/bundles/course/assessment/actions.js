@@ -2,7 +2,7 @@ import { SubmissionError } from 'lib/redux-form';
 import CourseAPI from 'api/course';
 import { getCourseId } from 'lib/helpers/url-helpers';
 import actionTypes from './constants';
-import { processSubmission } from './utils/statisticsUtils';
+import { processSubmission, processAssessment } from './utils/statisticsUtils';
 
 export function createAssessment(
   categoryId,
@@ -87,7 +87,7 @@ export function fetchStatistics(assessmentId, failureMessage) {
       .then((response) => {
         dispatch({
           type: actionTypes.FETCH_STATISTICS_SUCCESS,
-          assessment: response.data.assessment,
+          assessment: processAssessment(response.data.assessment),
           submissions: response.data.submissions.map(processSubmission),
           allStudents: response.data.allStudents,
         });

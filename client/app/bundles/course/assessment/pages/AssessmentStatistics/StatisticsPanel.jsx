@@ -11,8 +11,11 @@ import SubmissionTimeAndScoreChart from './SubmissionTimeAndScoreChart';
 
 const StatisticsPanel = ({ assessment, submissions, allStudents }) => (
   <div className="assessment-statistics-panel">
-    <div className="assessment-statistics-panel-left">
-      <Card className="assessment-statistics-panel-left-top" variant="outlined">
+    <div className="assessment-statistics-panel__top">
+      <Card
+        className="assessment-statistics-panel__top-left"
+        variant="outlined"
+      >
         <CardContent>
           <SubmissionDoughnut
             submissions={submissions}
@@ -21,15 +24,15 @@ const StatisticsPanel = ({ assessment, submissions, allStudents }) => (
         </CardContent>
       </Card>
       <Card
-        className="assessment-statistics-panel-left-bottom"
+        className="assessment-statistics-panel__top-right"
         variant="outlined"
       >
         <CardContent>
-          <MeanMedianStdev submissions={submissions} />
+          <MeanMedianStdev assessment={assessment} submissions={submissions} />
         </CardContent>
       </Card>
     </div>
-    <Card className="assessment-statistics-panel-right" variant="outlined">
+    <Card className="assessment-statistics-panel-bottom" variant="outlined">
       <CardContent>
         <SubmissionTimeAndScoreChart submissions={submissions} />
       </CardContent>

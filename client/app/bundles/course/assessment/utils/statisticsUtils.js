@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/prefer-default-export
 export const processSubmission = (submission) => {
   const grade =
     submission.grade != null && typeof submission.grade === 'string'
@@ -22,4 +21,43 @@ export const processSubmission = (submission) => {
     endAt,
     dayDifference,
   };
+};
+
+export const processAssessment = (assessment) => ({
+  ...assessment,
+  maximumGrade: parseFloat(assessment.maximumGrade),
+});
+
+function roundToTwoDecimalPoints(num) {
+  return Math.round(num * 100) / 100;
+}
+
+export const getMean = (numbers) =>
+  roundToTwoDecimalPoints(numbers.reduce((a, b) => a + b, 0) / numbers.length);
+
+export const getMedian = (numbers) => {
+  if (numbers == null || numbers.length === 0) {
+    return 0;
+  }
+  const sorted = numbers.slice().sort((a, b) => a - b);
+  const middle = Math.floor(sorted.length / 2);
+
+  if (sorted.length % 2 === 0) {
+    return roundToTwoDecimalPoints((sorted[middle - 1] + sorted[middle]) / 2);
+  }
+
+  return roundToTwoDecimalPoints(sorted[middle]);
+};
+
+export const getStandardDeviation = (numbers) => {
+  if (!numbers || numbers.length === 0) {
+    return 0;
+  }
+  const mean = numbers.reduce((a, b) => a + b, 0) / numbers.length;
+  return roundToTwoDecimalPoints(
+    Math.sqrt(
+      numbers.map((x) => (x - mean) ** 2).reduce((a, b) => a + b) /
+        numbers.length,
+    ),
+  );
 };
