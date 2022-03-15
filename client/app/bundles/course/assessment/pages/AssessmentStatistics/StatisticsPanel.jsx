@@ -32,7 +32,7 @@ const StatisticsPanel = ({ assessment, submissions, allStudents }) => (
         </CardContent>
       </Card>
     </div>
-    <Card className="assessment-statistics-panel-bottom" variant="outlined">
+    <Card className="assessment-statistics-panel__bottom" variant="outlined">
       <CardContent>
         <SubmissionTimeAndScoreChart submissions={submissions} />
       </CardContent>
