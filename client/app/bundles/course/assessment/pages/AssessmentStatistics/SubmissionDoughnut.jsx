@@ -13,16 +13,30 @@ const ORANGE_BORDER = 'rgba(255, 159, 64, 1)';
 const RED_BACKGROUND = 'rgba(255, 99, 132, 0.2)';
 const RED_BORDER = 'rgba(255, 99, 132, 1)';
 
+const LABELS = ['Submitted', 'Attempting', 'Unattempted'];
+const DATASET_LABEL = 'Student Submission Statuses';
+
+const styles = {
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  label: { marginTop: '2rem', fontWeight: 'medium', color: 'gray' },
+};
+
 const SubmissionDoughnut = ({ submissions, allStudents }) => {
-  // const [includePhantoms, setIncludePhantoms] = useState(false);
+  const numSubmitted = submissions.filter((s) => s.submittedAt != null).length;
+  const numAttempting = submissions.length - numSubmitted;
+  const numUnattempted = allStudents.length - submissions.length;
 
   const data = useMemo(
     () => ({
-      labels: ['Submitted', 'Attempting', 'Unattempted'],
+      labels: LABELS,
       datasets: [
         {
-          label: 'Student Submission Statuses',
-          data: [25, 40, 5],
+          label: DATASET_LABEL,
+          data: [numSubmitted, numAttempting, numUnattempted],
           backgroundColor: [
             GREEN_BACKGROUND,
             ORANGE_BACKGROUND,
@@ -36,13 +50,9 @@ const SubmissionDoughnut = ({ submissions, allStudents }) => {
     [submissions, allStudents],
   );
   return (
-    <div
-      style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
-    >
+    <div style={styles.root}>
       <Doughnut data={data} />
-      <div style={{ marginTop: '2rem', fontWeight: 'medium', color: 'gray' }}>
-        Student Submission Statuses
-      </div>
+      <div style={styles.label}>Student Submission Statuses</div>
     </div>
   );
 };

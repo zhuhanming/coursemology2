@@ -25,10 +25,47 @@ const styles = {
   },
 };
 
+function roundToTwoDecimalPoints(num) {
+  return Math.round(num * 100) / 100;
+}
+
+function getStandardDeviation(numbers, mean) {
+  if (!numbers || numbers.length === 0) {
+    return 0;
+  }
+  return roundToTwoDecimalPoints(
+    Math.sqrt(
+      numbers.map((x) => (x - mean) ** 2).reduce((a, b) => a + b) /
+        numbers.length,
+    ),
+  );
+}
+
+function getMedian(numbers) {
+  if (numbers == null || numbers.length === 0) {
+    return 0;
+  }
+  const sorted = numbers.slice().sort((a, b) => a - b);
+  const middle = Math.floor(sorted.length / 2);
+
+  if (sorted.length % 2 === 0) {
+    return roundToTwoDecimalPoints((sorted[middle - 1] + sorted[middle]) / 2);
+  }
+
+  return roundToTwoDecimalPoints(sorted[middle]);
+}
+
 const MeanMedianStdev = ({ submissions }) => {
-  const mean = 20;
-  const median = 21.5;
-  const stdDev = 12;
+  const grades = submissions.filter((s) => s.grade != null).map((s) => s.grade);
+  const mean = roundToTwoDecimalPoints(
+    grades.reduce((a, b) => a + b, 0) / grades.length,
+  );
+  const median = getMedian(grades);
+  const stdDev = getStandardDeviation(grades, mean);
+
+  if (submissions == null || submissions.length === 0) {
+    return <div style={styles.root}>No submissions received thus far.</div>;
+  }
 
   return (
     <div style={styles.root}>

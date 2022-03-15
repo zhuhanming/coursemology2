@@ -46,24 +46,21 @@ const AncestorSelect = ({
       Duplication History
     </div>
     <div style={styles.root}>
-      {ancestors.map((ancestor, index) => (
-        <>
-          {/* {index !== 0 ? <div style={styles.arrow}>&larr;</div> : null} */}
-          <Card
-            style={
-              ancestor.id === selectedAncestorId
-                ? styles.selectedAncestor
-                : styles.ancestor
-            }
-            key={ancestor.id}
-            onClick={() => setSelectedAncestorId(ancestor.id)}
-          >
-            <CardContent>
-              <div style={styles.title}>{ancestor.title}</div>
-              <div style={styles.subtitle}>From {ancestor.courseTitle}</div>
-            </CardContent>
-          </Card>
-        </>
+      {ancestors.map((ancestor) => (
+        <Card
+          style={
+            ancestor.id === selectedAncestorId
+              ? styles.selectedAncestor
+              : styles.ancestor
+          }
+          key={ancestor.id}
+          onClick={() => setSelectedAncestorId(ancestor.id)}
+        >
+          <CardContent>
+            <div style={styles.title}>{ancestor.title}</div>
+            <div style={styles.subtitle}>From {ancestor.courseTitle}</div>
+          </CardContent>
+        </Card>
       ))}
     </div>
   </div>

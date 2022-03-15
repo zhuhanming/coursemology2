@@ -27,8 +27,9 @@ export const courseUserShape = PropTypes.shape({
 });
 
 export const submissionRecordsShape = PropTypes.shape({
-  courseUser: PropTypes.courseUserShape,
-  submittedAt: PropTypes.string.isRequired,
-  endAt: PropTypes.string.isRequired,
+  courseUser: courseUserShape,
+  submittedAt: PropTypes.string,
+  endAt: PropTypes.string,
   grade: PropTypes.number,
+  dayDifference: PropTypes.number,
 });

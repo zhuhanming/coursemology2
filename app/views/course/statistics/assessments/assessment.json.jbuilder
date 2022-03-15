@@ -9,14 +9,14 @@ end
 json.submissions @submission_records do |record|
   json.courseUser do
     json.id record[0].id
-    jsonn.name record[0].name
-    jsonn.role record[0].role
-    json.isPhantom course_user.phantom?
+    json.name record[0].name
+    json.role record[0].role
+    json.isPhantom record[0].phantom?
   end
 
-  json.submittedAt = record[1]&.iso8601
-  json.endAt = record[2]&.iso8601
-  json.grade = record[3]
+  json.submittedAt record[1]&.iso8601
+  json.endAt record[2]&.iso8601
+  json.grade record[3]
 end
 
 json.allStudents @all_students do |student|
