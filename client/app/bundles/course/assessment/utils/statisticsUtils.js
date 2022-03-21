@@ -25,6 +25,8 @@ export const processSubmission = (submission) => {
 
 export const processAssessment = (assessment) => ({
   ...assessment,
+  startAt: new Date(assessment.startAt),
+  endAt: assessment.endAt == null ? null : new Date(assessment.endAt),
   maximumGrade: parseFloat(assessment.maximumGrade),
 });
 

@@ -48,6 +48,10 @@ const AssessmentStatisticsPage = ({
   intl,
   isFetching,
   isError,
+  isFetchingAncestors,
+  isErrorAncestors,
+  isFetchingAncestorStatistics,
+  isErrorAncestorStatistics,
   dispatch,
   assessment,
   submissions,
@@ -107,6 +111,53 @@ const AssessmentStatisticsPage = ({
     setSelectedAncestorId(id);
   };
 
+  const renderAncestorSelect = () => {
+    if (isFetchingAncestors) {
+      return <LoadingIndicator />;
+    }
+    if (isErrorAncestors) {
+      return (
+        <ErrorCard
+          message={<FormattedMessage {...translations.fetchAncestorsFailure} />}
+        />
+      );
+    }
+    return (
+      <AncestorSelect
+        ancestors={ancestors}
+        selectedAncestorId={selectedAncestorId}
+        setSelectedAncestorId={fetchAncestorSubmissions}
+      />
+    );
+  };
+
+  const renderAncestorStatistics = () => {
+    if (ancestorAssessment == null) {
+      return null;
+    }
+    if (isFetchingAncestorStatistics) {
+      return <LoadingIndicator />;
+    }
+    if (isErrorAncestorStatistics) {
+      return (
+        <ErrorCard
+          message={
+            <FormattedMessage
+              {...translations.fetchAncestorStatisticsFailure}
+            />
+          }
+        />
+      );
+    }
+    return (
+      <StatisticsPanel
+        assessment={ancestorAssessment}
+        submissions={ancestorSubmissions}
+        allStudents={ancestorAllStudents}
+      />
+    );
+  };
+
   return (
     <>
       <StatisticsPanel
@@ -114,18 +165,8 @@ const AssessmentStatisticsPage = ({
         submissions={submissions}
         allStudents={allStudents}
       />
-      <AncestorSelect
-        ancestors={ancestors}
-        selectedAncestorId={selectedAncestorId}
-        setSelectedAncestorId={fetchAncestorSubmissions}
-      />
-      {ancestorAssessment != null && (
-        <StatisticsPanel
-          assessment={ancestorAssessment}
-          submissions={ancestorSubmissions}
-          allStudents={ancestorAllStudents}
-        />
-      )}
+      {renderAncestorSelect()}
+      {renderAncestorStatistics()}
       <NotificationBar notification={notification} />
     </>
   );
@@ -139,6 +180,10 @@ AssessmentStatisticsPage.propTypes = {
     .isRequired,
   isFetching: PropTypes.bool.isRequired,
   isError: PropTypes.bool.isRequired,
+  isFetchingAncestors: PropTypes.bool.isRequired,
+  isErrorAncestors: PropTypes.bool.isRequired,
+  isFetchingAncestorStatistics: PropTypes.bool.isRequired,
+  isErrorAncestorStatistics: PropTypes.bool.isRequired,
 
   assessment: assessmentShape,
   submissions: PropTypes.arrayOf(submissionRecordsShape).isRequired,

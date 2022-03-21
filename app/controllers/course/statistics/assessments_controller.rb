@@ -3,13 +3,14 @@ class Course::Statistics::AssessmentsController < Course::Statistics::Controller
   def assessment
     @assessment = Course::Assessment.where(id: assessment_params[:id]).
                   calculated(:maximum_grade).
-                  preload(lesson_plan_item: [:reference_times, personal_times: :course_user]).first
+                  preload(lesson_plan_item: [:reference_times, personal_times: :course_user],
+                          course: :course_users).first
     # authorize!(:view_all_submissions, @assessment)
     submissions = Course::Assessment::Submission.preload(creator: :course_users).
                   where(assessment_id: assessment_params[:id]).
                   calculated(:grade)
     @submission_records = compute_submission_records(submissions)
-    @all_students = current_course.course_users.students
+    @all_students = @assessment.course.course_users.students
   end
 
   def ancestors

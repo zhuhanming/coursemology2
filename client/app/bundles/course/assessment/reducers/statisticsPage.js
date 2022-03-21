@@ -5,6 +5,8 @@ const initialState = {
   isError: false,
   isFetchingAncestors: false,
   isErrorAncestors: false,
+  isFetchingAncestorStatistics: false,
+  isErrorAncestorStatistics: false,
   assessment: null,
   submissions: [],
   allStudents: [],
@@ -32,7 +34,6 @@ export default function (state = initialState, action) {
       };
     }
     case actionTypes.FETCH_STATISTICS_FAILURE: {
-      // TODO: Add notification bar
       return {
         ...state,
         isFetching: false,
@@ -54,7 +55,6 @@ export default function (state = initialState, action) {
       };
     }
     case actionTypes.FETCH_ANCESTORS_FAILURE: {
-      // TODO: Add notification bar
       return {
         ...state,
         isFetchingAncestors: false,
@@ -62,9 +62,16 @@ export default function (state = initialState, action) {
         notification: { message: action.message },
       };
     }
+    case actionTypes.FETCH_ANCESTOR_STATISTICS_REQUEST: {
+      return {
+        ...state,
+        isFetchingAncestorStatistics: true,
+      };
+    }
     case actionTypes.FETCH_ANCESTOR_STATISTICS_SUCCESS: {
       return {
         ...state,
+        isFetchingAncestorStatistics: false,
         ancestorAssessment: action.assessment,
         ancestorSubmissions: action.submissions,
         ancestorAllStudents: action.allStudents,
@@ -73,6 +80,8 @@ export default function (state = initialState, action) {
     case actionTypes.FETCH_ANCESTOR_STATISTICS_FAILURE: {
       return {
         ...state,
+        isFetchingAncestorStatistics: false,
+        isErrorAncestorStatistics: true,
         notification: { message: action.message },
       };
     }

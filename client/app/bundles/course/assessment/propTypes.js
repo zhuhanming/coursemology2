@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 
 export const assessmentShape = PropTypes.shape({
-  startAt: PropTypes.string.isRequired,
-  endAt: PropTypes.string,
+  startAt: PropTypes.object.isRequired,
+  endAt: PropTypes.object,
   maximumGrade: PropTypes.number,
 });
 
@@ -28,7 +28,7 @@ export const courseUserShape = PropTypes.shape({
 
 export const submissionRecordsShape = PropTypes.shape({
   courseUser: courseUserShape,
-  submittedAt: PropTypes.string,
+  submittedAt: PropTypes.object,
   endAt: PropTypes.string,
   grade: PropTypes.number,
   dayDifference: PropTypes.number,
