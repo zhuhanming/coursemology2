@@ -82,7 +82,7 @@ export function updateAssessment(
 export function fetchStatistics(assessmentId, failureMessage) {
   return (dispatch) => {
     dispatch({ type: actionTypes.FETCH_STATISTICS_REQUEST });
-    return CourseAPI.assessment.assessments
+    return CourseAPI.statistics.assessment
       .fetchStatistics(assessmentId)
       .then((response) => {
         dispatch({
@@ -104,7 +104,7 @@ export function fetchStatistics(assessmentId, failureMessage) {
 export function fetchAncestors(assessmentId, failureMessage) {
   return (dispatch) => {
     dispatch({ type: actionTypes.FETCH_ANCESTORS_REQUEST });
-    return CourseAPI.assessment.assessments
+    return CourseAPI.statistics.assessment
       .fetchAncestors(assessmentId)
       .then((response) => {
         dispatch({
@@ -124,7 +124,7 @@ export function fetchAncestors(assessmentId, failureMessage) {
 export function fetchAncestorStatistics(ancestorId, failureMessage) {
   return (dispatch) => {
     dispatch({ type: actionTypes.FETCH_ANCESTOR_STATISTICS_REQUEST });
-    return CourseAPI.assessment.assessments
+    return CourseAPI.statistics.assessment
       .fetchStatistics(ancestorId)
       .then((response) => {
         dispatch({

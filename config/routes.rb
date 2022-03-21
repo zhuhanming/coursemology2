@@ -387,12 +387,15 @@ Rails.application.routes.draw do
       end
 
       namespace :statistics do
-        get 'staff' => 'staff#index'
-        get 'my_students' => 'students#my_students'
-        get 'all_students' => 'students#all_students'
+        get '/' => 'statistics#index'
+        # get 'staff' => 'staff#index'
+        # get 'my_students' => 'students#my_students'
+        # get 'all_students' => 'students#all_students'
         get 'assessment/:id' => 'assessments#assessment'
-        get 'ancestors/:id' => 'assessments#ancestors'
-        get 'download' => 'students#download'
+        get 'assessment/:id/ancestors' => 'assessments#ancestors'
+        # get 'download' => 'students#download'
+        # get 'learning_rate' => 'courses#learning_rate'
+        get 'student/:user_id/learning_rate_records' => 'students#learning_rate_records'
       end
 
       scope module: :video do

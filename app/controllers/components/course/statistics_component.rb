@@ -11,20 +11,12 @@ class Course::StatisticsComponent < SimpleDelegator
 
     [
       {
-        key: :student_statistics,
+        key: :statistics,
         icon: 'bar-chart',
-        title: t('course.statistics.students.header'),
+        title: t('course.statistics.header'),
         type: :admin,
         weight: 2,
-        path: statistics_student_url
-      },
-      {
-        key: :staff_statistics,
-        icon: 'bar-chart',
-        title: I18n.t('course.statistics.staff.header'),
-        type: :admin,
-        weight: 3,
-        path: course_statistics_staff_path(current_course)
+        path: course_statistics_path(current_course)
       }
     ]
   end

@@ -1,6 +1,7 @@
 en:
   course:
     statistics:
+      header: 'Statistics'
       students:
         header: 'Student Statistics'
         my_students:

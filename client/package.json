@@ -82,6 +82,7 @@
     "babel-loader": "^8.2.3",
     "babel-plugin-react-intl": "^7.9.4",
     "chart.js": "^3.7.1",
+    "chartjs-adapter-moment": "^1.0.0",
     "chartjs-plugin-zoom": "^1.2.0",
     "css-loader": "^6.5.1",
     "dnd-core": "^14.0.1",

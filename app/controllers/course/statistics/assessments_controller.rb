@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 class Course::Statistics::AssessmentsController < Course::Statistics::Controller
   def assessment
-    @assessment = Course::Assessment.preload(lesson_plan_item: [:reference_times, personal_times: :course_user],
-                                             course: :course_users,
-                                             submissions: { creator: :course_users }).find(assessment_params[:id])
+    @assessment = Course::Assessment.where(id: assessment_params[:id]).
+                  calculated(:maximum_grade).
+                  preload(lesson_plan_item: [:reference_times, personal_times: :course_user]).first
     # authorize!(:view_all_submissions, @assessment)
-    @submission_records = compute_submission_records
-    @assessment = @assessment.calculated(:maximum_grade)
-    @all_students = @assessment.course.course_users.students
+    submissions = Course::Assessment::Submission.preload(creator: :course_users).
+                  where(assessment_id: assessment_params[:id]).
+                  calculated(:grade)
+    @submission_records = compute_submission_records(submissions)
+    @all_students = current_course.course_users.students
   end
 
   def ancestors
@@ -27,18 +29,12 @@ class Course::Statistics::AssessmentsController < Course::Statistics::Controller
     params.permit(:id)
   end
 
-  def user_id_to_personal_time_hash
-    @user_id_to_personal_time_hash = @assessment.personal_times.to_h do |personal_time|
-      [personal_time.course_user.id, personal_time]
-    end
-  end
+  def compute_submission_records(submissions)
+    submissions.map do |submission|
+      submitter_course_user = submission.creator.course_users.select { |u| u.course_id == @assessment.course_id }.first
+      next unless submitter_course_user&.student?
 
-  def compute_submission_records
-    @assessment.submissions.calculated(:grade).map do |submission|
-      submitter_course_user = submission.creator.course_users.find_by(course: @assessment.course)
-      next unless submitter_course_user.student?
-
-      end_at = user_id_to_personal_time_hash[submitter_course_user.id]&.end_at || @assessment.end_at
+      end_at = @assessment.lesson_plan_item.time_for(submitter_course_user).end_at
       grade = submission.grade
       [submitter_course_user, submission.submitted_at, end_at, grade]
     end.compact
