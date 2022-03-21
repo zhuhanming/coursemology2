@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import notificationPopup from 'lib/reducers/notificationPopup';
 import userEmailSubscriptions from './userEmailSubscriptions';
-import userStatistics from './userStatistics';
+import studentStatistics from './studentStatistics';
 
 export default combineReducers({
   notificationPopup,
   userEmailSubscriptions,
-  userStatistics,
+  studentStatistics,
 });

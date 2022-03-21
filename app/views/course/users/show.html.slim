@@ -33,7 +33,7 @@ div.row
 - if current_course.show_personalized_timeline_features && @course_user.student?
   div.row
     h2 = t('.learning_rate')
-    div#course-users-show data="#{{ course_user_id: @course_user.id }.to_json}"
+    div#student-statistics data="#{{ course_user_id: @course_user.id }.to_json}"
 
 - all_skill_branches = @skills_service.skill_branches
 - if can_read_progress && all_skill_branches.present?

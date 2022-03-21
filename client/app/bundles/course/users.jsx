@@ -3,22 +3,23 @@ import { render } from 'react-dom';
 import initializeAjaxForms from 'lib/helpers/initializeAjaxForms';
 import ProviderWrapper from 'lib/components/ProviderWrapper';
 
-import UserStatistics from './pages/UserStatistics';
+import StudentStatistics from './pages/StudentStatistics';
 import storeCreator from './store';
 
 initializeAjaxForms('tr.course-user #update');
 
 $(() => {
-  const statisticsMountNode = document.getElementById('course-users-show');
+  const studentStatisticsMountNode =
+    document.getElementById('student-statistics');
 
-  if (statisticsMountNode) {
+  if (studentStatisticsMountNode) {
     const store = storeCreator({});
 
     render(
       <ProviderWrapper store={store}>
-        <UserStatistics />
+        <StudentStatistics />
       </ProviderWrapper>,
-      statisticsMountNode,
+      studentStatisticsMountNode,
     );
   }
 });

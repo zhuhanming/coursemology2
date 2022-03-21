@@ -15,7 +15,7 @@ import 'chartjs-adapter-moment';
 
 import LoadingIndicator from 'lib/components/LoadingIndicator';
 
-import { fetchUserStatistics } from '../../actions/user-statistics';
+import { fetchStudentStatistics } from '../../actions/student-statistics';
 import { learningRateRecordShape } from './propTypes';
 
 ChartJS.register(
@@ -57,9 +57,9 @@ const OPTIONS = {
 const GREEN_BACKGROUND = 'rgba(75, 192, 192, 0.2)';
 const GREEN_BORDER = 'rgba(75, 192, 192, 1)';
 
-const UserStatistics = ({ dispatch, learningRateRecords, isLoading }) => {
+const StudentStatistics = ({ dispatch, learningRateRecords, isLoading }) => {
   useEffect(() => {
-    dispatch(fetchUserStatistics('Failed to fetch statistics.'));
+    dispatch(fetchStudentStatistics('Failed to fetch statistics.'));
   }, [dispatch]);
 
   if (isLoading) {
@@ -84,10 +84,10 @@ const UserStatistics = ({ dispatch, learningRateRecords, isLoading }) => {
   return <Line options={OPTIONS} data={data} />;
 };
 
-UserStatistics.propTypes = {
+StudentStatistics.propTypes = {
   dispatch: PropTypes.func.isRequired,
   learningRateRecords: PropTypes.arrayOf(learningRateRecordShape).isRequired,
   isLoading: PropTypes.bool.isRequired,
 };
 
-export default connect((state) => state.userStatistics)(UserStatistics);
+export default connect((state) => state.studentStatistics)(StudentStatistics);
