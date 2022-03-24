@@ -8,8 +8,17 @@ import { connect } from 'react-redux';
 import { injectIntl, intlShape } from 'react-intl';
 import StudentsStatistics from './students';
 import StaffStatistics from './staff';
-import { fetchStudentsStatistics, fetchStaffStatistics } from '../../actions';
-import { staffStatisticsShape, studentsStatisticsShape } from '../../propTypes';
+import {
+  fetchStudentsStatistics,
+  fetchStaffStatistics,
+  fetchCourseStatistics,
+} from '../../actions';
+import {
+  courseStatisticsShape,
+  staffStatisticsShape,
+  studentsStatisticsShape,
+} from '../../propTypes';
+import CourseStatistics from './course';
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -42,7 +51,12 @@ const a11yProps = (index) => ({
   'aria-controls': `statistics-tabpanel-${index}`,
 });
 
-const StatisticsIndex = ({ dispatch, studentsStatistics, staffStatistics }) => {
+const StatisticsIndex = ({
+  dispatch,
+  courseStatistics,
+  studentsStatistics,
+  staffStatistics,
+}) => {
   const [value, setValue] = useState(0);
 
   useEffect(() => {
@@ -51,6 +65,10 @@ const StatisticsIndex = ({ dispatch, studentsStatistics, staffStatistics }) => {
 
   useEffect(() => {
     dispatch(fetchStaffStatistics());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchCourseStatistics());
   }, [dispatch]);
 
   const handleChange = (_event, newValue) => {
@@ -71,7 +89,7 @@ const StatisticsIndex = ({ dispatch, studentsStatistics, staffStatistics }) => {
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        Item One
+        <CourseStatistics {...courseStatistics} />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <StudentsStatistics {...studentsStatistics} />
@@ -85,12 +103,14 @@ const StatisticsIndex = ({ dispatch, studentsStatistics, staffStatistics }) => {
 
 StatisticsIndex.propTypes = {
   dispatch: PropTypes.func.isRequired,
+  courseStatistics: courseStatisticsShape.isRequired,
   studentsStatistics: studentsStatisticsShape.isRequired,
   staffStatistics: staffStatisticsShape.isRequired,
   intl: intlShape,
 };
 
 export default connect((state) => ({
+  courseStatistics: state.courseStatistics,
   studentsStatistics: state.studentsStatistics,
   staffStatistics: state.staffStatistics,
 }))(injectIntl(StatisticsIndex));

@@ -1,5 +1,17 @@
 import PropTypes from 'prop-types';
 
+export const courseStatisticsAssessmentShape = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
+  startAt: PropTypes.object.isRequired,
+  endAt: PropTypes.object,
+  submissions: PropTypes.arrayOf(PropTypes.object).isRequired,
+});
+
+export const courseStatisticsShape = PropTypes.shape({
+  assessments: PropTypes.arrayOf(courseStatisticsAssessmentShape),
+});
+
 export const studentsStatisticsStudentShape = PropTypes.shape({
   name: PropTypes.string.isRequired,
   nameLink: PropTypes.string.isRequired,

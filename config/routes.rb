@@ -390,9 +390,9 @@ Rails.application.routes.draw do
         get '/' => 'statistics#index'
         get 'course/students' => 'aggregate#all_students'
         get 'course/staff' => 'aggregate#all_staff'
+        get 'course/course' => 'aggregate#course'
         get 'assessment/:id' => 'assessments#assessment'
         get 'assessment/:id/ancestors' => 'assessments#ancestors'
-        # get 'learning_rate' => 'courses#learning_rate'
         get 'student/:user_id/learning_rate_records' => 'students#learning_rate_records'
       end
 

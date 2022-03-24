@@ -11,3 +11,11 @@ export const processStaff = (staff) => ({
   numGraded: parseInt(staff.numGraded ?? 0, 10),
   numStudents: parseInt(staff.numStudents ?? 0, 10),
 });
+
+export const processAssessment = (assessment) => ({
+  ...assessment,
+  id: parseInt(assessment.id, 10),
+  startAt: new Date(assessment.startAt),
+  endAt: assessment.endAt ? new Date(assessment.endAt) : assessment.endAt,
+  submissions: assessment.submissions.map((s) => new Date(s)),
+});

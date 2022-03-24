@@ -1,6 +1,10 @@
 import CourseAPI from 'api/course';
 import actionTypes from './constants';
-import { processStaff, processStudent } from './utils/parseUtils';
+import {
+  processAssessment,
+  processStaff,
+  processStudent,
+} from './utils/parseUtils';
 
 export function fetchStudentsStatistics() {
   return (dispatch) => {
@@ -41,6 +45,26 @@ export function fetchStaffStatistics() {
       .catch(() => {
         dispatch({
           type: actionTypes.FETCH_STAFF_STATISTICS_FAILURE,
+        });
+      });
+  };
+}
+
+export function fetchCourseStatistics() {
+  return (dispatch) => {
+    dispatch({ type: actionTypes.FETCH_COURSE_STATISTICS_REQUEST });
+
+    return CourseAPI.statistics.course
+      .fetchCourseStatistics()
+      .then((response) => {
+        dispatch({
+          type: actionTypes.FETCH_COURSE_STATISTICS_SUCCESS,
+          assessments: response.data.assessments.map(processAssessment),
+        });
+      })
+      .catch(() => {
+        dispatch({
+          type: actionTypes.FETCH_COURSE_STATISTICS_FAILURE,
         });
       });
   };

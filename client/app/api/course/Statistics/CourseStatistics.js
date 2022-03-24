@@ -30,6 +30,14 @@ export default class CourseStatisticsAPI extends BaseCourseAPI {
     return this.getClient().get(`${this._getUrlPrefix()}/staff`);
   }
 
+  /**
+   * Fetches all course statistics.
+   * TODO: include information on statistics returned
+   */
+  fetchCourseStatistics() {
+    return this.getClient().get(`${this._getUrlPrefix()}/course`);
+  }
+
   _getUrlPrefix() {
     return `/courses/${this.getCourseId()}/statistics/course`;
   }
