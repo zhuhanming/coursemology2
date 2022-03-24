@@ -4,6 +4,7 @@ import {
   processAssessment,
   processStaff,
   processStudent,
+  processSubmissions,
 } from './utils/parseUtils';
 
 export function fetchStudentsStatistics() {
@@ -60,6 +61,7 @@ export function fetchCourseStatistics() {
         dispatch({
           type: actionTypes.FETCH_COURSE_STATISTICS_SUCCESS,
           assessments: response.data.assessments.map(processAssessment),
+          submissions: response.data.submissions.map(processSubmissions),
         });
       })
       .catch(() => {

@@ -5,11 +5,22 @@ export const courseStatisticsAssessmentShape = PropTypes.shape({
   title: PropTypes.string.isRequired,
   startAt: PropTypes.object.isRequired,
   endAt: PropTypes.object,
-  submissions: PropTypes.arrayOf(PropTypes.object).isRequired,
+});
+
+export const courseStatisticsSubmissionShape = PropTypes.shape({
+  id: PropTypes.number.isRequired, // user id
+  name: PropTypes.string.isRequired, // user name
+  submissions: PropTypes.arrayOf(
+    PropTypes.shape({
+      assessmentId: PropTypes.number.isRequired,
+      submittedAt: PropTypes.object.isRequired,
+    }),
+  ),
 });
 
 export const courseStatisticsShape = PropTypes.shape({
   assessments: PropTypes.arrayOf(courseStatisticsAssessmentShape),
+  submissions: PropTypes.arrayOf(courseStatisticsSubmissionShape),
 });
 
 export const studentsStatisticsStudentShape = PropTypes.shape({

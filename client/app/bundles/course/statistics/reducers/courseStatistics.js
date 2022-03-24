@@ -4,6 +4,7 @@ const initialState = {
   isFetching: false,
   isError: false,
   assessments: [],
+  submissions: [],
 };
 
 export default function (state = initialState, action) {
@@ -18,6 +19,7 @@ export default function (state = initialState, action) {
         ...state,
         isFetching: false,
         assessments: action.assessments,
+        submissions: action.submissions,
       };
     }
     case actionTypes.FETCH_COURSE_STATISTICS_FAILURE: {

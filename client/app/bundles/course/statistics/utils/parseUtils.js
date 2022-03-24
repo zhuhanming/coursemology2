@@ -17,5 +17,13 @@ export const processAssessment = (assessment) => ({
   id: parseInt(assessment.id, 10),
   startAt: new Date(assessment.startAt),
   endAt: assessment.endAt ? new Date(assessment.endAt) : assessment.endAt,
-  submissions: assessment.submissions.map((s) => new Date(s)),
+});
+
+export const processSubmissions = (submission) => ({
+  ...submission,
+  id: parseInt(submission.id, 10),
+  submissions: submission.submissions.map((s) => ({
+    assessmentId: parseInt(s.assessmentId, 10),
+    submittedAt: new Date(s.submittedAt),
+  })),
 });
