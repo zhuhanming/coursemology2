@@ -2,15 +2,20 @@ import { createTheme, ThemeProvider } from '@mui/material';
 import MUIDataTable from 'mui-datatables';
 import { adaptedTheme } from 'lib/components/ProviderWrapper';
 
+const options = {
+  filter: true,
+  filterType: 'dropdown',
+  responsive: 'standard',
+};
+
 const theme = createTheme({
   ...adaptedTheme,
   components: {
     ...adaptedTheme.components,
-    MUIDataTableFilter: {
+    MUIDataTableHeadCell: {
       styleOverrides: {
-        root: {
-          position: 'relative',
-          zIndex: 110,
+        fixedHeader: {
+          zIndex: 0,
         },
       },
     },
@@ -34,7 +39,10 @@ const theme = createTheme({
  */
 const DataTable = (props) => (
   <ThemeProvider theme={theme}>
-    <MUIDataTable {...props} />
+    <MUIDataTable
+      {...props}
+      options={{ ...options, ...(props.options ?? {}) }}
+    />
   </ThemeProvider>
 );
 

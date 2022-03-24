@@ -7,10 +7,6 @@ import ErrorCard from 'lib/components/ErrorCard';
 import DataTable from 'lib/components/DataTable';
 import { studentsStatisticsShape } from '../../../propTypes';
 
-const options = {
-  filterType: 'multiselect',
-};
-
 function LinearProgressWithLabel(props) {
   return (
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -77,6 +73,9 @@ const StudentsStatistics = ({
       options: {
         filter: true,
         sort: true,
+        setCellProps: () => ({
+          align: 'right',
+        }),
       },
     });
     columns.push({
@@ -85,6 +84,9 @@ const StudentsStatistics = ({
       options: {
         filter: false,
         sort: true,
+        setCellProps: () => ({
+          align: 'right',
+        }),
       },
     });
   }
@@ -92,6 +94,13 @@ const StudentsStatistics = ({
     columns.push({
       name: 'videoSubmissionCount',
       label: `Videos Watched (Total: ${courseVideoCount})`,
+      options: {
+        filter: false,
+        sort: true,
+        setCellProps: () => ({
+          align: 'right',
+        }),
+      },
     });
     columns.push({
       name: 'videoPercentWatched',
@@ -109,12 +118,7 @@ const StudentsStatistics = ({
   }
 
   return (
-    <DataTable
-      title="Student Statistics"
-      data={students}
-      columns={columns}
-      options={options}
-    />
+    <DataTable title="Student Statistics" data={students} columns={columns} />
   );
 };
 
