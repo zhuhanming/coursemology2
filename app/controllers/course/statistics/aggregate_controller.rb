@@ -1,13 +1,10 @@
 # frozen_string_literal: true
-# Handles course-level statistics
-class Course::Statistics::CoursesController < Course::Statistics::Controller
-  before_action :preload_levels, only: [:all_students]
-
-  def learning_rate
-    @assessments = Course::Assessment.where(course_id: current_course.id).ordered_by_date_and_title.to_a
-    @submissions = Course::Assessment::Submission.by_users(current_course.course_users.students).
-                   accessible_by(current_ability)
-  end
+class Course::Statistics::AggregateController < Course::Statistics::Controller
+  # def learning_rate
+  #   @assessments = Course::Assessment.where(course_id: current_course.id).ordered_by_date_and_title.to_a
+  #   @submissions = Course::Assessment::Submission.by_users(current_course.course_users.students).
+  #                  accessible_by(current_ability)
+  # end
 
   def all_staff
     @staff = current_course.course_users.teaching_assistant_and_manager.includes(:group_users)
@@ -15,8 +12,8 @@ class Course::Statistics::CoursesController < Course::Statistics::Controller
   end
 
   def all_students
-    all_students = course_users.students.ordered_by_experience_points.with_video_statistics
-    @phantom_students, @students = all_students.partition(&:phantom?)
+    preload_levels
+    @students = course_users.students.ordered_by_experience_points.with_video_statistics
     @service = group_manager_preload_service
   end
 

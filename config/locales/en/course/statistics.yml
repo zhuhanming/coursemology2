@@ -2,6 +2,9 @@ en:
   course:
     statistics:
       header: 'Statistics'
+      statistics:
+        index:
+          header: 'Statistics'
       students:
         header: 'Student Statistics'
         my_students:

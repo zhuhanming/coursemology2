@@ -388,9 +388,9 @@ Rails.application.routes.draw do
 
       namespace :statistics do
         get '/' => 'statistics#index'
-        # get 'staff' => 'staff#index'
         # get 'my_students' => 'students#my_students'
-        # get 'all_students' => 'students#all_students'
+        get 'course/students' => 'aggregate#all_students'
+        get 'course/staff' => 'aggregate#all_staff'
         get 'assessment/:id' => 'assessments#assessment'
         get 'assessment/:id/ancestors' => 'assessments#ancestors'
         # get 'download' => 'students#download'

@@ -84,7 +84,9 @@ const themeSettings = {
   },
 };
 
-const themeV5 = createTheme(adaptV4Theme(themeSettings));
+export const adaptedTheme = adaptV4Theme(themeSettings);
+
+const themeV5 = createTheme(adaptedTheme);
 
 const ProviderWrapper = ({ store, persistor, children }) => {
   const availableForeignLocales = { zh };

@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-module Course::StatisticsHelper
+module Course::Statistics::AggregateHelper
   # Convert time in seconds to HH:MM:SS format.
   def seconds_to_str(total_seconds)
     return '--:--:--' unless total_seconds
