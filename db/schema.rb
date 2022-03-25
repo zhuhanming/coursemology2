@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_15_192851) do
+ActiveRecord::Schema.define(version: 2022_03_24_222845) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -697,7 +697,9 @@ ActiveRecord::Schema.define(version: 2022_03_15_192851) do
     t.float "learning_rate"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "most_recent", default: false, null: false
     t.index ["course_user_id"], name: "fk__course_learning_rate_records_course_user_id"
+    t.index ["most_recent"], name: "index_course_learning_rate_records_on_most_recent", where: "most_recent"
   end
 
   create_table "course_lesson_plan_event_materials", id: :serial, force: :cascade do |t|
