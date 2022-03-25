@@ -4,6 +4,7 @@ import {
   processAssessment,
   processStaff,
   processStudent,
+  processStudentCourseStatistics,
   processSubmissions,
 } from './utils/parseUtils';
 
@@ -62,6 +63,8 @@ export function fetchCourseStatistics() {
           type: actionTypes.FETCH_COURSE_STATISTICS_SUCCESS,
           assessments: response.data.assessments.map(processAssessment),
           submissions: response.data.submissions.map(processSubmissions),
+          students: processStudentCourseStatistics(response.data.students),
+          hasPersonalizedTimeline: response.data.hasPersonalizedTimeline,
         });
       })
       .catch(() => {

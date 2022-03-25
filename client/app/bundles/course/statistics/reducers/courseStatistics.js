@@ -5,6 +5,17 @@ const initialState = {
   isError: false,
   assessments: [],
   submissions: [],
+  students: {
+    learningRate: {
+      best: [],
+      worst: [],
+    },
+    numSubmissions: {
+      best: [],
+      worst: [],
+    },
+  },
+  hasPersonalizedTimeline: false,
 };
 
 export default function (state = initialState, action) {
@@ -20,6 +31,8 @@ export default function (state = initialState, action) {
         isFetching: false,
         assessments: action.assessments,
         submissions: action.submissions,
+        students: action.students,
+        hasPersonalizedTimeline: action.hasPersonalizedTimeline,
       };
     }
     case actionTypes.FETCH_COURSE_STATISTICS_FAILURE: {

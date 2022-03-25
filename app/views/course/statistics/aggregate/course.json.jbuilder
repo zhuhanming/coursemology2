@@ -17,11 +17,29 @@ end
 
 json.students do
   json.learningRate do
-    json.worst @students_by_learning_rate[0]
-    json.best @students_by_learning_rate[1]
+    json.worst @students_by_learning_rate[0] do |student|
+      json.id student[0]
+      json.name student[1]
+      json.learningRate student[2]
+    end
+    json.best @students_by_learning_rate[1] do |student|
+      json.id student[0]
+      json.name student[1]
+      json.learningRate student[2]
+    end
   end
   json.numSubmissions do
-    json.worst @students_by_num_submissions[0]
-    json.best @students_by_num_submissions[1]
+    json.worst @students_by_num_submissions[0] do |student|
+      json.id student[0]
+      json.name student[1]
+      json.numSubmissions student[2]
+    end
+    json.best @students_by_num_submissions[1] do |student|
+      json.id student[0]
+      json.name student[1]
+      json.numSubmissions student[2]
+    end
   end
 end
+
+json.hasPersonalizedTimeline @has_personalized_timeline

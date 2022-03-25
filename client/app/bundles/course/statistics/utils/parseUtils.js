@@ -27,3 +27,26 @@ export const processSubmissions = (submission) => ({
     submittedAt: new Date(s.submittedAt),
   })),
 });
+
+export const processStudentCourseStatistics = (stats) => {
+  const processLearningRate = (student) => ({
+    ...student,
+    id: parseInt(student.id, 10),
+    learningRate: parseFloat(student.learningRate),
+  });
+  const processNumSubmissions = (student) => ({
+    ...student,
+    id: parseInt(student.id, 10),
+    numSubmissions: parseInt(student.numSubmissions, 10),
+  });
+  return {
+    learningRate: {
+      worst: stats.learningRate.worst.map(processLearningRate),
+      best: stats.learningRate.best.map(processLearningRate),
+    },
+    numSubmissions: {
+      worst: stats.numSubmissions.worst.map(processNumSubmissions),
+      best: stats.numSubmissions.best.map(processNumSubmissions),
+    },
+  };
+};

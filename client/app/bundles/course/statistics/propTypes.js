@@ -18,9 +18,48 @@ export const courseStatisticsSubmissionShape = PropTypes.shape({
   ),
 });
 
+export const courseStatisticsStudentLearningRateShape = PropTypes.shape({
+  best: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      learningRate: PropTypes.number.isRequired,
+    }),
+  ),
+  worst: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      learningRate: PropTypes.number.isRequired,
+    }),
+  ),
+});
+
+export const courseStatisticsStudentNumSubmissionsShape = PropTypes.shape({
+  best: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      numSubmissions: PropTypes.number.isRequired,
+    }),
+  ),
+  worst: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      numSubmissions: PropTypes.number.isRequired,
+    }),
+  ),
+});
+
 export const courseStatisticsShape = PropTypes.shape({
   assessments: PropTypes.arrayOf(courseStatisticsAssessmentShape),
   submissions: PropTypes.arrayOf(courseStatisticsSubmissionShape),
+  students: PropTypes.shape({
+    learningRate: courseStatisticsStudentLearningRateShape,
+    numSubmissions: courseStatisticsStudentNumSubmissionsShape,
+  }),
+  hasPersonalizedTimeline: PropTypes.bool.isRequired,
 });
 
 export const studentsStatisticsStudentShape = PropTypes.shape({

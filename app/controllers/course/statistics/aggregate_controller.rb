@@ -8,6 +8,7 @@ class Course::Statistics::AggregateController < Course::Statistics::Controller
     num_to_query = [1, num_students / 20].max
     @students_by_learning_rate = students_by_learning_rate(num_to_query)
     @students_by_num_submissions = students_by_number_of_submissions(num_to_query)
+    @has_personalized_timeline = current_course.show_personalized_timeline_features?
   end
 
   def all_staff
