@@ -2,7 +2,12 @@ import { SubmissionError } from 'lib/redux-form';
 import CourseAPI from 'api/course';
 import { getCourseId } from 'lib/helpers/url-helpers';
 import actionTypes from './constants';
-import { processSubmission, processAssessment } from './utils/statisticsUtils';
+import {
+  processSubmission,
+  processAssessment,
+  processAncestor,
+  processCourseUser,
+} from './utils/statisticsUtils';
 
 export function createAssessment(
   categoryId,
@@ -89,7 +94,7 @@ export function fetchStatistics(assessmentId, failureMessage) {
           type: actionTypes.FETCH_STATISTICS_SUCCESS,
           assessment: processAssessment(response.data.assessment),
           submissions: response.data.submissions.map(processSubmission),
-          allStudents: response.data.allStudents,
+          allStudents: response.data.allStudents.map(processCourseUser),
         });
       })
       .catch(() => {
@@ -109,7 +114,7 @@ export function fetchAncestors(assessmentId, failureMessage) {
       .then((response) => {
         dispatch({
           type: actionTypes.FETCH_ANCESTORS_SUCCESS,
-          ancestors: response.data.assessments,
+          ancestors: response.data.assessments.map(processAncestor),
         });
       })
       .catch(() => {
@@ -131,7 +136,7 @@ export function fetchAncestorStatistics(ancestorId, failureMessage) {
           type: actionTypes.FETCH_ANCESTOR_STATISTICS_SUCCESS,
           assessment: processAssessment(response.data.assessment),
           submissions: response.data.submissions.map(processSubmission),
-          allStudents: response.data.allStudents,
+          allStudents: response.data.allStudents.map(processCourseUser),
         });
       })
       .catch(() => {

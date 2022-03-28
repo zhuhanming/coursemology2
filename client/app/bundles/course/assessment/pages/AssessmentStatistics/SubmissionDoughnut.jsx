@@ -1,20 +1,34 @@
 import PropTypes from 'prop-types';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { Doughnut } from 'react-chartjs-2';
-import { useMemo } from 'react';
+import {
+  GREEN_CHART_BACKGROUND,
+  GREEN_CHART_BORDER,
+  ORANGE_CHART_BACKGROUND,
+  ORANGE_CHART_BORDER,
+  RED_CHART_BACKGROUND,
+  RED_CHART_BORDER,
+} from 'theme/colors';
+import DoughnutChart from 'lib/components/charts/DoughnutChart';
+import { defineMessages, injectIntl, intlShape } from 'react-intl';
 import { courseUserShape, submissionRecordsShape } from '../../propTypes';
 
-ChartJS.register(ArcElement, Tooltip, Legend);
-
-const GREEN_BACKGROUND = 'rgba(75, 192, 192, 0.2)';
-const GREEN_BORDER = 'rgba(75, 192, 192, 1)';
-const ORANGE_BACKGROUND = 'rgba(255, 159, 64, 0.2)';
-const ORANGE_BORDER = 'rgba(255, 159, 64, 1)';
-const RED_BACKGROUND = 'rgba(255, 99, 132, 0.2)';
-const RED_BORDER = 'rgba(255, 99, 132, 1)';
-
-const LABELS = ['Submitted', 'Attempting', 'Unattempted'];
-const DATASET_LABEL = 'Student Submission Statuses';
+const translations = defineMessages({
+  datasetLabel: {
+    id: 'course.assessment.statistics.submissionDoughnut.datasetLabel',
+    defaultMessage: 'Student Submission Statuses',
+  },
+  submitted: {
+    id: 'course.assessment.statistics.submissionDoughnut.submitted',
+    defaultMessage: 'Submitted',
+  },
+  attempting: {
+    id: 'course.assessment.statistics.submissionDoughnut.attempting',
+    defaultMessage: 'Attempting',
+  },
+  unattempted: {
+    id: 'course.assessment.statistics.submissionDoughnut.unattempted',
+    defaultMessage: 'Unattempted',
+  },
+});
 
 const styles = {
   root: {
@@ -22,37 +36,41 @@ const styles = {
     flexDirection: 'column',
     alignItems: 'center',
   },
-  label: { marginTop: '2rem', fontWeight: 'medium', color: 'gray' },
 };
 
-const SubmissionDoughnut = ({ submissions, allStudents }) => {
+const SubmissionDoughnut = ({ submissions, allStudents, intl }) => {
   const numSubmitted = submissions.filter((s) => s.submittedAt != null).length;
   const numAttempting = submissions.length - numSubmitted;
   const numUnattempted = allStudents.length - submissions.length;
 
-  const data = useMemo(
-    () => ({
-      labels: LABELS,
-      datasets: [
-        {
-          label: DATASET_LABEL,
-          data: [numSubmitted, numAttempting, numUnattempted],
-          backgroundColor: [
-            GREEN_BACKGROUND,
-            ORANGE_BACKGROUND,
-            RED_BACKGROUND,
-          ],
-          borderColor: [GREEN_BORDER, ORANGE_BORDER, RED_BORDER],
-          borderWidth: 1,
-        },
-      ],
-    }),
-    [submissions, allStudents],
-  );
+  const data = {
+    labels: [
+      intl.formatMessage(translations.submitted),
+      intl.formatMessage(translations.attempting),
+      intl.formatMessage(translations.unattempted),
+    ],
+    datasets: [
+      {
+        label: intl.formatMessage(translations.datasetLabel),
+        data: [numSubmitted, numAttempting, numUnattempted],
+        backgroundColor: [
+          GREEN_CHART_BACKGROUND,
+          ORANGE_CHART_BACKGROUND,
+          RED_CHART_BACKGROUND,
+        ],
+        borderColor: [
+          GREEN_CHART_BORDER,
+          ORANGE_CHART_BORDER,
+          RED_CHART_BORDER,
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+
   return (
     <div style={styles.root}>
-      <Doughnut data={data} />
-      <div style={styles.label}>Student Submission Statuses</div>
+      <DoughnutChart data={data} />
     </div>
   );
 };
@@ -60,6 +78,7 @@ const SubmissionDoughnut = ({ submissions, allStudents }) => {
 SubmissionDoughnut.propTypes = {
   submissions: PropTypes.arrayOf(submissionRecordsShape).isRequired,
   allStudents: PropTypes.arrayOf(courseUserShape).isRequired,
+  intl: intlShape.isRequired,
 };
 
-export default SubmissionDoughnut;
+export default injectIntl(SubmissionDoughnut);

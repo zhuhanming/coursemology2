@@ -43,6 +43,12 @@ const translations = defineMessages({
   },
 });
 
+const styles = {
+  ancestorStatistics: {
+    marginBottom: '2rem',
+  },
+};
+
 const AssessmentStatisticsPage = ({
   assessmentId,
   intl,
@@ -53,7 +59,6 @@ const AssessmentStatisticsPage = ({
   isFetchingAncestorStatistics,
   isErrorAncestorStatistics,
   dispatch,
-  assessment,
   submissions,
   allStudents,
   ancestors,
@@ -99,7 +104,7 @@ const AssessmentStatisticsPage = ({
   }
 
   const fetchAncestorSubmissions = (id) => {
-    if (id === assessmentId) {
+    if (id === assessmentId || id === selectedAncestorId) {
       return;
     }
     dispatch(
@@ -124,6 +129,7 @@ const AssessmentStatisticsPage = ({
     }
     return (
       <AncestorSelect
+        assessmentId={assessmentId}
         ancestors={ancestors}
         selectedAncestorId={selectedAncestorId}
         setSelectedAncestorId={fetchAncestorSubmissions}
@@ -132,8 +138,8 @@ const AssessmentStatisticsPage = ({
   };
 
   const renderAncestorStatistics = () => {
-    if (ancestorAssessment == null) {
-      return null;
+    if (selectedAncestorId == null) {
+      return <>&nbsp;</>;
     }
     if (isFetchingAncestorStatistics) {
       return <LoadingIndicator />;
@@ -160,13 +166,9 @@ const AssessmentStatisticsPage = ({
 
   return (
     <>
-      <StatisticsPanel
-        assessment={assessment}
-        submissions={submissions}
-        allStudents={allStudents}
-      />
+      <StatisticsPanel submissions={submissions} allStudents={allStudents} />
       {renderAncestorSelect()}
-      {renderAncestorStatistics()}
+      <div style={styles.ancestorStatistics}>{renderAncestorStatistics()}</div>
       <NotificationBar notification={notification} />
     </>
   );
@@ -185,7 +187,7 @@ AssessmentStatisticsPage.propTypes = {
   isFetchingAncestorStatistics: PropTypes.bool.isRequired,
   isErrorAncestorStatistics: PropTypes.bool.isRequired,
 
-  assessment: assessmentShape,
+  // assessment: assessmentShape,
   submissions: PropTypes.arrayOf(submissionRecordsShape).isRequired,
   allStudents: PropTypes.arrayOf(courseUserShape).isRequired,
   ancestors: PropTypes.arrayOf(ancestorShape).isRequired,

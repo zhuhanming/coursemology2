@@ -1,3 +1,8 @@
+export const processCourseUser = (courseUser) => ({
+  ...courseUser,
+  id: parseInt(courseUser.id, 10),
+});
+
 export const processSubmission = (submission) => {
   const grade =
     submission.grade != null && typeof submission.grade === 'string'
@@ -20,14 +25,21 @@ export const processSubmission = (submission) => {
     submittedAt,
     endAt,
     dayDifference,
+    courseUser: processCourseUser(submission.courseUser),
   };
 };
 
 export const processAssessment = (assessment) => ({
   ...assessment,
+  id: parseInt(assessment.id, 10),
   startAt: new Date(assessment.startAt),
   endAt: assessment.endAt == null ? null : new Date(assessment.endAt),
   maximumGrade: parseFloat(assessment.maximumGrade),
+});
+
+export const processAncestor = (ancestor) => ({
+  ...ancestor,
+  id: parseInt(ancestor.id, 10),
 });
 
 function roundToTwoDecimalPoints(num) {

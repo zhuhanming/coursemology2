@@ -1,15 +1,43 @@
-import { Card, CardContent } from '@mui/material';
+import { Card, CardContent, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
-import {
-  assessmentShape,
-  courseUserShape,
-  submissionRecordsShape,
-} from '../../propTypes';
-import MeanMedianStdev from './MeanMedianStdev';
+import { defineMessages, injectIntl, intlShape } from 'react-intl';
+import { courseUserShape, submissionRecordsShape } from '../../propTypes';
+import GradeViolinChart from './GradeViolinChart';
 import SubmissionDoughnut from './SubmissionDoughnut';
-import SubmissionTimeAndScoreChart from './SubmissionTimeAndScoreChart';
+import SubmissionTimeAndGradeChart from './SubmissionTimeAndGradeChart';
 
-const StatisticsPanel = ({ assessment, submissions, allStudents }) => (
+const translations = defineMessages({
+  submissionStatuses: {
+    id: 'course.assessment.statistics.submissionStatuses',
+    defaultMessage: 'Submission Statuses',
+  },
+  gradeDistribution: {
+    id: 'course.assessment.statistics.gradeDistribution',
+    defaultMessage: 'Grade Distribution',
+  },
+  submissionTimeAndGrade: {
+    id: 'course.assessment.statistics.submissionTimeAndGrade',
+    defaultMessage: 'Submission Time and Grade',
+  },
+});
+
+const CardTitle = ({ children }) => (
+  <Typography
+    gutterBottom
+    variant="h6"
+    component="div"
+    fontWeight="bold"
+    marginBottom="1rem"
+  >
+    {children}
+  </Typography>
+);
+
+CardTitle.propTypes = {
+  children: PropTypes.element.isRequired,
+};
+
+const StatisticsPanel = ({ submissions, allStudents, intl }) => (
   <div className="assessment-statistics-panel">
     <div className="assessment-statistics-panel__top">
       <Card
@@ -17,6 +45,9 @@ const StatisticsPanel = ({ assessment, submissions, allStudents }) => (
         variant="outlined"
       >
         <CardContent>
+          <CardTitle>
+            {intl.formatMessage(translations.submissionStatuses)}
+          </CardTitle>
           <SubmissionDoughnut
             submissions={submissions}
             allStudents={allStudents}
@@ -28,13 +59,19 @@ const StatisticsPanel = ({ assessment, submissions, allStudents }) => (
         variant="outlined"
       >
         <CardContent>
-          <MeanMedianStdev assessment={assessment} submissions={submissions} />
+          <CardTitle>
+            {intl.formatMessage(translations.gradeDistribution)}
+          </CardTitle>
+          <GradeViolinChart submissions={submissions} />
         </CardContent>
       </Card>
     </div>
     <Card className="assessment-statistics-panel__bottom" variant="outlined">
       <CardContent>
-        <SubmissionTimeAndScoreChart submissions={submissions} />
+        <CardTitle>
+          {intl.formatMessage(translations.submissionTimeAndGrade)}
+        </CardTitle>
+        <SubmissionTimeAndGradeChart submissions={submissions} />
       </CardContent>
     </Card>
     {/* TODO: Add section on hardest questions */}
@@ -42,9 +79,9 @@ const StatisticsPanel = ({ assessment, submissions, allStudents }) => (
 );
 
 StatisticsPanel.propTypes = {
-  assessment: assessmentShape,
   submissions: PropTypes.arrayOf(submissionRecordsShape).isRequired,
   allStudents: PropTypes.arrayOf(courseUserShape).isRequired,
+  intl: intlShape.isRequired,
 };
 
-export default StatisticsPanel;
+export default injectIntl(StatisticsPanel);
