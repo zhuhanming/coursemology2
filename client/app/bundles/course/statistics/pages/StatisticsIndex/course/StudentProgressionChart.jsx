@@ -12,7 +12,6 @@ import {
 import {
   GREEN_CHART_BACKGROUND,
   GREEN_CHART_BORDER,
-  ORANGE_CHART_BACKGROUND,
   ORANGE_CHART_BORDER,
   RED_CHART_BORDER,
 } from 'theme/colors';
@@ -21,7 +20,12 @@ import {
   courseStatisticsAssessmentShape,
   courseStatisticsSubmissionShape,
 } from '../../../propTypes';
-import { computeStudentData, labelRenderer, titleRenderer } from './utils';
+import {
+  computeStudentData,
+  footerRenderer,
+  labelRenderer,
+  titleRenderer,
+} from './utils';
 
 const translations = defineMessages({
   title: {
@@ -78,21 +82,8 @@ const options = {
 };
 
 const StudentProgressionChart = ({ assessments, submissions, intl }) => {
-  const [hoveredStudentIndex, setHoveredStudentIndex] = useState(null);
-  const [clickedStudentIndex, setClickedStudentIndex] = useState(null);
+  const [selectedStudentIndex, setSelectedStudentIndex] = useState(null);
   const [showOpeningTimes, setShowOpeningTimes] = useState(false);
-
-  const onHover = useCallback(
-    (_, elements) => {
-      const relevantPoints = elements.filter((e) => e.datasetIndex === 0);
-      if (relevantPoints.length !== 1) {
-        setHoveredStudentIndex(null);
-        return;
-      }
-      setHoveredStudentIndex(relevantPoints[0].index);
-    },
-    [setHoveredStudentIndex],
-  );
 
   const onClick = useCallback(
     (_, elements) => {
@@ -100,9 +91,9 @@ const StudentProgressionChart = ({ assessments, submissions, intl }) => {
       if (relevantPoints.length !== 1) {
         return;
       }
-      setClickedStudentIndex(relevantPoints[0].index);
+      setSelectedStudentIndex(relevantPoints[0].index);
     },
-    [setClickedStudentIndex],
+    [setSelectedStudentIndex],
   );
 
   const studentData = useMemo(
@@ -127,38 +118,18 @@ const StudentProgressionChart = ({ assessments, submissions, intl }) => {
           }),
           backgroundColor: RED_CHART_BORDER,
         },
-        ...(hoveredStudentIndex && hoveredStudentIndex !== clickedStudentIndex
+        ...(selectedStudentIndex
           ? [
               {
                 type: 'line',
                 label: intl.formatMessage(translations.studentSubmissions, {
-                  name: studentData[hoveredStudentIndex].name,
+                  name: studentData[selectedStudentIndex].name,
                 }),
-                data: studentData[hoveredStudentIndex].submissions.map(
+                data: studentData[selectedStudentIndex].submissions.map(
                   (s, index) => ({
                     x: s?.submittedAt,
                     y: index,
-                    name: studentData[hoveredStudentIndex].name,
-                  }),
-                ),
-                spanGaps: true,
-                backgroundColor: ORANGE_CHART_BACKGROUND,
-                borderColor: ORANGE_CHART_BACKGROUND,
-              },
-            ]
-          : []),
-        ...(clickedStudentIndex
-          ? [
-              {
-                type: 'line',
-                label: intl.formatMessage(translations.studentSubmissions, {
-                  name: studentData[clickedStudentIndex].name,
-                }),
-                data: studentData[clickedStudentIndex].submissions.map(
-                  (s, index) => ({
-                    x: s?.submittedAt,
-                    y: index,
-                    name: studentData[clickedStudentIndex].name,
+                    name: studentData[selectedStudentIndex].name,
                     title: assessments[index].title,
                   }),
                 ),
@@ -202,14 +173,7 @@ const StudentProgressionChart = ({ assessments, submissions, intl }) => {
           : []),
       ],
     }),
-    [
-      assessments,
-      studentData,
-      hoveredStudentIndex,
-      clickedStudentIndex,
-      showOpeningTimes,
-      intl,
-    ],
+    [assessments, studentData, selectedStudentIndex, showOpeningTimes, intl],
   );
 
   return (
@@ -251,10 +215,10 @@ const StudentProgressionChart = ({ assessments, submissions, intl }) => {
                 callbacks: {
                   title: titleRenderer,
                   label: labelRenderer,
+                  footer: footerRenderer,
                 },
               },
             },
-            onHover,
             onClick,
           }}
           data={data}

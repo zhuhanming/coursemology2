@@ -41,3 +41,10 @@ export const labelRenderer = (items) => {
   }
   return `Deadline: ${items.label}`;
 };
+
+export const footerRenderer = (items) => {
+  if (items.length === 1) {
+    return `Click to view ${items[0].raw.name}'s submissions`;
+  }
+  return undefined;
+};
