@@ -8,9 +8,13 @@ import {
   LineElement,
   Legend,
   Tooltip,
+  TimeScale,
+  Title,
+  Filler,
 } from 'chart.js';
 import { Chart } from 'react-chartjs-2';
 import zoomPlugin from 'chartjs-plugin-zoom';
+import 'chartjs-adapter-moment';
 import emptyChartPlugin from './emptyChartPlugin';
 
 ChartJS.register(
@@ -21,6 +25,9 @@ ChartJS.register(
   LineElement,
   Legend,
   Tooltip,
+  TimeScale,
+  Title,
+  Filler,
   zoomPlugin,
 );
 

@@ -1,56 +1,61 @@
-import {
-  Chart as ChartJS,
-  LinearScale,
-  PointElement,
-  LineElement,
-  TimeScale,
-  Tooltip,
-  Legend,
-  Title,
-  Filler,
-} from 'chart.js';
-import { Scatter } from 'react-chartjs-2';
-import 'chartjs-adapter-moment';
-import zoomPlugin from 'chartjs-plugin-zoom';
-
 import { useCallback, useMemo, useState } from 'react';
-import { FormControlLabel, FormGroup, Switch, Typography } from '@mui/material';
-import { courseStatisticsShape } from '../../../propTypes';
+import PropTypes from 'prop-types';
+import { defineMessages, injectIntl, intlShape } from 'react-intl';
+import {
+  Card,
+  CardContent,
+  FormControlLabel,
+  FormGroup,
+  Switch,
+  Typography,
+} from '@mui/material';
+import {
+  GREEN_CHART_BACKGROUND,
+  GREEN_CHART_BORDER,
+  ORANGE_CHART_BACKGROUND,
+  ORANGE_CHART_BORDER,
+  RED_CHART_BORDER,
+} from 'theme/colors';
+import GeneralChart from 'lib/components/charts/GeneralChart';
+import {
+  courseStatisticsAssessmentShape,
+  courseStatisticsSubmissionShape,
+} from '../../../propTypes';
+import { computeStudentData, labelRenderer, titleRenderer } from './utils';
 
-ChartJS.register(
-  LinearScale,
-  PointElement,
-  LineElement,
-  Tooltip,
-  Legend,
-  TimeScale,
-  Title,
-  Filler,
-  zoomPlugin,
-);
+const translations = defineMessages({
+  title: {
+    id: 'course.statistics.course.studentProgressionChart.title',
+    defaultMessage: 'Student Progression',
+  },
+  latestSubmission: {
+    id: 'course.statistics.course.studentProgressionChart.latestSubmission',
+    defaultMessage: 'Latest Submission',
+  },
+  studentSubmissions: {
+    id: 'course.statistics.course.studentProgressionChart.studentSubmissions',
+    defaultMessage: "{name}'s Submissions",
+  },
+  deadlines: {
+    id: 'course.statistics.course.studentProgressionChart.deadlines',
+    defaultMessage: 'Deadlines',
+  },
+  openingTimes: {
+    id: 'course.statistics.course.studentProgressionChart.openingTimes',
+    defaultMessage: 'Opening Times',
+  },
+  showOpeningTimes: {
+    id: 'course.statistics.course.studentProgressionChart.showOpeningTimes',
+    defaultMessage: 'Show opening times of assessments',
+  },
+  note: {
+    id: 'course.statistics.course.studentProgressionChart.note',
+    defaultMessage:
+      'Note: The chart above only shows assessments with deadlines.',
+  },
+});
 
 const options = {
-  plugins: {
-    title: {
-      display: true,
-      text: 'Student Progression Chart',
-    },
-    zoom: {
-      pan: {
-        enabled: true,
-        mode: 'x',
-      },
-      zoom: {
-        wheel: {
-          enabled: true,
-        },
-        pinch: {
-          enabled: true,
-        },
-        mode: 'x',
-      },
-    },
-  },
   scales: {
     x: {
       type: 'time',
@@ -72,49 +77,7 @@ const options = {
   },
 };
 
-function computeStudentData(assessments, submissions) {
-  assessments.sort((a, b) => a.endAt - b.endAt);
-  const assessmentIdToIndexMap = new Map(
-    assessments.map((a, id) => [a.id, id]),
-  );
-  const studentData = submissions.map((s) => {
-    const orderedSubmissions = s.submissions
-      .map((s2) => ({
-        ...s2,
-        key: assessmentIdToIndexMap.get(s2.assessmentId),
-      }))
-      .sort((a, b) => a.key - b.key);
-    const indexToSubmissionMap = new Map(
-      orderedSubmissions.map((s3) => [s3.key, s3]),
-    );
-    const total = orderedSubmissions.length;
-    const result = [];
-    let added = 0;
-    for (let i = 0; i < assessments.length; i += 1) {
-      if (added === total) {
-        break;
-      }
-      if (indexToSubmissionMap.has(i)) {
-        added += 1;
-        result.push(indexToSubmissionMap.get(i));
-      } else {
-        result.push(null);
-      }
-    }
-    return { ...s, submissions: result };
-  });
-  return studentData.filter((s) => s.submissions.length > 0);
-}
-
-const title = (items) => `${items[0].raw.title} (${items.length})`;
-const label = (items) => {
-  if (items.raw.name) {
-    return `${items.raw.name}: ${items.label}`;
-  }
-  return `Deadline: ${items.label}`;
-};
-
-const StudentProgressionChart = ({ assessments, submissions }) => {
+const StudentProgressionChart = ({ assessments, submissions, intl }) => {
   const [hoveredStudentIndex, setHoveredStudentIndex] = useState(null);
   const [clickedStudentIndex, setClickedStudentIndex] = useState(null);
   const [showOpeningTimes, setShowOpeningTimes] = useState(false);
@@ -152,33 +115,35 @@ const StudentProgressionChart = ({ assessments, submissions }) => {
       datasets: [
         {
           type: 'scatter',
-          label: 'Latest Submission',
+          label: intl.formatMessage(translations.latestSubmission),
           data: studentData.map((s) => {
             const latestPoint = s.submissions[s.submissions.length - 1];
             return {
               x: latestPoint.submittedAt,
-              y: s.submissions.length,
+              y: s.submissions.length - 1,
               name: s.name,
               title: assessments[latestPoint.key].title,
             };
           }),
-          backgroundColor: 'rgba(255, 99, 132, 1)',
+          backgroundColor: RED_CHART_BORDER,
         },
         ...(hoveredStudentIndex && hoveredStudentIndex !== clickedStudentIndex
           ? [
               {
                 type: 'line',
-                label: `${studentData[hoveredStudentIndex].name}'s Submissions`,
+                label: intl.formatMessage(translations.studentSubmissions, {
+                  name: studentData[hoveredStudentIndex].name,
+                }),
                 data: studentData[hoveredStudentIndex].submissions.map(
                   (s, index) => ({
                     x: s?.submittedAt,
-                    y: index + 1,
+                    y: index,
                     name: studentData[hoveredStudentIndex].name,
                   }),
                 ),
                 spanGaps: true,
-                backgroundColor: 'rgba(255, 159, 64, 0.5)',
-                borderColor: 'rgba(255, 159, 64, 0.5)',
+                backgroundColor: ORANGE_CHART_BACKGROUND,
+                borderColor: ORANGE_CHART_BACKGROUND,
               },
             ]
           : []),
@@ -186,49 +151,51 @@ const StudentProgressionChart = ({ assessments, submissions }) => {
           ? [
               {
                 type: 'line',
-                label: `${studentData[clickedStudentIndex].name}'s Submissions`,
+                label: intl.formatMessage(translations.studentSubmissions, {
+                  name: studentData[clickedStudentIndex].name,
+                }),
                 data: studentData[clickedStudentIndex].submissions.map(
                   (s, index) => ({
                     x: s?.submittedAt,
-                    y: index + 1,
+                    y: index,
                     name: studentData[clickedStudentIndex].name,
                     title: assessments[index].title,
                   }),
                 ),
                 spanGaps: true,
-                backgroundColor: 'rgba(255, 159, 64, 1)',
-                borderColor: 'rgba(255, 159, 64, 1)',
+                backgroundColor: ORANGE_CHART_BORDER,
+                borderColor: ORANGE_CHART_BORDER,
               },
             ]
           : []),
         {
           type: 'line',
-          label: 'Deadlines',
+          label: intl.formatMessage(translations.deadlines),
           data: assessments.map((a, index) => ({
             x: a.endAt,
-            y: index + 1,
+            y: index,
             title: a.title,
           })),
-          backgroundColor: 'rgb(75, 192, 192)',
-          borderColor: 'rgb(75, 192, 192)',
+          backgroundColor: GREEN_CHART_BORDER,
+          borderColor: GREEN_CHART_BORDER,
           fill: false,
         },
         ...(showOpeningTimes
           ? [
               {
                 type: 'line',
-                label: 'Opening Times',
+                label: intl.formatMessage(translations.openingTimes),
                 data: assessments.map((a, index) => ({
                   x: a.startAt,
-                  y: index + 1,
+                  y: index,
                   title: a.title,
                 })),
-                backgroundColor: 'rgb(75, 192, 192)',
-                borderColor: 'rgb(75, 192, 192)',
+                backgroundColor: GREEN_CHART_BORDER,
+                borderColor: GREEN_CHART_BORDER,
                 fill: {
                   target: '-1', // fill until deadline dataset
-                  above: 'rgba(75, 192, 192, 0.2)',
-                  below: 'rgba(75, 192, 192, 0.2)',
+                  above: GREEN_CHART_BACKGROUND,
+                  below: GREEN_CHART_BACKGROUND,
                 },
               },
             ]
@@ -241,49 +208,69 @@ const StudentProgressionChart = ({ assessments, submissions }) => {
       hoveredStudentIndex,
       clickedStudentIndex,
       showOpeningTimes,
+      intl,
     ],
   );
 
   return (
-    <>
-      <div>
-        <FormGroup>
-          <FormControlLabel
-            control={
-              <Switch
-                checked={showOpeningTimes}
-                onChange={(event) => setShowOpeningTimes(event.target.checked)}
-                inputProps={{ 'aria-label': 'controlled' }}
-              />
-            }
-            label="Show opening time of assessments"
-          />
-        </FormGroup>
-      </div>
-      <Scatter
-        options={{
-          ...options,
-          plugins: {
-            ...options.plugins,
-            tooltip: {
-              callbacks: {
-                title,
-                label,
+    <Card variant="outlined">
+      <CardContent>
+        <Typography
+          gutterBottom
+          variant="h6"
+          component="div"
+          fontWeight="bold"
+          marginBottom="1rem"
+        >
+          {intl.formatMessage(translations.title)}
+        </Typography>
+        <div>
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={showOpeningTimes}
+                  onChange={(event) =>
+                    setShowOpeningTimes(event.target.checked)
+                  }
+                  inputProps={{ 'aria-label': 'controlled' }}
+                />
+              }
+              label={intl.formatMessage(translations.showOpeningTimes)}
+            />
+          </FormGroup>
+        </div>
+        <GeneralChart
+          type="scatter"
+          withZoom
+          options={{
+            ...options,
+            plugins: {
+              ...options.plugins,
+              tooltip: {
+                callbacks: {
+                  title: titleRenderer,
+                  label: labelRenderer,
+                },
               },
             },
-          },
-          onHover,
-          onClick,
-        }}
-        data={data}
-      />
-      <Typography textAlign="center">
-        Note: The chart above only shows assessments with deadlines.
-      </Typography>
-    </>
+            onHover,
+            onClick,
+          }}
+          data={data}
+        />
+        <Typography textAlign="center" variant="subtitle1" fontSize="1.4rem">
+          {intl.formatMessage(translations.note)}
+        </Typography>
+      </CardContent>
+    </Card>
   );
 };
 
-StudentProgressionChart.propTypes = courseStatisticsShape.isRequired;
+StudentProgressionChart.propTypes = {
+  assessments: PropTypes.arrayOf(courseStatisticsAssessmentShape),
+  submissions: PropTypes.arrayOf(courseStatisticsSubmissionShape),
+  intl: intlShape.isRequired,
+};
 
-export default StudentProgressionChart;
+export default injectIntl(StudentProgressionChart);

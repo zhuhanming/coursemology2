@@ -41,6 +41,7 @@ const DataTable = (props) => (
   <ThemeProvider theme={theme}>
     <MUIDataTable
       {...props}
+      elevation={1}
       options={{ ...options, ...(props.options ?? {}) }}
     />
   </ThemeProvider>
