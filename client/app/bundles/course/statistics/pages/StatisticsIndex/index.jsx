@@ -11,7 +11,8 @@ import StaffStatistics from './staff';
 import {
   fetchStudentsStatistics,
   fetchStaffStatistics,
-  fetchCourseStatistics,
+  fetchCourseProgressionStatistics,
+  fetchCoursePerformanceStatistics,
 } from '../../actions';
 import {
   courseStatisticsShape,
@@ -60,15 +61,19 @@ const StatisticsIndex = ({
   const [value, setValue] = useState(0);
 
   useEffect(() => {
+    dispatch(fetchCourseProgressionStatistics());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchCoursePerformanceStatistics());
+  }, [dispatch]);
+
+  useEffect(() => {
     dispatch(fetchStudentsStatistics());
   }, [dispatch]);
 
   useEffect(() => {
     dispatch(fetchStaffStatistics());
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(fetchCourseStatistics());
   }, [dispatch]);
 
   const handleChange = (_event, newValue) => {

@@ -2,8 +2,6 @@ export const processStudent = (student) => ({
   ...student,
   level: parseInt(student.level ?? 0, 10),
   experiencePoints: parseInt(student.experiencePoints ?? 0, 10),
-  videoSubmissionCount: parseInt(student.videoSubmissionCount ?? 0, 10),
-  videoPercentWatched: parseFloat(student.videoPercentWatched ?? 0),
 });
 
 export const processStaff = (staff) => ({
@@ -28,25 +26,15 @@ export const processSubmissions = (submission) => ({
   })),
 });
 
-export const processStudentCourseStatistics = (stats) => {
-  const processLearningRate = (student) => ({
-    ...student,
-    id: parseInt(student.id, 10),
-    learningRate: parseFloat(student.learningRate),
-  });
-  const processNumSubmissions = (student) => ({
-    ...student,
-    id: parseInt(student.id, 10),
-    numSubmissions: parseInt(student.numSubmissions, 10),
-  });
-  return {
-    learningRate: {
-      worst: stats.learningRate.worst.map(processLearningRate),
-      best: stats.learningRate.best.map(processLearningRate),
-    },
-    numSubmissions: {
-      worst: stats.numSubmissions.worst.map(processNumSubmissions),
-      best: stats.numSubmissions.best.map(processNumSubmissions),
-    },
-  };
-};
+export const processStudentCourseStatistics = (student) => ({
+  ...student,
+  id: parseInt(student.id, 10),
+  learningRate:
+    student.learningRate != null ? parseFloat(student.learningRate) : null,
+  numSubmissions:
+    student.numSubmissions != null ? parseInt(student.numSubmissions, 10) : 0,
+  correctness:
+    student.correctness != null ? parseFloat(student.correctness) * 100 : null,
+  videoSubmissionCount: parseInt(student.videoSubmissionCount ?? 0, 10),
+  videoPercentWatched: parseFloat(student.videoPercentWatched ?? 0),
+});

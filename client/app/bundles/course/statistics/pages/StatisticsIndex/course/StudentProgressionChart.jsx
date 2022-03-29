@@ -52,38 +52,29 @@ const translations = defineMessages({
     id: 'course.statistics.course.studentProgressionChart.showOpeningTimes',
     defaultMessage: 'Show opening times of assessments',
   },
+  phantom: {
+    id: 'course.statistics.course.studentProgressionChart.phantom',
+    defaultMessage: 'Include phantom users',
+  },
+  yAxisLabel: {
+    id: 'course.statistics.course.studentProgressionChart.yAxisLabel',
+    defaultMessage: 'Assessment (Sorted by Deadline)',
+  },
+  xAxisLabel: {
+    id: 'course.statistics.course.studentProgressionChart.xAxisLabel',
+    defaultMessage: 'Date',
+  },
   note: {
     id: 'course.statistics.course.studentProgressionChart.note',
     defaultMessage:
-      'Note: The chart above only shows assessments with deadlines.',
+      'Note: The chart above only shows assessments with deadlines. Students may also have personalized deadlines.',
   },
 });
-
-const options = {
-  scales: {
-    x: {
-      type: 'time',
-      time: {
-        tooltipFormat: 'YYYY-MM-DD h:mm:ss a',
-      },
-      title: {
-        display: true,
-        text: 'Date',
-      },
-    },
-    y: {
-      beginAtZero: true,
-      title: {
-        display: true,
-        text: 'Assessment (Sorted by Deadline)',
-      },
-    },
-  },
-};
 
 const StudentProgressionChart = ({ assessments, submissions, intl }) => {
   const [selectedStudentIndex, setSelectedStudentIndex] = useState(null);
   const [showOpeningTimes, setShowOpeningTimes] = useState(false);
+  const [showPhantoms, setShowPhantoms] = useState(false);
 
   const onClick = useCallback(
     (_, elements) => {
@@ -97,8 +88,8 @@ const StudentProgressionChart = ({ assessments, submissions, intl }) => {
   );
 
   const studentData = useMemo(
-    () => computeStudentData(assessments, submissions),
-    [assessments, submissions],
+    () => computeStudentData(assessments, submissions, showPhantoms),
+    [assessments, submissions, showPhantoms],
   );
 
   const data = useMemo(
@@ -176,6 +167,41 @@ const StudentProgressionChart = ({ assessments, submissions, intl }) => {
     [assessments, studentData, selectedStudentIndex, showOpeningTimes, intl],
   );
 
+  const options = useMemo(
+    () => ({
+      scales: {
+        x: {
+          type: 'time',
+          time: {
+            tooltipFormat: 'YYYY-MM-DD h:mm:ss a',
+          },
+          title: {
+            display: true,
+            text: intl.formatMessage(translations.xAxisLabel),
+          },
+        },
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: intl.formatMessage(translations.yAxisLabel),
+          },
+        },
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            title: titleRenderer,
+            label: labelRenderer,
+            footer: footerRenderer,
+          },
+        },
+      },
+      onClick,
+    }),
+    [onClick],
+  );
+
   return (
     <Card variant="outlined">
       <CardContent>
@@ -189,7 +215,7 @@ const StudentProgressionChart = ({ assessments, submissions, intl }) => {
           {intl.formatMessage(translations.title)}
         </Typography>
         <div>
-          <FormGroup>
+          <FormGroup row>
             <FormControlLabel
               control={
                 <Switch
@@ -202,27 +228,19 @@ const StudentProgressionChart = ({ assessments, submissions, intl }) => {
               }
               label={intl.formatMessage(translations.showOpeningTimes)}
             />
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={showPhantoms}
+                  onChange={(event) => setShowPhantoms(event.target.checked)}
+                  inputProps={{ 'aria-label': 'controlled' }}
+                />
+              }
+              label={intl.formatMessage(translations.phantom)}
+            />
           </FormGroup>
         </div>
-        <GeneralChart
-          type="scatter"
-          withZoom
-          options={{
-            ...options,
-            plugins: {
-              ...options.plugins,
-              tooltip: {
-                callbacks: {
-                  title: titleRenderer,
-                  label: labelRenderer,
-                  footer: footerRenderer,
-                },
-              },
-            },
-            onClick,
-          }}
-          data={data}
-        />
+        <GeneralChart type="scatter" withZoom options={options} data={data} />
         <Typography textAlign="center" variant="subtitle1" fontSize="1.4rem">
           {intl.formatMessage(translations.note)}
         </Typography>

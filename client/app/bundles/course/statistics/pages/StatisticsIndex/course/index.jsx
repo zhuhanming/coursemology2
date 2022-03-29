@@ -2,36 +2,48 @@ import LoadingIndicator from 'lib/components/LoadingIndicator';
 import ErrorCard from 'lib/components/ErrorCard';
 import { courseStatisticsShape } from '../../../propTypes';
 import StudentProgressionChart from './StudentProgressionChart';
-import StudentPerformanceTables from './StudentPerformanceTables';
+import StudentPerformanceTable from './StudentPerformanceTable';
 
 const CourseStatistics = ({
-  isFetching,
-  isError,
+  isFetchingProgression,
+  isFetchingPerformance,
+  isErrorProgression,
+  isErrorPerformance,
   assessments,
   submissions,
   students,
   hasPersonalizedTimeline,
+  showVideo,
+  courseVideoCount,
 }) => {
-  if (isFetching) {
+  if (isFetchingProgression && isFetchingPerformance) {
     return <LoadingIndicator />;
   }
-  if (isError) {
+  if (isErrorProgression && isErrorPerformance) {
     return (
       <ErrorCard message="Something went wrong when fetching course statistics! Please refresh to try again." />
     );
   }
   return (
     <>
-      <StudentProgressionChart
-        isError={isError}
-        isFetching={isFetching}
-        assessments={assessments}
-        submissions={submissions}
-      />
-      <StudentPerformanceTables
-        students={students}
-        hasPersonalizedTimeline={hasPersonalizedTimeline}
-      />
+      {!isFetchingProgression ? (
+        <StudentProgressionChart
+          assessments={assessments}
+          submissions={submissions}
+        />
+      ) : (
+        <LoadingIndicator />
+      )}
+      {!isFetchingPerformance ? (
+        <StudentPerformanceTable
+          students={students}
+          hasPersonalizedTimeline={hasPersonalizedTimeline}
+          showVideo={showVideo}
+          courseVideoCount={courseVideoCount}
+        />
+      ) : (
+        <LoadingIndicator />
+      )}
     </>
   );
 };

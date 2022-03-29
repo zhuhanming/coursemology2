@@ -31,11 +31,17 @@ export default class CourseStatisticsAPI extends BaseCourseAPI {
   }
 
   /**
-   * Fetches all course statistics.
-   * TODO: include information on statistics returned
+   * Fetches course progression statistics.
    */
-  fetchCourseStatistics() {
-    return this.getClient().get(`${this._getUrlPrefix()}/course`);
+  fetchCourseProgressionStatistics() {
+    return this.getClient().get(`${this._getUrlPrefix()}/course/progression`);
+  }
+
+  /**
+   * Fetches course performance statistics.
+   */
+  fetchCoursePerformanceStatistics() {
+    return this.getClient().get(`${this._getUrlPrefix()}/course/performance`);
   }
 
   _getUrlPrefix() {

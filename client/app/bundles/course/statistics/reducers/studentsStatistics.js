@@ -6,8 +6,6 @@ const initialState = {
   students: [],
   isCourseGamified: false,
   hasGroupManagers: false,
-  showVideo: false,
-  courseVideoCount: 0,
 };
 
 export default function (state = initialState, action) {
@@ -23,8 +21,6 @@ export default function (state = initialState, action) {
         isFetching: false,
         students: action.students,
         isCourseGamified: action.isCourseGamified,
-        showVideo: action.showVideo,
-        courseVideoCount: action.courseVideoCount,
         hasGroupManagers: action.hasGroupManagers,
       };
     }

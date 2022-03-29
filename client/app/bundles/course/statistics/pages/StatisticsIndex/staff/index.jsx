@@ -27,9 +27,7 @@ const StaffStatistics = ({ staff, isFetching, isError }) => {
       options: {
         filter: false,
         sort: true,
-        setCellProps: () => ({
-          align: 'right',
-        }),
+        alignCenter: true,
       },
     },
     {
@@ -38,9 +36,7 @@ const StaffStatistics = ({ staff, isFetching, isError }) => {
       options: {
         filter: false,
         sort: true,
-        setCellProps: () => ({
-          align: 'right',
-        }),
+        alignCenter: true,
       },
     },
     {

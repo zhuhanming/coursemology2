@@ -32,6 +32,29 @@ const theme = createTheme({
   },
 });
 
+const processColumns = (columns) => {
+  if (!columns) {
+    return columns;
+  }
+  return columns.map((c) => {
+    if (c.options?.alignCenter) {
+      return {
+        ...c,
+        options: {
+          ...c.options,
+          setCellHeaderProps: () => ({
+            className: 'centered-table-head',
+          }),
+          setCellProps: () => ({
+            align: 'center',
+          }),
+        },
+      };
+    }
+    return c;
+  });
+};
+
 /**
  * Props for this component are identical to MUIDataTable's.
  *
@@ -41,6 +64,7 @@ const DataTable = (props) => (
   <ThemeProvider theme={theme}>
     <MUIDataTable
       {...props}
+      columns={processColumns(props.columns)}
       elevation={1}
       options={{ ...options, ...(props.options ?? {}) }}
     />

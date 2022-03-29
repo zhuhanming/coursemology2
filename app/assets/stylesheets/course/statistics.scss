@@ -1,24 +1,5 @@
 .course-statistics-statistics {
-  .performance-tables {
-    display: flex;
-
-    & > div:first-child {
-      margin: 0 1rem 0 0;
-    }
-
-    & > div:last-child {
-      margin: 0 0 0 1rem;
-    }
-
-    @media only screen and (max-width: 1200px) {
-      flex-direction: column;
-      & > div:first-child {
-        margin: 0 0 1rem 0;
-      }
-
-      & > div:last-child {
-        margin: 1rem 0 0 0;
-      }
-    }
+  .centered-table-head > span {
+    justify-content: center;
   }
 }
