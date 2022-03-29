@@ -11,13 +11,82 @@ import {
   Slider,
 } from '@mui/material';
 import PropTypes from 'prop-types';
+import { defineMessages, injectIntl, intlShape } from 'react-intl';
+import { green, red } from '@mui/material/colors';
 
 import { getCourseUserURL } from 'lib/helpers/url-builders';
 import { getCourseId } from 'lib/helpers/url-helpers';
 import DataTable from 'lib/components/DataTable';
 
-import { green, red } from '@mui/material/colors';
-import { courseStatisticsShape } from '../../../propTypes';
+import { courseStatisticsStudentShape } from '../../../propTypes';
+
+const translations = defineMessages({
+  title: {
+    id: 'course.statistics.course.studentPerformanceTable.title',
+    defaultMessage: 'Student Performance',
+  },
+  phantom: {
+    id: 'course.statistics.course.studentPerformanceTable.phantom',
+    defaultMessage: 'Include phantom users',
+  },
+  highlight: {
+    id: 'course.statistics.course.studentPerformanceTable.highlight',
+    defaultMessage: 'Highlight top and bottom {percent}%',
+  },
+  tableTitle: {
+    id: 'course.statistics.course.studentPerformanceTable.tableTitle',
+    defaultMessage: 'Students Sorted in {direction} {column}',
+  },
+  asc: {
+    id: 'course.statistics.course.studentPerformanceTable.ascending',
+    defaultMessage: 'Ascending',
+  },
+  desc: {
+    id: 'course.statistics.course.studentPerformanceTable.descending',
+    defaultMessage: 'Descending',
+  },
+  name: {
+    id: 'course.statistics.course.studentPerformanceTable.name',
+    defaultMessage: 'Name',
+  },
+  learningRate: {
+    id: 'course.statistics.course.studentPerformanceTable.learningRate',
+    defaultMessage: 'Learning Rate',
+  },
+  learningRateHint: {
+    id: 'course.statistics.course.studentPerformanceTable.learningRateHint',
+    defaultMessage:
+      'A learning rate of 200% means that they can complete the course in half the time.',
+  },
+  numSubmissions: {
+    id: 'course.statistics.course.studentPerformanceTable.numSubmissions',
+    defaultMessage: 'Number of Submissions',
+  },
+  correctness: {
+    id: 'course.statistics.course.studentPerformanceTable.correctness',
+    defaultMessage: 'Correctness',
+  },
+  videoSubmissionCount: {
+    id: 'course.statistics.course.studentPerformanceTable.videoSubmissionCount',
+    defaultMessage: 'Video Watch Count',
+  },
+  videoSubmissionCountHeader: {
+    id: 'course.statistics.course.studentPerformanceTable.videoSubmissionCountHeader',
+    defaultMessage: 'Videos Watched (Total: {courseVideoCount})',
+  },
+  videoPercentWatched: {
+    id: 'course.statistics.course.studentPerformanceTable.videoPercentWatched',
+    defaultMessage: 'Video % Count',
+  },
+  videoPercentWatchedHeader: {
+    id: 'course.statistics.course.studentPerformanceTable.videoPercentWatchedHeader',
+    defaultMessage: 'Average Video % Watched',
+  },
+  noData: {
+    id: 'course.statistics.course.studentPerformanceTable.noData',
+    defaultMessage: 'No Data',
+  },
+});
 
 const styles = {
   sliderRoot: {
@@ -33,14 +102,6 @@ const styles = {
     marginRight: '2rem',
     whiteSpace: 'pre',
   },
-};
-
-const propertiesToDisplayNames = {
-  learningRate: 'Learning Rate',
-  numSubmissions: 'Number of Submissions',
-  correctness: 'Correctness',
-  asc: 'Ascending',
-  desc: 'Descending',
 };
 
 function LinearProgressWithLabel(props) {
@@ -65,7 +126,12 @@ LinearProgressWithLabel.propTypes = {
   value: PropTypes.number,
 };
 
-const getColumns = (hasPersonalizedTimeline, showVideo, courseVideoCount) => {
+const getColumns = (
+  hasPersonalizedTimeline,
+  showVideo,
+  courseVideoCount,
+  intl,
+) => {
   const columns = [
     {
       name: 'id',
@@ -76,7 +142,7 @@ const getColumns = (hasPersonalizedTimeline, showVideo, courseVideoCount) => {
     },
     {
       name: 'name',
-      label: 'Name',
+      label: intl.formatMessage(translations.name),
       options: {
         filter: false,
         sort: true,
@@ -91,12 +157,13 @@ const getColumns = (hasPersonalizedTimeline, showVideo, courseVideoCount) => {
   if (hasPersonalizedTimeline) {
     columns.push({
       name: 'learningRate',
-      label: 'Learning Rate',
+      label: intl.formatMessage(translations.learningRate),
       options: {
         filter: false,
         sort: true,
-        hint: 'A learning rate of 200% means that they can complete the course in half the time.',
-        customBodyRender: (value) => (value != null ? value : 'No Data'),
+        hint: intl.formatMessage(translations.learningRateHint),
+        customBodyRender: (value) =>
+          value != null ? value : intl.formatMessage(translations.noData),
         alignCenter: true,
       },
     });
@@ -104,7 +171,7 @@ const getColumns = (hasPersonalizedTimeline, showVideo, courseVideoCount) => {
 
   columns.push({
     name: 'numSubmissions',
-    label: 'Number of Submissions',
+    label: intl.formatMessage(translations.numSubmissions),
     options: {
       filter: false,
       sort: true,
@@ -114,13 +181,15 @@ const getColumns = (hasPersonalizedTimeline, showVideo, courseVideoCount) => {
   });
   columns.push({
     name: 'correctness',
-    label: 'Correctness',
+    label: intl.formatMessage(translations.correctness),
     options: {
       filter: false,
       sort: true,
       sortDescFirst: true,
       customBodyRender: (value) =>
-        value != null ? `${Math.round(value * 100) / 100}%` : 'No Data',
+        value != null
+          ? `${Math.round(value * 100) / 100}%`
+          : intl.formatMessage(translations.noData),
       alignCenter: true,
     },
   });
@@ -128,19 +197,23 @@ const getColumns = (hasPersonalizedTimeline, showVideo, courseVideoCount) => {
   if (showVideo) {
     columns.push({
       name: 'videoSubmissionCount',
-      label: `Videos Watched (Total: ${courseVideoCount})`,
+      label: intl.formatMessage(translations.videoSubmissionCountHeader, {
+        courseVideoCount,
+      }),
       options: {
         filter: false,
         sort: true,
         alignCenter: true,
+        sortDescFirst: true,
       },
     });
     columns.push({
       name: 'videoPercentWatched',
-      label: 'Average % Watched',
+      label: intl.formatMessage(translations.videoPercentWatchedHeader),
       options: {
         filter: false,
         sort: true,
+        sortDescFirst: true,
         customBodyRender: (value) => (
           <Box sx={{ width: '100%' }}>
             <LinearProgressWithLabel value={value} />
@@ -158,6 +231,7 @@ const StudentPerformanceTable = ({
   hasPersonalizedTimeline,
   showVideo,
   courseVideoCount,
+  intl,
 }) => {
   const [showPhantoms, setShowPhantoms] = useState(false);
   const [sortedColumn, setSortedColumn] = useState('numSubmissions');
@@ -167,8 +241,9 @@ const StudentPerformanceTable = ({
   const [highlightPercentage, setHighlightPercentage] = useState(5);
 
   const columns = useMemo(
-    () => getColumns(hasPersonalizedTimeline, showVideo, courseVideoCount),
-    [hasPersonalizedTimeline, showVideo, courseVideoCount],
+    () =>
+      getColumns(hasPersonalizedTimeline, showVideo, courseVideoCount, intl),
+    [hasPersonalizedTimeline, showVideo, courseVideoCount, intl],
   );
   const displayedStudents = useMemo(
     () => students.filter((s) => showPhantoms || !s.isPhantom),
@@ -241,7 +316,7 @@ const StudentPerformanceTable = ({
           fontWeight="bold"
           marginBottom="1rem"
         >
-          Student Performance
+          {intl.formatMessage(translations.title)}
         </Typography>
         <FormGroup row>
           <FormControlLabel
@@ -252,11 +327,13 @@ const StudentPerformanceTable = ({
                 inputProps={{ 'aria-label': 'controlled' }}
               />
             }
-            label="Include phantom users"
+            label={intl.formatMessage(translations.phantom)}
           />
           <div style={styles.sliderRoot}>
             <span style={styles.sliderDescription}>
-              Highlight top and bottom {highlightPercentage}%:
+              {intl.formatMessage(translations.highlight, {
+                percent: highlightPercentage,
+              })}
             </span>
             <Slider
               aria-label="Highlight Percentage"
@@ -273,7 +350,10 @@ const StudentPerformanceTable = ({
         </FormGroup>
         <DataTable
           // eslint-disable-next-line max-len
-          title={`Students Sorted in ${propertiesToDisplayNames[sortDirection]} ${propertiesToDisplayNames[sortedColumn]}`}
+          title={intl.formatMessage(translations.tableTitle, {
+            direction: intl.formatMessage(translations[sortDirection]),
+            column: intl.formatMessage(translations[sortedColumn]),
+          })}
           data={displayedStudents}
           columns={columns}
           options={options}
@@ -283,6 +363,12 @@ const StudentPerformanceTable = ({
   );
 };
 
-StudentPerformanceTable.propTypes = courseStatisticsShape;
+StudentPerformanceTable.propTypes = {
+  students: PropTypes.arrayOf(courseStatisticsStudentShape),
+  hasPersonalizedTimeline: PropTypes.bool.isRequired,
+  showVideo: PropTypes.bool.isRequired,
+  courseVideoCount: PropTypes.number.isRequired,
+  intl: intlShape.isRequired,
+};
 
-export default StudentPerformanceTable;
+export default injectIntl(StudentPerformanceTable);
