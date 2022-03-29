@@ -14,6 +14,7 @@ const initialState = {
   ancestorAssessment: null,
   ancestorSubmissions: [],
   ancestorAllStudents: [],
+  notification: {},
 };
 
 export default function (state = initialState, action) {

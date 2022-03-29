@@ -199,7 +199,7 @@ const StudentProgressionChart = ({ assessments, submissions, intl }) => {
       },
       onClick,
     }),
-    [onClick],
+    [onClick, intl],
   );
 
   return (

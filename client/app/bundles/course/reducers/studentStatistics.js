@@ -4,6 +4,7 @@ const initialState = {
   isLoading: false,
   isError: false,
   learningRateRecords: [],
+  notification: {},
 };
 
 export default function (state = initialState, action) {
@@ -17,8 +18,12 @@ export default function (state = initialState, action) {
         learningRateRecords: action.learningRateRecords,
       };
     case actionTypes.LOAD_STUDENT_STATISTICS_FAILURE:
-      // TODO: Perform notification
-      return { ...state, isLoading: true, isError: true };
+      return {
+        ...state,
+        isLoading: true,
+        isError: true,
+        notification: { message: action.message },
+      };
     default:
       return state;
   }

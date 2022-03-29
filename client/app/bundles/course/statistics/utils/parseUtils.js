@@ -30,7 +30,9 @@ export const processStudentCourseStatistics = (student) => ({
   ...student,
   id: parseInt(student.id, 10),
   learningRate:
-    student.learningRate != null ? parseFloat(student.learningRate) : null,
+    student.learningRate != null
+      ? Math.round(10000 / parseFloat(student.learningRate)) / 100
+      : null,
   numSubmissions:
     student.numSubmissions != null ? parseInt(student.numSubmissions, 10) : 0,
   correctness:

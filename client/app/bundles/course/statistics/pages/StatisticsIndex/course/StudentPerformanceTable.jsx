@@ -161,9 +161,10 @@ const getColumns = (
       options: {
         filter: false,
         sort: true,
+        sortDescFirst: true,
         hint: intl.formatMessage(translations.learningRateHint),
         customBodyRender: (value) =>
-          value != null ? value : intl.formatMessage(translations.noData),
+          value != null ? `${value}%` : intl.formatMessage(translations.noData),
         alignCenter: true,
       },
     });

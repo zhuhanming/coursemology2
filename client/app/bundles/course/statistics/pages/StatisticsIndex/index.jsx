@@ -6,6 +6,9 @@ import Box from '@mui/material/Box';
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { injectIntl, intlShape } from 'react-intl';
+
+import NotificationBar from 'lib/components/NotificationBar';
+
 import StudentsStatistics from './students';
 import StaffStatistics from './staff';
 import {
@@ -81,28 +84,31 @@ const StatisticsIndex = ({
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label="Statistics Index Tabs"
-        >
-          <Tab label="Course" {...a11yProps(0)} />
-          <Tab label="Students" {...a11yProps(1)} />
-          <Tab label="Staff" {...a11yProps(2)} />
-        </Tabs>
+    <>
+      <Box sx={{ width: '100%' }}>
+        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="Statistics Index Tabs"
+          >
+            <Tab label="Course" {...a11yProps(0)} />
+            <Tab label="Students" {...a11yProps(1)} />
+            <Tab label="Staff" {...a11yProps(2)} />
+          </Tabs>
+        </Box>
+        <TabPanel value={value} index={0}>
+          <CourseStatistics {...courseStatistics} />
+        </TabPanel>
+        <TabPanel value={value} index={1}>
+          <StudentsStatistics {...studentsStatistics} />
+        </TabPanel>
+        <TabPanel value={value} index={2}>
+          <StaffStatistics {...staffStatistics} />
+        </TabPanel>
       </Box>
-      <TabPanel value={value} index={0}>
-        <CourseStatistics {...courseStatistics} />
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <StudentsStatistics {...studentsStatistics} />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        <StaffStatistics {...staffStatistics} />
-      </TabPanel>
-    </Box>
+      <NotificationBar notification={courseStatistics.notification} />
+    </>
   );
 };
 

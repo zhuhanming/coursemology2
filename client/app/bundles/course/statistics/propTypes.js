@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
 
+import { notificationShape } from 'lib/components/NotificationBar';
+
 export const courseStatisticsAssessmentShape = PropTypes.shape({
   id: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
@@ -43,6 +45,8 @@ export const courseStatisticsShape = PropTypes.shape({
   isErrorProgression: PropTypes.bool.isRequired,
   isFetchingPerformance: PropTypes.bool.isRequired,
   isErrorPerformance: PropTypes.bool.isRequired,
+
+  notification: notificationShape,
 });
 
 export const studentsStatisticsStudentShape = PropTypes.shape({

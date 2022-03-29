@@ -37,11 +37,11 @@ export function computeStudentData(assessments, submissions, showPhantoms) {
 export const titleRenderer = (items) =>
   `${items[0].raw.title} (${items.length})`;
 
-export const labelRenderer = (items) => {
-  if (items.raw.name) {
-    return `${items.raw.name}: ${items.label}`;
+export const labelRenderer = (item) => {
+  if (item.raw.name) {
+    return `${item.raw.name}: ${item.label}`;
   }
-  return `Deadline: ${items.label}`;
+  return `Deadline: ${item.label}`;
 };
 
 export const footerRenderer = (items) => {
