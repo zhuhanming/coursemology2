@@ -42,6 +42,7 @@ const styles = {
     padding: '8px 16px',
   },
   AccordionActions: {
+    justifyContent: 'flex-start',
     padding: 16,
   },
   container: {

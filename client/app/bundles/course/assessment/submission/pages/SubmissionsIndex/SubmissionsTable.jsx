@@ -371,6 +371,7 @@ export default class SubmissionsTable extends Component {
                 : null}
               {tableHeaderCenterColumnFor('dateSubmitted')}
               {tableHeaderCenterColumnFor('dateGraded')}
+              {tableHeaderCenterColumnFor('grader')}
               <TableCell
                 style={{ ...styles.tableCell, ...styles.tableCenterCell }}
               >
@@ -398,6 +399,12 @@ SubmissionsTable.propTypes = {
       pointsAwarded: PropTypes.number,
       dateSubmitted: PropTypes.string,
       dateGraded: PropTypes.string,
+      graders: PropTypes.arrayOf(
+        PropTypes.shape({
+          name: PropTypes.string,
+          id: PropTypes.number,
+        }),
+      ),
     }),
   ),
   assessment: assessmentShape.isRequired,
