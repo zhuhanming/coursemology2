@@ -3,6 +3,8 @@ class Course::Settings::PersonalizedTimeline < ApplicationRecord
   self.table_name = 'course_settings_personalized_timeline'
 
   validates :course, presence: true
+  validates :min_learning_rate, numericality: { greater_than: 0, less_than_or_equal: 1 }, allow_nil: true
+  validates :max_learning_rate, numericality: { greater_than_or_equal_to: 1 }, allow_nil: true
   validates :assessment_submission_weight, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
   validates :assessment_grade_weight, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true
   validates :video_view_percentage_weight, numericality: { greater_than_or_equal_to: 0 }, allow_nil: true

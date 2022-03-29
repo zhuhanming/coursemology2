@@ -865,6 +865,8 @@ ActiveRecord::Schema.define(version: 2022_03_25_093906) do
 
   create_table "course_settings_personalized_timeline", force: :cascade do |t|
     t.bigint "course_id", null: false
+    t.float "min_learning_rate"
+    t.float "max_learning_rate"
     t.float "assessment_submission_weight"
     t.float "assessment_grade_weight"
     t.float "video_view_percentage_weight"
