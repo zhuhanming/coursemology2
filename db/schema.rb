@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_03_15_192851) do
+ActiveRecord::Schema.define(version: 2022_03_25_093906) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -863,6 +863,16 @@ ActiveRecord::Schema.define(version: 2022_03_15_192851) do
     t.index ["course_id"], name: "index_course_settings_emails_on_course_id"
   end
 
+  create_table "course_settings_personalized_timeline", force: :cascade do |t|
+    t.bigint "course_id", null: false
+    t.float "assessment_submission_weight"
+    t.float "assessment_grade_weight"
+    t.float "video_view_percentage_weight"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["course_id"], name: "index_course_settings_personalized_timeline_on_course_id"
+  end
+
   create_table "course_survey_answer_options", id: :serial, force: :cascade do |t|
     t.integer "answer_id", null: false
     t.integer "question_option_id", null: false
@@ -1452,6 +1462,7 @@ ActiveRecord::Schema.define(version: 2022_03_15_192851) do
   add_foreign_key "course_reference_times", "course_reference_timelines", column: "reference_timeline_id"
   add_foreign_key "course_settings_emails", "course_assessment_categories"
   add_foreign_key "course_settings_emails", "courses"
+  add_foreign_key "course_settings_personalized_timeline", "courses"
   add_foreign_key "course_survey_answer_options", "course_survey_answers", column: "answer_id", name: "fk_course_survey_answer_options_answer_id"
   add_foreign_key "course_survey_answer_options", "course_survey_question_options", column: "question_option_id", name: "fk_course_survey_answer_options_question_option_id"
   add_foreign_key "course_survey_answers", "course_survey_questions", column: "question_id", name: "fk_course_survey_answers_question_id"
