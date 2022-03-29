@@ -62,10 +62,8 @@ class Course::Statistics::AggregateController < Course::Statistics::Controller
     return {} unless current_course.show_personalized_timeline_features?
 
     # The higher the learning rate, the worse
-    @learning_rate_hash = students.
-                          joins(:learning_rate_records).
-                          where(course_learning_rate_records: { most_recent: true }).
-                          pluck(:id, 'course_learning_rate_records.learning_rate').
+    @learning_rate_hash = students.calculated(:latest_learning_rate).
+                          map { |s| [s.id, s.latest_learning_rate] }.
                           to_h
   end
 

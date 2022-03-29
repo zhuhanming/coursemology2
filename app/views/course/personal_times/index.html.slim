@@ -21,7 +21,6 @@
     p = f.button :submit, t('.recompute')
 
 div = "Learning rate: #{@learning_rate}" if @learning_rate.present?
-div = "Learning rate effective limits: #{@learning_rate_limits}" if @learning_rate_limits.present?
 
 - if @items.present?
   div.table-fluid

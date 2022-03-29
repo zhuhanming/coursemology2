@@ -103,6 +103,13 @@ class CourseUser < ApplicationRecord
       where('course_video_tabs.course_id = course_users.course_id')
   end)
 
+  # @!attribute [r] latest_learning_rate
+  #   Returns the learning rate of the last computed learning rate record.
+  calculated :latest_learning_rate, (lambda do
+    Course::LearningRateRecord.select(:learning_rate).limit(1).order(created_at: :desc).
+      where('course_learning_rate_records.course_user_id = course_users.id')
+  end)
+
   scope :staff, -> { where(role: STAFF_ROLES) }
   scope :teaching_staff, -> { where(role: TEACHING_STAFF_ROLES) }
   scope :teaching_assistant_and_manager, (lambda do
