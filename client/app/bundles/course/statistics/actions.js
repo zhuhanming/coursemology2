@@ -8,7 +8,7 @@ import {
   processSubmissions,
 } from './utils/parseUtils';
 
-export function fetchStudentsStatistics() {
+export function fetchStudentsStatistics(failureMessage) {
   return (dispatch) => {
     dispatch({ type: actionTypes.FETCH_STUDENTS_STATISTICS_REQUEST });
 
@@ -25,12 +25,13 @@ export function fetchStudentsStatistics() {
       .catch(() => {
         dispatch({
           type: actionTypes.FETCH_STUDENTS_STATISTICS_FAILURE,
+          message: failureMessage,
         });
       });
   };
 }
 
-export function fetchStaffStatistics() {
+export function fetchStaffStatistics(failureMessage) {
   return (dispatch) => {
     dispatch({ type: actionTypes.FETCH_STAFF_STATISTICS_REQUEST });
 
@@ -45,12 +46,13 @@ export function fetchStaffStatistics() {
       .catch(() => {
         dispatch({
           type: actionTypes.FETCH_STAFF_STATISTICS_FAILURE,
+          message: failureMessage,
         });
       });
   };
 }
 
-export function fetchCourseProgressionStatistics() {
+export function fetchCourseProgressionStatistics(failureMessage) {
   return (dispatch) => {
     dispatch({ type: actionTypes.FETCH_COURSE_PROGRESSION_STATISTICS_REQUEST });
 
@@ -66,12 +68,13 @@ export function fetchCourseProgressionStatistics() {
       .catch(() => {
         dispatch({
           type: actionTypes.FETCH_COURSE_PROGRESSION_STATISTICS_FAILURE,
+          message: failureMessage,
         });
       });
   };
 }
 
-export function fetchCoursePerformanceStatistics() {
+export function fetchCoursePerformanceStatistics(failureMessage) {
   return (dispatch) => {
     dispatch({ type: actionTypes.FETCH_COURSE_PERFORMANCE_STATISTICS_REQUEST });
 
@@ -89,6 +92,7 @@ export function fetchCoursePerformanceStatistics() {
       .catch(() => {
         dispatch({
           type: actionTypes.FETCH_COURSE_PERFORMANCE_STATISTICS_FAILURE,
+          message: failureMessage,
         });
       });
   };

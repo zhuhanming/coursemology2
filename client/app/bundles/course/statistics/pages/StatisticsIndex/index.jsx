@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { injectIntl, intlShape } from 'react-intl';
+import { defineMessages, injectIntl, intlShape } from 'react-intl';
 
 import NotificationBar from 'lib/components/NotificationBar';
 
@@ -23,6 +23,37 @@ import {
   studentsStatisticsShape,
 } from '../../propTypes';
 import CourseStatistics from './course';
+
+const translations = defineMessages({
+  course: {
+    id: 'course.statistics.tabs.course',
+    defaultMessage: 'Course',
+  },
+  students: {
+    id: 'course.statistics.tabs.students',
+    defaultMessage: 'Students',
+  },
+  staff: {
+    id: 'course.statistics.tabs.staff',
+    defaultMessage: 'Staff',
+  },
+  courseProgressionFailure: {
+    id: 'course.statistics.failures.courseProgression',
+    defaultMessage: 'Failed to fetch course progression data!',
+  },
+  coursePerformanceFailure: {
+    id: 'course.statistics.failures.coursePerformance',
+    defaultMessage: 'Failed to fetch course performance data!',
+  },
+  studentsFailure: {
+    id: 'course.statistics.failures.students',
+    defaultMessage: 'Failed to fetch student data!',
+  },
+  staffFailure: {
+    id: 'course.statistics.failures.staff',
+    defaultMessage: 'Failed to fetch staff data!',
+  },
+});
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -60,23 +91,36 @@ const StatisticsIndex = ({
   courseStatistics,
   studentsStatistics,
   staffStatistics,
+  intl,
 }) => {
   const [value, setValue] = useState(0);
 
   useEffect(() => {
-    dispatch(fetchCourseProgressionStatistics());
+    dispatch(
+      fetchCourseProgressionStatistics(
+        intl.formatMessage(translations.courseProgressionFailure),
+      ),
+    );
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(fetchCoursePerformanceStatistics());
+    dispatch(
+      fetchCoursePerformanceStatistics(
+        intl.formatMessage(translations.coursePerformanceFailure),
+      ),
+    );
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(fetchStudentsStatistics());
+    dispatch(
+      fetchStudentsStatistics(intl.formatMessage(translations.studentsFailure)),
+    );
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(fetchStaffStatistics());
+    dispatch(
+      fetchStaffStatistics(intl.formatMessage(translations.staffFailure)),
+    );
   }, [dispatch]);
 
   const handleChange = (_event, newValue) => {
@@ -92,9 +136,18 @@ const StatisticsIndex = ({
             onChange={handleChange}
             aria-label="Statistics Index Tabs"
           >
-            <Tab label="Course" {...a11yProps(0)} />
-            <Tab label="Students" {...a11yProps(1)} />
-            <Tab label="Staff" {...a11yProps(2)} />
+            <Tab
+              label={intl.formatMessage(translations.course)}
+              {...a11yProps(0)}
+            />
+            <Tab
+              label={intl.formatMessage(translations.students)}
+              {...a11yProps(1)}
+            />
+            <Tab
+              label={intl.formatMessage(translations.staff)}
+              {...a11yProps(2)}
+            />
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>

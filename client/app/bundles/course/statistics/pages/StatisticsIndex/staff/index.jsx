@@ -12,6 +12,7 @@ const StaffStatistics = ({ staff, isFetching, isError }) => {
       <ErrorCard message="Something went wrong when fetching staff statistics! Please refresh to try again." />
     );
   }
+
   const columns = [
     {
       name: 'name',
