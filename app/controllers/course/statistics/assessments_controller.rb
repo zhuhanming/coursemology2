@@ -5,7 +5,7 @@ class Course::Statistics::AssessmentsController < Course::Statistics::Controller
                   calculated(:maximum_grade).
                   preload(lesson_plan_item: [:reference_times, personal_times: :course_user],
                           course: :course_users).first
-    # authorize!(:view_all_submissions, @assessment)
+    authorize!(:read_ancestor, @assessment)
     submissions = Course::Assessment::Submission.preload(creator: :course_users).
                   where(assessment_id: assessment_params[:id]).
                   calculated(:grade)
@@ -18,7 +18,7 @@ class Course::Statistics::AssessmentsController < Course::Statistics::Controller
     @assessments = [@assessment]
     while @assessment.duplication_traceable.present? && @assessment.duplication_traceable.source_id.present?
       @assessment = @assessment.duplication_traceable.source
-      # break unless can?(:view_all_submissions, @assessment)
+      break unless can?(:read_ancestor, @assessment)
 
       @assessments << @assessment
     end

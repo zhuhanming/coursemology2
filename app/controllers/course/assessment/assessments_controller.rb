@@ -96,7 +96,7 @@ class Course::Assessment::AssessmentsController < Course::Assessment::Controller
 
   # This endpoint provides the view. The actual data is fetched client-side from the statistics controllers.
   def statistics
-    authorize!(:view_statistics, current_course)
+    authorize!(:read_statistics, current_course)
   end
 
   protected
