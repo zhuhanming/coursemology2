@@ -26,17 +26,20 @@ export const processSubmissions = (submission) => ({
   })),
 });
 
-export const processStudentCourseStatistics = (student) => ({
+export const processStudentPerformance = (student) => ({
   ...student,
   id: parseInt(student.id, 10),
-  learningRate:
-    student.learningRate != null
-      ? Math.round(10000 / parseFloat(student.learningRate)) / 100
-      : null,
   numSubmissions:
     student.numSubmissions != null ? parseInt(student.numSubmissions, 10) : 0,
   correctness:
     student.correctness != null ? parseFloat(student.correctness) * 100 : null,
+  learningRate:
+    student.learningRate != null
+      ? Math.round(10000 / parseFloat(student.learningRate)) / 100
+      : null,
+  achievementCount: parseInt(student.achievementCount ?? 0, 10),
+  level: parseInt(student.level ?? 0, 10),
+  experiencePoints: parseInt(student.experiencePoints ?? 0, 10),
   videoSubmissionCount: parseInt(student.videoSubmissionCount ?? 0, 10),
   videoPercentWatched: parseFloat(student.videoPercentWatched ?? 0),
 });

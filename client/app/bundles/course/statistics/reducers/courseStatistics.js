@@ -9,6 +9,7 @@ const initialState = {
   submissions: [],
   students: [],
   hasPersonalizedTimeline: false,
+  isCourseGamified: false,
   showVideo: false,
   courseVideoCount: 0,
   notification: {}, // Centralised notification shape across all the different reducers
@@ -38,6 +39,7 @@ export default function (state = initialState, action) {
         isFetchingPerformance: false,
         students: action.students,
         hasPersonalizedTimeline: action.hasPersonalizedTimeline,
+        isCourseGamified: action.isCourseGamified,
         showVideo: action.showVideo,
         courseVideoCount: action.courseVideoCount,
       };

@@ -1,20 +1,32 @@
 # frozen_string_literal: true
-json.students @student_data do |id, name, phantom|
-  json.id id
-  json.name name
-  json.isPhantom phantom
-  json.learningRate @learning_rate_hash[id]
-  json.numSubmissions @number_of_submissions_hash[id]
-  json.correctness @correctness_hash[id]
+show_personalized_timeline = current_course.show_personalized_timeline_features?
+show_video = @course_videos.exists? && can?(:analyze_videos, current_course)
+is_course_gamified = current_course.gamified?
 
-  video_data = @video_hash[id]
-  if video_data
-    json.videoSubmissionCount video_data[0]
-    json.videoPercentWatched video_data[1]
-    json.videoSubmissionLink video_data[2]
+json.students @students do |student|
+  json.id student.id
+  json.name student.name
+  json.isPhantom student.phantom?
+  json.numSubmissions student.assessment_submission_count
+  json.correctness @correctness_hash[student.id]
+
+  json.learningRate student.latest_learning_rate if show_personalized_timeline
+
+  if is_course_gamified
+    json.achievementCount student.achievement_count
+    json.level student.level_number
+    json.experiencePoints student.experience_points
+    json.experiencePointsLink course_user_experience_points_records_path(current_course, student)
+  end
+
+  if show_video
+    json.videoSubmissionCount student.video_submission_count
+    json.videoPercentWatched student.video_percent_watched
+    json.videoSubmissionLink course_user_video_submissions_path(current_course, student)
   end
 end
 
 json.hasPersonalizedTimeline @has_personalized_timeline
-json.showVideo @course_videos.exists? && can?(:analyze_videos, current_course)
+json.isCourseGamified is_course_gamified
+json.showVideo show_video
 json.courseVideoCount @course_video_count

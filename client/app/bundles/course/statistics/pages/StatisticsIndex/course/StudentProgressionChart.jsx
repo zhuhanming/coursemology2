@@ -17,15 +17,12 @@ import {
 } from 'theme/colors';
 import GeneralChart from 'lib/components/charts/GeneralChart';
 import {
-  courseStatisticsAssessmentShape,
-  courseStatisticsSubmissionShape,
-} from '../../../propTypes';
-import {
   computeStudentData,
   footerRenderer,
   labelRenderer,
   titleRenderer,
 } from './utils';
+import { assessmentShape, submissionShape } from '../../../propTypes/course';
 
 const translations = defineMessages({
   title: {
@@ -250,8 +247,8 @@ const StudentProgressionChart = ({ assessments, submissions, intl }) => {
 };
 
 StudentProgressionChart.propTypes = {
-  assessments: PropTypes.arrayOf(courseStatisticsAssessmentShape),
-  submissions: PropTypes.arrayOf(courseStatisticsSubmissionShape),
+  assessments: PropTypes.arrayOf(assessmentShape),
+  submissions: PropTypes.arrayOf(submissionShape),
   intl: intlShape.isRequired,
 };
 

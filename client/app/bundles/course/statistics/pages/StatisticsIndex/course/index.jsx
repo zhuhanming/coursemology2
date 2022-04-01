@@ -1,9 +1,9 @@
 import LoadingIndicator from 'lib/components/LoadingIndicator';
 import ErrorCard from 'lib/components/ErrorCard';
 
-import { courseStatisticsShape } from '../../../propTypes';
 import StudentProgressionChart from './StudentProgressionChart';
 import StudentPerformanceTable from './StudentPerformanceTable';
+import { courseIndexShape } from '../../../propTypes/course';
 
 const CourseStatistics = ({
   isFetchingProgression,
@@ -14,6 +14,7 @@ const CourseStatistics = ({
   submissions,
   students,
   hasPersonalizedTimeline,
+  isCourseGamified,
   showVideo,
   courseVideoCount,
 }) => {
@@ -58,6 +59,7 @@ const CourseStatistics = ({
       <StudentPerformanceTable
         students={students}
         hasPersonalizedTimeline={hasPersonalizedTimeline}
+        isCourseGamified={isCourseGamified}
         showVideo={showVideo}
         courseVideoCount={courseVideoCount}
       />
@@ -72,6 +74,6 @@ const CourseStatistics = ({
   );
 };
 
-CourseStatistics.propTypes = courseStatisticsShape.isRequired;
+CourseStatistics.propTypes = courseIndexShape;
 
 export default CourseStatistics;

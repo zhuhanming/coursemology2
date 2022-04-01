@@ -17,8 +17,7 @@ import { green, red } from '@mui/material/colors';
 import { getCourseUserURL } from 'lib/helpers/url-builders';
 import { getCourseId } from 'lib/helpers/url-helpers';
 import DataTable from 'lib/components/DataTable';
-
-import { courseStatisticsStudentShape } from '../../../propTypes';
+import { studentShape } from '../../../propTypes/course';
 
 const translations = defineMessages({
   title: {
@@ -49,6 +48,14 @@ const translations = defineMessages({
     id: 'course.statistics.course.studentPerformanceTable.name',
     defaultMessage: 'Name',
   },
+  level: {
+    id: 'course.statistics.course.studentPerformanceTable.level',
+    defaultMessage: 'Level',
+  },
+  experiencePoints: {
+    id: 'course.statistics.course.studentPerformanceTable.experiencePoints',
+    defaultMessage: 'Experience Points',
+  },
   learningRate: {
     id: 'course.statistics.course.studentPerformanceTable.learningRate',
     defaultMessage: 'Learning Rate',
@@ -60,7 +67,11 @@ const translations = defineMessages({
   },
   numSubmissions: {
     id: 'course.statistics.course.studentPerformanceTable.numSubmissions',
-    defaultMessage: 'Number of Submissions',
+    defaultMessage: 'No. of Submissions',
+  },
+  achievementCount: {
+    id: 'course.statistics.course.studentPerformanceTable.achievementCount',
+    defaultMessage: 'No. of Achievements',
   },
   correctness: {
     id: 'course.statistics.course.studentPerformanceTable.correctness',
@@ -128,6 +139,7 @@ LinearProgressWithLabel.propTypes = {
 
 const getColumns = (
   hasPersonalizedTimeline,
+  isCourseGamified,
   showVideo,
   courseVideoCount,
   intl,
@@ -154,17 +166,34 @@ const getColumns = (
     },
   ];
 
-  if (hasPersonalizedTimeline) {
+  if (isCourseGamified) {
     columns.push({
-      name: 'learningRate',
-      label: intl.formatMessage(translations.learningRate),
+      name: 'level',
+      label: intl.formatMessage(translations.level),
+      options: {
+        filter: true,
+        sort: true,
+        sortDescFirst: true,
+        alignCenter: true,
+      },
+    });
+    columns.push({
+      name: 'experiencePoints',
+      label: intl.formatMessage(translations.experiencePoints),
       options: {
         filter: false,
         sort: true,
         sortDescFirst: true,
-        hint: intl.formatMessage(translations.learningRateHint),
-        customBodyRender: (value) =>
-          value != null ? `${value}%` : intl.formatMessage(translations.noData),
+        alignCenter: true,
+      },
+    });
+    columns.push({
+      name: 'achievementCount',
+      label: intl.formatMessage(translations.achievementCount),
+      options: {
+        filter: false,
+        sort: true,
+        sortDescFirst: true,
         alignCenter: true,
       },
     });
@@ -194,6 +223,22 @@ const getColumns = (
       alignCenter: true,
     },
   });
+
+  if (hasPersonalizedTimeline) {
+    columns.push({
+      name: 'learningRate',
+      label: intl.formatMessage(translations.learningRate),
+      options: {
+        filter: false,
+        sort: true,
+        sortDescFirst: true,
+        hint: intl.formatMessage(translations.learningRateHint),
+        customBodyRender: (value) =>
+          value != null ? `${value}%` : intl.formatMessage(translations.noData),
+        alignCenter: true,
+      },
+    });
+  }
 
   if (showVideo) {
     columns.push({
@@ -230,12 +275,13 @@ const getColumns = (
 const StudentPerformanceTable = ({
   students,
   hasPersonalizedTimeline,
+  isCourseGamified,
   showVideo,
   courseVideoCount,
   intl,
 }) => {
   const [showPhantoms, setShowPhantoms] = useState(false);
-  const [sortedColumn, setSortedColumn] = useState('numSubmissions');
+  const [sortedColumn, setSortedColumn] = useState('level');
   const [sortDirection, setSortDirection] = useState('desc');
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -243,8 +289,20 @@ const StudentPerformanceTable = ({
 
   const columns = useMemo(
     () =>
-      getColumns(hasPersonalizedTimeline, showVideo, courseVideoCount, intl),
-    [hasPersonalizedTimeline, showVideo, courseVideoCount, intl],
+      getColumns(
+        hasPersonalizedTimeline,
+        isCourseGamified,
+        showVideo,
+        courseVideoCount,
+        intl,
+      ),
+    [
+      hasPersonalizedTimeline,
+      isCourseGamified,
+      showVideo,
+      courseVideoCount,
+      intl,
+    ],
   );
   const displayedStudents = useMemo(
     () => students.filter((s) => showPhantoms || !s.isPhantom),
@@ -365,8 +423,9 @@ const StudentPerformanceTable = ({
 };
 
 StudentPerformanceTable.propTypes = {
-  students: PropTypes.arrayOf(courseStatisticsStudentShape),
+  students: PropTypes.arrayOf(studentShape),
   hasPersonalizedTimeline: PropTypes.bool.isRequired,
+  isCourseGamified: PropTypes.bool.isRequired,
   showVideo: PropTypes.bool.isRequired,
   courseVideoCount: PropTypes.number.isRequired,
   intl: intlShape.isRequired,

@@ -4,7 +4,7 @@ import {
   processAssessment,
   processStaff,
   processStudent,
-  processStudentCourseStatistics,
+  processStudentPerformance,
   processSubmissions,
 } from './utils/parseUtils';
 
@@ -83,8 +83,9 @@ export function fetchCoursePerformanceStatistics(failureMessage) {
       .then((response) => {
         dispatch({
           type: actionTypes.FETCH_COURSE_PERFORMANCE_STATISTICS_SUCCESS,
-          students: response.data.students.map(processStudentCourseStatistics),
+          students: response.data.students.map(processStudentPerformance),
           hasPersonalizedTimeline: response.data.hasPersonalizedTimeline,
+          isCourseGamified: response.data.isCourseGamified,
           showVideo: response.data.showVideo,
           courseVideoCount: parseInt(response.data.courseVideoCount, 10),
         });

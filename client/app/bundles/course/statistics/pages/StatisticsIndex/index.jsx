@@ -17,12 +17,10 @@ import {
   fetchCourseProgressionStatistics,
   fetchCoursePerformanceStatistics,
 } from '../../actions';
-import {
-  courseStatisticsShape,
-  staffStatisticsShape,
-  studentsStatisticsShape,
-} from '../../propTypes';
 import CourseStatistics from './course';
+import { courseIndexShape } from '../../propTypes/course';
+import { studentsIndexShape } from '../../propTypes/students';
+import { staffIndexShape } from '../../propTypes/staff';
 
 const translations = defineMessages({
   course: {
@@ -167,9 +165,9 @@ const StatisticsIndex = ({
 
 StatisticsIndex.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  courseStatistics: courseStatisticsShape.isRequired,
-  studentsStatistics: studentsStatisticsShape.isRequired,
-  staffStatistics: staffStatisticsShape.isRequired,
+  courseStatistics: courseIndexShape.isRequired,
+  studentsStatistics: studentsIndexShape.isRequired,
+  staffStatistics: staffIndexShape.isRequired,
   intl: intlShape,
 };
 

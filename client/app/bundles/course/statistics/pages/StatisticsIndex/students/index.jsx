@@ -1,7 +1,7 @@
 import LoadingIndicator from 'lib/components/LoadingIndicator';
 import ErrorCard from 'lib/components/ErrorCard';
 import DataTable from 'lib/components/DataTable';
-import { studentsStatisticsShape } from '../../../propTypes';
+import { studentsIndexShape } from '../../../propTypes/students';
 
 const StudentsStatistics = ({
   isCourseGamified,
@@ -64,8 +64,6 @@ const StudentsStatistics = ({
   );
 };
 
-StudentsStatistics.propTypes = {
-  ...studentsStatisticsShape,
-};
+StudentsStatistics.propTypes = studentsIndexShape;
 
 export default StudentsStatistics;

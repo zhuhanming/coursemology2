@@ -1,7 +1,7 @@
 import LoadingIndicator from 'lib/components/LoadingIndicator';
 import ErrorCard from 'lib/components/ErrorCard';
 import DataTable from 'lib/components/DataTable';
-import { staffStatisticsShape } from '../../../propTypes';
+import { staffIndexShape } from '../../../propTypes/staff';
 
 const StaffStatistics = ({ staff, isFetching, isError }) => {
   if (isFetching) {
@@ -61,6 +61,6 @@ const StaffStatistics = ({ staff, isFetching, isError }) => {
   return <DataTable title="Staff Statistics" data={staff} columns={columns} />;
 };
 
-StaffStatistics.propTypes = staffStatisticsShape;
+StaffStatistics.propTypes = staffIndexShape;
 
 export default StaffStatistics;
