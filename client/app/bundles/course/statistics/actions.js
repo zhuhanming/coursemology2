@@ -18,6 +18,7 @@ export function fetchStudentsStatistics(failureMessage) {
         dispatch({
           type: actionTypes.FETCH_STUDENTS_STATISTICS_SUCCESS,
           students: response.data.students.map(processStudent),
+          assessments: response.data.assessments.map(processAssessment),
           isCourseGamified: response.data.isCourseGamified,
           hasGroupManagers: response.data.hasGroupManagers,
         });

@@ -6,6 +6,7 @@ const options = {
   filter: true,
   filterType: 'dropdown',
   responsive: 'standard',
+  fixedSelectColumn: false,
 };
 
 const theme = createTheme({

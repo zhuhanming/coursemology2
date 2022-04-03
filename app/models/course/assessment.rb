@@ -126,9 +126,8 @@ class Course::Assessment < ApplicationRecord
       select(Course::LessonPlan::Item.arel_table[:id])
   end)
 
-  scope :with_reference_time_with_end_at, (lambda do
-    joins(lesson_plan_item: :default_reference_time).
-    where.not(course_reference_times: { end_at: nil })
+  scope :with_default_reference_time, (lambda do
+    joins(lesson_plan_item: :default_reference_time)
   end)
 
   def self.use_relative_model_naming?

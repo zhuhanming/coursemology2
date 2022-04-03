@@ -14,4 +14,12 @@ json.students @students do |student|
     json.experiencePoints student.experience_points
     json.experiencePointsLink course_user_experience_points_records_path(current_course, student)
   end
+
+  json.assessments @assessment_scores_hash[student.id]
+end
+
+json.assessments @assessments.map do |id, title, start_at|
+  json.id id
+  json.title title
+  json.startAt start_at.iso8601
 end

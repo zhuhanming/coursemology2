@@ -7,10 +7,18 @@ export const studentShape = PropTypes.shape({
   level: PropTypes.number,
   experiencePoints: PropTypes.number,
   experiencePointsLink: PropTypes.string,
+  // And the remaining properties are [assessment_id, correctness] pairs
+});
+
+export const assessmentShape = PropTypes.shape({
+  id: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
+  startAt: PropTypes.object.isRequired,
 });
 
 export const studentsIndexShape = PropTypes.shape({
   students: PropTypes.arrayOf(studentShape).isRequired,
+  assessments: PropTypes.arrayOf(assessmentShape).isRequired,
   isCourseGamified: PropTypes.bool.isRequired,
   hasGroupManagers: PropTypes.bool.isRequired,
   isFetching: PropTypes.bool.isRequired,

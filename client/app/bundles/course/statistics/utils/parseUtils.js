@@ -2,6 +2,8 @@ export const processStudent = (student) => ({
   ...student,
   level: parseInt(student.level ?? 0, 10),
   experiencePoints: parseInt(student.experiencePoints ?? 0, 10),
+  ...student.assessments,
+  numAssessmentsCompleted: Object.keys(student.assessments ?? {}).length,
 });
 
 export const processStaff = (staff) => ({

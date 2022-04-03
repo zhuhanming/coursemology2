@@ -4,6 +4,7 @@ const initialState = {
   isFetching: false,
   isError: false,
   students: [],
+  assessments: [],
   isCourseGamified: false,
   hasGroupManagers: false,
 };
@@ -20,6 +21,7 @@ export default function (state = initialState, action) {
         ...state,
         isFetching: false,
         students: action.students,
+        assessments: action.assessments,
         isCourseGamified: action.isCourseGamified,
         hasGroupManagers: action.hasGroupManagers,
       };
