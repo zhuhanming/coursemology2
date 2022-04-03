@@ -59,6 +59,18 @@ export default class AssessmentsAPI extends BaseCourseAPI {
     );
   }
 
+  fetchStatistics(assessmentId) {
+    return this.getClient().get(
+      `/courses/${this.getCourseId()}/statistics/assessment/${assessmentId}`,
+    );
+  }
+
+  fetchAncestors(assessmentId) {
+    return this.getClient().get(
+      `/courses/${this.getCourseId()}/statistics/ancestors/${assessmentId}`,
+    );
+  }
+
   _getUrlPrefix() {
     return `/courses/${this.getCourseId()}/assessments`;
   }

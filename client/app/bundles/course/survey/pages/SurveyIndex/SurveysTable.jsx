@@ -59,6 +59,7 @@ class SurveysTable extends Component {
             ),
           )
         }
+        labelPlacement="end"
       />
     );
   }

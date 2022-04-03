@@ -126,6 +126,7 @@ module Course::Assessment::AssessmentAbility
     allow_staff_read_assessment_tests
     allow_staff_read_submission_questions
     allow_staff_delete_own_assessment_submission
+    allow_staff_read_assessment_ancestors
   end
 
   def allow_staff_read_observe_access_and_attempt_assessment
@@ -150,6 +151,13 @@ module Course::Assessment::AssessmentAbility
 
   def allow_staff_delete_own_assessment_submission
     can :delete_submission, Course::Assessment::Submission, creator_id: user.id
+  end
+
+  def allow_staff_read_assessment_ancestors
+    can :read_ancestor, Course::Assessment, Course::Assessment.joins(tab: :category) do |a|
+      other_course_user = CourseUser.find_by(course_id: a.tab.category.course_id, user_id: user.id)
+      other_course_user&.staff?
+    end
   end
 
   def define_teaching_staff_assessment_permissions

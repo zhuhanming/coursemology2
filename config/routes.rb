@@ -164,6 +164,9 @@ Rails.application.routes.draw do
         get 'lesson_plan' => 'lesson_plan_settings#edit'
         patch 'lesson_plan' => 'lesson_plan_settings#update'
 
+        get 'personalized_timeline' => 'personalized_timeline_settings#edit'
+        get 'personalized_timeline/learning_rates' => 'personalized_timeline_settings#learning_rates'
+
         namespace 'assessments' do
           resources :categories, only: [:new, :create, :destroy] do
             resources :tabs, only: [:new, :create, :destroy]
@@ -196,6 +199,7 @@ Rails.application.routes.draw do
           post 'reorder', on: :member
           post 'authenticate', on: :member
           post 'remind', on: :member
+          get 'statistics', on: :member
 
           resources :questions, only: [] do
             post 'duplicate/:destination_assessment_id', on: :member, action: 'duplicate', as: :duplicate
@@ -385,10 +389,16 @@ Rails.application.routes.draw do
         end
       end
 
-      get 'statistics/my_students'
-      get 'statistics/all_students'
-      get 'statistics/download'
-      get 'statistics/staff'
+      namespace :statistics do
+        get '/' => 'statistics#index'
+        get 'course/students' => 'aggregate#all_students'
+        get 'course/staff' => 'aggregate#all_staff'
+        get 'course/course/progression' => 'aggregate#course_progression'
+        get 'course/course/performance' => 'aggregate#course_performance'
+        get 'assessment/:id' => 'assessments#assessment'
+        get 'assessment/:id/ancestors' => 'assessments#ancestors'
+        get 'student/:user_id/learning_rate_records' => 'students#learning_rate_records'
+      end
 
       scope module: :video do
         resources :videos do

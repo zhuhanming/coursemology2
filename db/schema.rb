@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2022_01_11_183806) do
+ActiveRecord::Schema.define(version: 2022_03_25_093906) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -419,7 +419,7 @@ ActiveRecord::Schema.define(version: 2022_01_11_183806) do
     t.datetime "published_at"
     t.string "session_id", limit: 255
     t.datetime "submitted_at"
-    t.datetime "last_graded_time", default: "2021-10-24 14:11:56"
+    t.datetime "last_graded_time", default: "2021-11-09 00:08:09"
     t.index ["assessment_id", "creator_id"], name: "unique_assessment_id_and_creator_id", unique: true
     t.index ["assessment_id"], name: "fk__course_assessment_submissions_assessment_id"
     t.index ["creator_id"], name: "fk__course_assessment_submissions_creator_id"
@@ -692,6 +692,14 @@ ActiveRecord::Schema.define(version: 2022_01_11_183806) do
     t.index ["course_id"], name: "fk__course_learning_maps_course_id"
   end
 
+  create_table "course_learning_rate_records", force: :cascade do |t|
+    t.bigint "course_user_id", null: false
+    t.float "learning_rate"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["course_user_id"], name: "fk__course_learning_rate_records_course_user_id"
+  end
+
   create_table "course_lesson_plan_event_materials", id: :serial, force: :cascade do |t|
     t.integer "lesson_plan_event_id", null: false
     t.integer "material_id", null: false
@@ -853,6 +861,18 @@ ActiveRecord::Schema.define(version: 2022_01_11_183806) do
     t.index ["course_assessment_category_id"], name: "index_course_settings_emails_on_course_assessment_category_id"
     t.index ["course_id", "component", "course_assessment_category_id", "setting"], name: "index_course_settings_emails_composite", unique: true
     t.index ["course_id"], name: "index_course_settings_emails_on_course_id"
+  end
+
+  create_table "course_settings_personalized_timeline", force: :cascade do |t|
+    t.bigint "course_id", null: false
+    t.float "min_learning_rate"
+    t.float "max_learning_rate"
+    t.float "assessment_submission_weight"
+    t.float "assessment_grade_weight"
+    t.float "video_view_percentage_weight"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["course_id"], name: "index_course_settings_personalized_timeline_on_course_id"
   end
 
   create_table "course_survey_answer_options", id: :serial, force: :cascade do |t|
@@ -1136,6 +1156,29 @@ ActiveRecord::Schema.define(version: 2022_01_11_183806) do
     t.index ["updater_id"], name: "fk__courses_updater_id"
   end
 
+  create_table "duplication_traceable_assessments", force: :cascade do |t|
+    t.bigint "assessment_id", null: false
+    t.index ["assessment_id"], name: "fk__duplication_traceable_assessments_assessment_id"
+  end
+
+  create_table "duplication_traceable_courses", force: :cascade do |t|
+    t.bigint "course_id", null: false
+    t.index ["course_id"], name: "fk__duplication_traceable_courses_course_id"
+  end
+
+  create_table "duplication_traceables", force: :cascade do |t|
+    t.string "actable_type"
+    t.bigint "actable_id"
+    t.integer "source_id"
+    t.bigint "creator_id", null: false
+    t.bigint "updater_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["actable_type", "actable_id"], name: "index_duplication_traceables_actable", unique: true
+    t.index ["creator_id"], name: "fk__duplication_traceables_creator_id"
+    t.index ["updater_id"], name: "fk__duplication_traceables_updater_id"
+  end
+
   create_table "generic_announcements", id: :serial, force: :cascade do |t|
     t.string "type", limit: 255, null: false
     t.integer "instance_id"
@@ -1392,6 +1435,7 @@ ActiveRecord::Schema.define(version: 2022_01_11_183806) do
   add_foreign_key "course_groups", "users", column: "creator_id", name: "fk_course_groups_creator_id"
   add_foreign_key "course_groups", "users", column: "updater_id", name: "fk_course_groups_updater_id"
   add_foreign_key "course_learning_maps", "courses", name: "fk_course_learning_maps_course_id"
+  add_foreign_key "course_learning_rate_records", "course_users", name: "fk_course_learning_rate_records_course_user_id"
   add_foreign_key "course_lesson_plan_event_materials", "course_lesson_plan_events", column: "lesson_plan_event_id", name: "fk_course_lesson_plan_event_materials_lesson_plan_event_id"
   add_foreign_key "course_lesson_plan_event_materials", "course_materials", column: "material_id", name: "fk_course_lesson_plan_event_materials_material_id"
   add_foreign_key "course_lesson_plan_items", "courses", name: "fk_course_lesson_plan_items_course_id"
@@ -1420,6 +1464,7 @@ ActiveRecord::Schema.define(version: 2022_01_11_183806) do
   add_foreign_key "course_reference_times", "course_reference_timelines", column: "reference_timeline_id"
   add_foreign_key "course_settings_emails", "course_assessment_categories"
   add_foreign_key "course_settings_emails", "courses"
+  add_foreign_key "course_settings_personalized_timeline", "courses"
   add_foreign_key "course_survey_answer_options", "course_survey_answers", column: "answer_id", name: "fk_course_survey_answer_options_answer_id"
   add_foreign_key "course_survey_answer_options", "course_survey_question_options", column: "question_option_id", name: "fk_course_survey_answer_options_question_option_id"
   add_foreign_key "course_survey_answers", "course_survey_questions", column: "question_id", name: "fk_course_survey_answers_question_id"
@@ -1474,6 +1519,10 @@ ActiveRecord::Schema.define(version: 2022_01_11_183806) do
   add_foreign_key "courses", "instances", name: "fk_courses_instance_id"
   add_foreign_key "courses", "users", column: "creator_id", name: "fk_courses_creator_id"
   add_foreign_key "courses", "users", column: "updater_id", name: "fk_courses_updater_id"
+  add_foreign_key "duplication_traceable_assessments", "course_assessments", column: "assessment_id"
+  add_foreign_key "duplication_traceable_courses", "courses"
+  add_foreign_key "duplication_traceables", "users", column: "creator_id"
+  add_foreign_key "duplication_traceables", "users", column: "updater_id"
   add_foreign_key "generic_announcements", "instances", name: "fk_generic_announcements_instance_id"
   add_foreign_key "generic_announcements", "users", column: "creator_id", name: "fk_generic_announcements_creator_id"
   add_foreign_key "generic_announcements", "users", column: "updater_id", name: "fk_generic_announcements_updater_id"

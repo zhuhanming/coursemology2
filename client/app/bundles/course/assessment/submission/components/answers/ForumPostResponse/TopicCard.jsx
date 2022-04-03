@@ -115,6 +115,7 @@ export default class TopicCard extends Component {
               <Icon className="fa fa-external-link" style={styles.icon} />
             }
             href={getForumTopicURL(courseId, forumId, topicPostPack.topic.ic)}
+            style={{ marginBottom: 16 }}
             target="_blank"
           >
             <FormattedMessage {...translations.viewTopicInNewTab} />

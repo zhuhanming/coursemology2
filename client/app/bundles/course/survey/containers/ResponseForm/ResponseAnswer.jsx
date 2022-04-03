@@ -99,6 +99,7 @@ class ResponseAnswer extends Component {
           {options.map((option) => {
             const widget = (
               <Checkbox
+                color="primary"
                 style={grid ? styles.gridOptionWidget : styles.listOptionWidget}
                 disabled={disabled}
                 checked={value.indexOf(option.id) !== -1}
